@@ -3,7 +3,7 @@ package dev.ahnaf30eidiot.tok;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 
-public class TotemOfKeepingDataGenerator implements DataGeneratorEntrypoint {
+public class IdiotsSaccharineTotemsDataGenerator implements DataGeneratorEntrypoint {
 	@Override
 	public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
 

@@ -1,11 +1,11 @@
 package dev.ahnaf30eidiot.item;
 
-import dev.ahnaf30eidiot.tok.TotemOfKeeping;
+import dev.ahnaf30eidiot.tok.IdiotsSaccharineTotems;
 
 public class ModItems {
 
     
     public static void registerModItems() {
-        TotemOfKeeping.LOGGER.info("Registering mod items for " + TotemOfKeeping.MOD_ID);
+        IdiotsSaccharineTotems.LOGGER.info("Registering mod items for " + IdiotsSaccharineTotems.MOD_ID);
     }
 }

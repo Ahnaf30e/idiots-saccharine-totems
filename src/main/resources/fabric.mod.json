@@ -1,9 +1,9 @@
 {
 	"schemaVersion": 1,
-	"id": "totem-of-keeping",
+	"id": "idiots-saccharine-totems",
 	"version": "${version}",
-	"name": "Totem of Keeping",
-	"description": "Adds a new craftable totem which allows you to keep your inventory!",
+	"name": "Idiot's Saccharine Totems",
+	"description": "Adds multiple cool and craftable totems like the Totem of Keeping",
 	"authors": [
 		"Me!"
 	],
@@ -12,21 +12,21 @@
 		"sources": "https://github.com/FabricMC/fabric-example-mod"
 	},
 	"license": "CC0-1.0",
-	"icon": "assets/totem-of-keeping/icon.png",
+	"icon": "assets/idiots-saccharine-totems/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"dev.ahnaf30eidiot.tok.TotemOfKeeping"
+			"dev.ahnaf30eidiot.tok.IdiotsSaccharineTotems"
 		],
 		"fabric-datagen": [
-			"dev.ahnaf30eidiot.tok.TotemOfKeepingDataGenerator"
+			"dev.ahnaf30eidiot.tok.IdiotsSaccharineTotemsDataGenerator"
 		],
 		"client" : [
-			"dev.ahnaf30eidiot.tok.TotemOfKeepingClient"
+			"dev.ahnaf30eidiot.tok.IdiotsSaccharineTotemsClient"
 		]
 	},
 	"mixins": [
-		"totem-of-keeping.mixins.json"
+		"idiots-saccharine-totems.mixins.json"
 	],
 	"depends": {
 		"fabricloader": ">=0.17.2",
