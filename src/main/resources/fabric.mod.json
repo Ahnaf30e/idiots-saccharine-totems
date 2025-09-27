@@ -3,7 +3,7 @@
 	"id": "totem-of-keeping",
 	"version": "${version}",
 	"name": "Totem of Keeping",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "Adds a new craftable totem which allows you to keep your inventory!",
 	"authors": [
 		"Me!"
 	],
