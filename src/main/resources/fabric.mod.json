@@ -1,0 +1,40 @@
+{
+	"schemaVersion": 1,
+	"id": "totem-of-keeping",
+	"version": "${version}",
+	"name": "Totem of Keeping",
+	"description": "This is an example description! Tell everyone what your mod is about!",
+	"authors": [
+		"Me!"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/totem-of-keeping/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"dev.ahnaf30eidiot.tok.TotemOfKeeping"
+		],
+		"fabric-datagen": [
+			"dev.ahnaf30eidiot.tok.TotemOfKeepingDataGenerator"
+		],
+		"client" : [
+			"dev.ahnaf30eidiot.tok.TotemOfKeepingClient"
+		]
+	},
+	"mixins": [
+		"totem-of-keeping.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.17.2",
+		"minecraft": "~1.21.1",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
