@@ -2,5 +2,7 @@
     "item.saccharine_totems.totem_of_keeping": "Totem of Keeping",
     "item.saccharine_totems.totem_of_ferrous": "Totem of Ferrous",
     "item.saccharine_totems.totem_of_tenacity": "Totem of Tenacity",
-    "item.saccharine_totems.totem_of_perseverance": "Totem of Perseverance"
+    "item.saccharine_totems.totem_of_perseverance": "Totem of Perseverance",
+
+    "effect.saccharine_totems.ferrous": "Ferrous"
 }

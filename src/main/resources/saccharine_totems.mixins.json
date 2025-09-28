@@ -3,7 +3,8 @@
 	"package": "dev.ahnaf30eidiot.tok.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
-		"LivingEntityMixin"
+		"LivingEntityMixin",
+		"PlayerEntityRendererMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

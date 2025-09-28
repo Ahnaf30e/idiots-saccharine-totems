@@ -21,7 +21,7 @@ public class TOKItems {
     }
 
     public static void registerModItems() {
-        IdiotsSaccharineTotems.LOGGER.info("Registering mod items for " + IdiotsSaccharineTotems.MOD_ID);
+        IdiotsSaccharineTotems.LOGGER.info("Registering Mod Items for " + IdiotsSaccharineTotems.MOD_ID);
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register(entries -> {
             entries.add(TOTEM_OF_KEEPING);
             entries.add(TOTEM_OF_FERROUS);
