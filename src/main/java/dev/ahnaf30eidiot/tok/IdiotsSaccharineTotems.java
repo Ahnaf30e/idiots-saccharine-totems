@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import dev.ahnaf30eidiot.item.ModItems;
 
 public class IdiotsSaccharineTotems implements ModInitializer {
-	public static final String MOD_ID = "idiots-saccharine-totems";
+	public static final String MOD_ID = "saccharine_totems";
 
 	// This logger is used to write text to the console and the log file.
 	// It is considered best practice to use your mod id as the logger's name.
