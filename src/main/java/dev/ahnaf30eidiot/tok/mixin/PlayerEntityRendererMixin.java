@@ -15,14 +15,14 @@ import net.minecraft.client.util.math.MatrixStack;
 
 @Mixin(PlayerEntityRenderer.class)
 public abstract class PlayerEntityRendererMixin {
-    @Inject(method="render*", at=@At("HEAD"), cancellable = true)
+    @Inject(method="render(Lnet/minecraft/client/network/AbstractClientPlayerEntity;FFLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V", at=@At("HEAD"), cancellable = true)
     private void handleFerrousGrayscale(AbstractClientPlayerEntity player, float f, float g, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, CallbackInfo ci) {
         if (player.hasStatusEffect(TOKEffects.FERROUS)) {
             RenderSystem.setShaderColor(0.5f, 0.5f, 0.5f, 1.0f);
         }
     }
 
-    @Inject(method="render*", at=@At("RETURN"), cancellable = true)
+    @Inject(method="render(Lnet/minecraft/client/network/AbstractClientPlayerEntity;FFLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V", at=@At("RETURN"), cancellable = true)
     private void handleFerrousReset(AbstractClientPlayerEntity player, float f, float g, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, CallbackInfo ci) {
         RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
     }

@@ -28,7 +28,7 @@ public class LivingEntityMixin {
 				return;
 			}
 
-			cir.setReturnValue(true);
+			cir.setReturnValue(false);
 		}
 	}
 
@@ -65,7 +65,7 @@ public class LivingEntityMixin {
 				self.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 400, 0));
 				self.addStatusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 3, 1));
 			} else if (used.isOf(TOKItems.TOTEM_OF_FERROUS)) {
-				self.addStatusEffect(new StatusEffectInstance(TOKEffects.FERROUS, 300, 0));
+				self.addStatusEffect(new StatusEffectInstance(TOKEffects.FERROUS, 160, 0));
 				self.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 1000, 1));
 			}
 			self.getWorld().sendEntityStatus(self, (byte) 35);
