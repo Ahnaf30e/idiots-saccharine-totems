@@ -1,0 +1,34 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "combat",
+    "pattern": [
+        "#G#",
+        "SPS",
+        "CWC"
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:amethyst_shard"
+        },
+        "G": {
+            "item": "minecraft:golden_apple"
+        },
+        "S": {
+            "item": "minecraft:soul_sand"
+        },
+        "P": {
+            "item": "minecraft:potion",
+            "nbt": "{Potion:strength}"
+        },
+        "C": {
+            "item": "minecraft:copper_block"
+        },
+        "W": {
+            "item": "minecraft:gold_block"
+        }
+    },
+    "result": {
+        "id": "saccharine_totems:totem_of_tenacity",
+        "count": 1
+    }
+}

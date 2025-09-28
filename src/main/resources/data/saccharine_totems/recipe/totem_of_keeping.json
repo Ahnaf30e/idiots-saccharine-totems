@@ -1,0 +1,34 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "combat",
+    "pattern": [
+        "#E#",
+        "SPS",
+        "DXD"
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:bone"
+        },
+        "E": {
+            "item": "minecraft:ender_eye"
+        },
+        "S": {
+            "item": "minecraft:soul_sand"
+        },
+        "P": {
+            "item": "minecraft:potion",
+            "nbt": "{Potion:harming}"
+        },
+        "D": {
+            "item": "minecraft:diamond"
+        },
+        "X": {
+            "item": "minecraft:echo_shard"
+        }
+    },
+    "result": {
+        "id": "saccharine_totems:totem_of_keeping",
+        "count": 1
+    }
+}

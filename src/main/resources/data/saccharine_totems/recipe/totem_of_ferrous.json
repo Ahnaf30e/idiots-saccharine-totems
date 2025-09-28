@@ -1,0 +1,34 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "combat",
+    "pattern": [
+        "iGi",
+        "SPS",
+        "RIR"
+    ],
+    "key": {
+        "i": {
+            "item": "minecraft:iron_ingot"
+        },
+        "G": {
+            "item": "minecraft:golden_apple"
+        },
+        "S": {
+            "item": "minecraft:soul_sand"
+        },
+        "P": {
+            "item": "minecraft:potion",
+            "nbt": "{Potion:slowness}"
+        },
+        "R": {
+            "item": "minecraft:redstone"
+        },
+        "I": {
+            "item": "minecraft:iron_block"
+        }
+    },
+    "result": {
+        "id": "saccharine_totems:totem_of_ferrous",
+        "count": 1
+    }
+}

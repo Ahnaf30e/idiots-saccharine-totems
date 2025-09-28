@@ -1,0 +1,6 @@
+{
+    "parent": "minecraft:item/generated",
+    "textures": {
+        "layer0": "saccharine_totems:item/totem_of_perseverance"
+    }
+}
