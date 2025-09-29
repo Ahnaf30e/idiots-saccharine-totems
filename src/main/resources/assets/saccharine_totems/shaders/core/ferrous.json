@@ -1,0 +1,16 @@
+{
+  "blend": {
+    "func": "add",
+    "srcrgb": "srcalpha",
+    "dstrgb": "1-srcalpha"
+  },
+  "vertex": "minecraft:position_color_tex_lightmap",
+  "fragment": "saccharine_totems:ferrous",
+  "samplers": [
+    { "name": "Sampler0" }
+  ],
+  "uniforms": [
+    { "name": "Time", "type": "float", "count": 1, "values": [0.0] },
+    { "name": "EntityPos", "type": "float", "count": 3, "values": [0.0, 0.0, 0.0] }
+  ]
+}
