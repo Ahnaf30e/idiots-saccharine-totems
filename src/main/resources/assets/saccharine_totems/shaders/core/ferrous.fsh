@@ -13,8 +13,9 @@ out vec4 fragColor;
 void main() {
     vec4 base = texture(Sampler0, texCoord0) * vertexColor;
 
-    float wave = sin(Time * 2.0 + texCoord0.y * 10.0 + EntityPos.x) * 0.5 + 0.5;
-    vec3 tinted = mix(base.rgb, vec3(0.7, 0.8, 1.0), wave);
+    // float wave = sin(Time * 2.0 + texCoord0.y * 10.0 + EntityPos.x) * 0.5 + 0.5;
+    // vec3 tinted = mix(base.rgb, vec3(0.7, 0.8, 1.0), wave);
 
-    fragColor = vec4(tinted, base.a);
+
+    fragColor = vec4(vec3(0.0, 0.0, 0.0), base.a);
 }
