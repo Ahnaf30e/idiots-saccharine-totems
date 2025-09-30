@@ -1,10 +1,8 @@
 package dev.ahnaf30eidiot.render.layer;
 
-import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderPhase;
 import dev.ahnaf30eidiot.render.TOKShaders;
-import dev.ahnaf30eidiot.tok.IdiotsSaccharineTotems;
 import net.minecraft.client.render.VertexFormat;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.util.Identifier;
@@ -17,10 +15,7 @@ public class FerrousRenderLayers {
                 VertexFormat.DrawMode.QUADS,
                 256,
                 RenderLayer.MultiPhaseParameters.builder()
-                        .program(new RenderPhase.ShaderProgram(() -> {
-                            IdiotsSaccharineTotems.LOGGER.info("Binding ferrous shader: " + TOKShaders.FERROUS_SHADER);
-                            return TOKShaders.FERROUS_SHADER;
-                        }))
+                        .program(new RenderPhase.ShaderProgram(() -> TOKShaders.FERROUS_SHADER))
                         .texture(new RenderPhase.Texture(texture, false, false))
                 .transparency(RenderPhase.TRANSLUCENT_TRANSPARENCY)
                 .cull(RenderPhase.DISABLE_CULLING)
