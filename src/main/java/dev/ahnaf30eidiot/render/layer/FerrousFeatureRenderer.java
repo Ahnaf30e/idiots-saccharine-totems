@@ -2,6 +2,8 @@ package dev.ahnaf30eidiot.render.layer;
 
 import java.lang.reflect.Field;
 
+import org.lwjgl.opengl.GL11;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import dev.ahnaf30eidiot.effect.TOKEffects;
@@ -57,7 +59,7 @@ public class FerrousFeatureRenderer<T extends LivingEntity, M extends EntityMode
             float headPitch) {
 
         if (entity.hasStatusEffect(TOKEffects.FERROUS)) {
-            
+
             Identifier texture = getTexture(entity);
             // VertexConsumer consumer = ItemRenderer.getArmorGlintConsumer(
             // vertexConsumers, RenderLayer.getArmorCutoutNoCull(texture), true
@@ -70,6 +72,7 @@ public class FerrousFeatureRenderer<T extends LivingEntity, M extends EntityMode
             RenderSystem.setShader(() -> TOKShaders.FERROUS_SHADER);
             RenderSystem.setShaderTexture(0, texture);
 
+            var tex = MinecraftClient.getInstance().getTextureManager().getTexture(texture);
 
             if (TOKShaders.FERROUS_SHADER != null) {
                 var timeUniform = TOKShaders.FERROUS_SHADER.getUniform("Time");
@@ -79,6 +82,16 @@ public class FerrousFeatureRenderer<T extends LivingEntity, M extends EntityMode
                 var posUniform = TOKShaders.FERROUS_SHADER.getUniform("EntityPos");
                 if (posUniform != null)
                     posUniform.set((float) entity.getX(), (float) entity.getY(), (float) entity.getZ());
+
+                var screenUniform = TOKShaders.FERROUS_SHADER.getUniform("SSize");
+                if (screenUniform != null) {
+                    RenderSystem.bindTexture(tex.getGlId()); // bind the texture
+                    int w = GL11.glGetTexLevelParameteri(GL11.GL_TEXTURE_2D, 0, GL11.GL_TEXTURE_WIDTH);
+                    int h = GL11.glGetTexLevelParameteri(GL11.GL_TEXTURE_2D, 0, GL11.GL_TEXTURE_HEIGHT);
+
+                    screenUniform.set((float) w, (float) h);
+                    IdiotsSaccharineTotems.LOGGER.info("Texture size via GL: " + w + "x" + h);
+                }
 
                 this.getContextModel().render(matrices, consumer, light,
                         OverlayTexture.DEFAULT_UV);
