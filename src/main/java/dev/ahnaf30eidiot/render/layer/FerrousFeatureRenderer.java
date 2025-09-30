@@ -11,15 +11,12 @@ import dev.ahnaf30eidiot.render.TOKShaders;
 import dev.ahnaf30eidiot.tok.IdiotsSaccharineTotems;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.ShaderProgram;
-import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.entity.model.EntityModel;
-import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Identifier;
@@ -58,7 +55,7 @@ public class FerrousFeatureRenderer<T extends LivingEntity, M extends EntityMode
             float headYaw,
             float headPitch) {
 
-        if (entity.hasStatusEffect(TOKEffects.FERROUS)) {
+        if (true) { // entity.hasStatusEffect(TOKEffects.FERROUS)
 
             Identifier texture = getTexture(entity);
             // VertexConsumer consumer = ItemRenderer.getArmorGlintConsumer(
