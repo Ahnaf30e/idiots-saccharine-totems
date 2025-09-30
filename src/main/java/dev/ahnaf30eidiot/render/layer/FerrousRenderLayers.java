@@ -7,10 +7,6 @@ import dev.ahnaf30eidiot.render.TOKShaders;
 import dev.ahnaf30eidiot.tok.IdiotsSaccharineTotems;
 import net.minecraft.client.render.VertexFormat;
 import net.minecraft.client.render.VertexFormats;
-import net.minecraft.client.render.RenderPhase.ColorLogic;
-import net.minecraft.client.render.RenderPhase.Cull;
-import net.minecraft.client.render.RenderPhase.DepthTest;
-import net.minecraft.client.render.RenderPhase.Layering;
 import net.minecraft.util.Identifier;
 
 public class FerrousRenderLayers {
