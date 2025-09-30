@@ -32,7 +32,7 @@ public class FerrousRenderLayers {
                 .overlay(RenderPhase.ENABLE_OVERLAY_COLOR)
                 .depthTest(RenderPhase.LEQUAL_DEPTH_TEST)
                 .writeMaskState(RenderPhase.ALL_MASK) // important: ensures color + depth write
-                .layering(RenderPhase.NO_LAYERING)
-                .build(true));
+                .layering(RenderPhase.POLYGON_OFFSET_LAYERING)
+                .build(false));
     }
 }

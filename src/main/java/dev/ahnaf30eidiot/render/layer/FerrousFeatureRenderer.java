@@ -57,7 +57,7 @@ public class FerrousFeatureRenderer<T extends LivingEntity, M extends EntityMode
             float headPitch) {
 
         if (entity.hasStatusEffect(TOKEffects.FERROUS)) {
-
+            
             Identifier texture = getTexture(entity);
             // VertexConsumer consumer = ItemRenderer.getArmorGlintConsumer(
             // vertexConsumers, RenderLayer.getArmorCutoutNoCull(texture), true
@@ -65,31 +65,11 @@ public class FerrousFeatureRenderer<T extends LivingEntity, M extends EntityMode
             IdiotsSaccharineTotems.LOGGER.info("[FERROUS] Using Texture: " + texture.toString());
             VertexConsumer consumer = vertexConsumers.getBuffer(FerrousRenderLayers.ferrous(texture));
 
-            // 🔎 Debug log: what RenderLayer are we actually using?
-            if (consumer instanceof BufferBuilder builder) {
-                IdiotsSaccharineTotems.LOGGER.info("[FERROUS] BufferBuilder detected");
-                IdiotsSaccharineTotems.LOGGER.info("[FERROUS] Consumer class = " + consumer.getClass().getName());
-            } else {
-                IdiotsSaccharineTotems.LOGGER.info("[FERROUS] Consumer class = " + consumer.getClass().getName());
-            }
-
-            // Try reflection to pull out the RenderLayer (since VertexConsumerProvider
-            // wraps it)
-            try {
-                java.lang.reflect.Field field = consumer.getClass().getDeclaredField("layer");
-                field.setAccessible(true);
-                Object layer = field.get(consumer);
-                if (layer instanceof RenderLayer rl) {
-                    IdiotsSaccharineTotems.LOGGER.info("[FERROUS] Using RenderLayer: " + rl.toString());
-                } else {
-                    IdiotsSaccharineTotems.LOGGER.info("[FERROUS] Layer field = " + layer);
-                }
-            } catch (Exception e) {
-                IdiotsSaccharineTotems.LOGGER.info("[FERROUS] Could not reflect layer: " + e.getMessage());
-            }
             ShaderProgram shader = TOKShaders.FERROUS_SHADER;
 
-            // RenderSystem.setShader(() -> TOKShaders.FERROUS_SHADER);
+            RenderSystem.setShader(() -> TOKShaders.FERROUS_SHADER);
+            RenderSystem.setShaderTexture(0, texture);
+
 
             if (TOKShaders.FERROUS_SHADER != null) {
                 var timeUniform = TOKShaders.FERROUS_SHADER.getUniform("Time");

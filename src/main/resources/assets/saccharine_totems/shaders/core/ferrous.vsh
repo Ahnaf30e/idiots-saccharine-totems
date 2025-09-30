@@ -15,8 +15,16 @@ uniform mat4 ProjMat;
 out vec2 vUv;
 out vec4 vColor;
 
+// amount to push outward
+uniform float Inflate = 0.005;
+
+out vec2 vTexCoord;
+
 void main() {
+    // vec3 inflatedPos = Position + Normal * Inflate;
+    // gl_Position = ProjMat * ModelViewMat * vec4(inflatedPos, 1.0);
+    // vTexCoord = UV0;
     gl_Position = ProjMat * ModelViewMat * vec4(Position, 1.0);
-    vUv = UV0;
+    vTexCoord = UV0;
     vColor = Color; // passed through (even if unused)
 }
