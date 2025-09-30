@@ -7,6 +7,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import dev.ahnaf30eidiot.render.layer.FerrousFeatureRenderer;
+import dev.ahnaf30eidiot.tok.IdiotsSaccharineTotems;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
@@ -19,9 +20,16 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
     @Shadow
     protected abstract boolean addFeature(FeatureRenderer<T, M> feature);
 
+    @Shadow
+    private java.util.List<FeatureRenderer<T, M>> features;
+
     @SuppressWarnings("unchecked")
     @Inject(method = "<init>", at = @At("TAIL"))
     private void addFerrousLayer(EntityRendererFactory.Context ctx, M model, float shadowRadius, CallbackInfo ci) {
         this.addFeature(new FerrousFeatureRenderer<>((LivingEntityRenderer<T, M>) (Object) this));
+        IdiotsSaccharineTotems.LOGGER.info("IT works!");
+        for (FeatureRenderer<T, M> f : features) {
+            IdiotsSaccharineTotems.LOGGER.info("Feature: " + f.getClass().getName());
+        }
     }
 }

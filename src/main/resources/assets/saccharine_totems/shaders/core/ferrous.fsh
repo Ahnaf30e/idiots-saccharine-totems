@@ -1,21 +1,21 @@
 #version 150
+#define PI 3.14159265359
+
+in vec2 vUv;
+in vec4 vColor;
 
 uniform sampler2D Sampler0;
 uniform float Time;
 uniform vec3 EntityPos;
 
-in vec4 vertexColor;
-in vec2 texCoord0;
-in vec2 lightCoord;
-
 out vec4 fragColor;
 
 void main() {
-    vec4 base = texture(Sampler0, texCoord0) * vertexColor;
+    vec4 base = texture(Sampler0, vUv);
 
-    // float wave = sin(Time * 2.0 + texCoord0.y * 10.0 + EntityPos.x) * 0.5 + 0.5;
-    // vec3 tinted = mix(base.rgb, vec3(0.7, 0.8, 1.0), wave);
+    float val = max(max(base.r, base.g), base.b);
+    float rs = round(cos(val*PI*6.0 + Time + EntityPos.x + EntityPos.y)*val*4.0)/4.0;
+    float s =  0.8 > rs && rs > 0.6 ? 0.99 : 0.60 + 0.30 * rs;
 
-
-    fragColor = vec4(vec3(0.0, 0.0, 0.0), base.a);
+    fragColor = vec4(vec3(s).rgb, s);
 }

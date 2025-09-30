@@ -1,25 +1,38 @@
 package dev.ahnaf30eidiot.render.layer;
 
+import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderPhase;
 import dev.ahnaf30eidiot.render.TOKShaders;
+import dev.ahnaf30eidiot.tok.IdiotsSaccharineTotems;
 import net.minecraft.client.render.VertexFormat;
 import net.minecraft.client.render.VertexFormats;
+import net.minecraft.client.render.RenderPhase.ColorLogic;
+import net.minecraft.client.render.RenderPhase.Cull;
+import net.minecraft.client.render.RenderPhase.DepthTest;
+import net.minecraft.client.render.RenderPhase.Layering;
 import net.minecraft.util.Identifier;
 
 public class FerrousRenderLayers {
     public static RenderLayer ferrous(Identifier texture) {
         return RenderLayer.of(
-            "ferrous_layer",
-            VertexFormats.POSITION_COLOR_TEXTURE_OVERLAY_LIGHT_NORMAL,
-            VertexFormat.DrawMode.QUADS,
-            256,
-            RenderLayer.MultiPhaseParameters.builder()
-                .program(new RenderPhase.ShaderProgram(() -> TOKShaders.FERROUS_SHADER))
-                .texture(new RenderPhase.Texture(texture, false, false))
+                "ferrous_layer",
+                VertexFormats.POSITION_COLOR_TEXTURE_OVERLAY_LIGHT_NORMAL,
+                VertexFormat.DrawMode.QUADS,
+                256,
+                RenderLayer.MultiPhaseParameters.builder()
+                        .program(new RenderPhase.ShaderProgram(() -> {
+                            IdiotsSaccharineTotems.LOGGER.info("Binding ferrous shader: " + TOKShaders.FERROUS_SHADER);
+                            return TOKShaders.FERROUS_SHADER;
+                        }))
+                        .texture(new RenderPhase.Texture(texture, false, false))
                 .transparency(RenderPhase.TRANSLUCENT_TRANSPARENCY)
-                .build(false)
-        );
+                .cull(RenderPhase.DISABLE_CULLING)
+                .lightmap(RenderPhase.ENABLE_LIGHTMAP)
+                .overlay(RenderPhase.ENABLE_OVERLAY_COLOR)
+                .depthTest(RenderPhase.LEQUAL_DEPTH_TEST)
+                .writeMaskState(RenderPhase.ALL_MASK) // important: ensures color + depth write
+                .layering(RenderPhase.NO_LAYERING)
+                .build(true));
     }
 }
-
