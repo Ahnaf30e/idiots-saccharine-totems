@@ -38,15 +38,19 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 
 	static {
 		ServerPlayerEvents.AFTER_RESPAWN.register((newPlayer, oldPlayer, source) -> {
-			if (!(newPlayer instanceof ServerPlayerEntity))
-				return;
-
-			ItemStack pending = TOKPersistentValues.TOK_HELD_ON.remove(newPlayer.getUuid());
-			if (pending != null && !pending.isEmpty()) {
+			if (!newPlayer.getWorld().isClient()) {
+				System.out.println("SERVER: Totem triggered for " + newPlayer);
+			} else {
+				System.out.println("CLIENT: Totem triggered for " + newPlayer);
+			}
+			ItemStack pending = TOKPersistentValues.TOK_HELD_ON.get(newPlayer.getUuid());
+			if (pending != null && !pending.isEmpty() && !newPlayer.getWorld().isClient()) {
 				newPlayer.getInventory().insertStack(pending);
 				// optional: ensure client sees it immediately
 				newPlayer.playerScreenHandler.sendContentUpdates();
+				newPlayer.currentScreenHandler.syncState();
 			}
+			TOKPersistentValues.TOK_HELD_ON.remove(newPlayer.getUuid());
 		});
 	}
 
@@ -110,7 +114,11 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 
 				if (!used.contains(TOKComponents.STORED_INVENTORY)) {
 					// Serialization or whatever
-					DefaultedList<ItemStack> inv = player.getInventory().main;
+					DefaultedList<ItemStack> inv = DefaultedList.of();
+
+					inv.addAll(player.getInventory().main);
+					inv.addAll(player.getInventory().armor);
+					inv.addAll(player.getInventory().offHand);
 					List<ItemStack> stacks = inv.stream()
 							.filter(s -> !s.isEmpty() && !ItemStack.areEqual(s, used))
 							.map(ItemStack::copy)
