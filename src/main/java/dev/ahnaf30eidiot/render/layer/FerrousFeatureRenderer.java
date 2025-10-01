@@ -4,6 +4,8 @@ import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
+import dev.ahnaf30eidiot.api.TOKTrackedEntity;
+import dev.ahnaf30eidiot.effect.TOKEffects;
 import dev.ahnaf30eidiot.render.TOKShaders;
 import dev.ahnaf30eidiot.tok.IdiotsSaccharineTotems;
 import net.minecraft.client.MinecraftClient;
@@ -36,7 +38,8 @@ public class FerrousFeatureRenderer<T extends LivingEntity, M extends EntityMode
             float headYaw,
             float headPitch) {
 
-        if (true) { // entity.hasStatusEffect(TOKEffects.FERROUS)
+
+        if (entity.hasStatusEffect(TOKEffects.FERROUS) || ((TOKTrackedEntity)entity).isFerrous()) {
 
             Identifier texture = getTexture(entity);
             // VertexConsumer consumer = ItemRenderer.getArmorGlintConsumer(

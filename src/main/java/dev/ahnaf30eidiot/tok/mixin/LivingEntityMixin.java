@@ -2,33 +2,71 @@ package dev.ahnaf30eidiot.tok.mixin;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.damage.DamageTypes;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.tag.DamageTypeTags;
+import net.minecraft.sound.SoundEvents;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import dev.ahnaf30eidiot.api.TOKTrackedEntity;
 import dev.ahnaf30eidiot.effect.TOKEffects;
 import dev.ahnaf30eidiot.item.TOKItems;
+import dev.ahnaf30eidiot.tag.TOKTags;
 
 @Mixin(LivingEntity.class)
-public class LivingEntityMixin {
-	@Inject(method = "damage", at = @At("HEAD"), cancellable = true)
-	private void handleFerrous(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
-		LivingEntity self = (LivingEntity)(Object)this;
-		
-		if (self.hasStatusEffect(TOKEffects.FERROUS)) {
-			if (source.isOf(DamageTypes.MAGIC) || source.isOf(DamageTypes.INDIRECT_MAGIC)) {
-				return;
-			}
+public class LivingEntityMixin implements TOKTrackedEntity {
 
-			cir.setReturnValue(false);
+	private static final TrackedData<Boolean> FERROUS = DataTracker.registerData(LivingEntity.class,
+			TrackedDataHandlerRegistry.BOOLEAN);
+
+	public boolean isFerrous() { // For showing effect on non-player entities.
+		return ((LivingEntity) (Object) this).getDataTracker().get(FERROUS);
+	}
+
+	@Inject(method = "initDataTracker", at = @At("TAIL"))
+	private void addFerrousTrackedData(DataTracker.Builder builder, CallbackInfo ci) {
+		// Default to false when entity is created
+		builder.add(FERROUS, false);
+	}
+
+	@Inject(method = "tickStatusEffects", at = @At("TAIL"))
+	private void updateFerrousTrackedData(CallbackInfo ci) {
+		LivingEntity self = (LivingEntity) (Object) this;
+
+		if (!self.getWorld().isClient()) {
+			boolean hasFerrous = self.hasStatusEffect(TOKEffects.FERROUS);
+			self.getDataTracker().set(FERROUS, hasFerrous, false);
+		}
+	}
+
+	@Inject(method = "applyDamage", at = @At("HEAD"), cancellable = true)
+	private void handleFerrous(DamageSource source, float amount, CallbackInfo ci) {
+		LivingEntity self = (LivingEntity) (Object) this;
+
+		if (self.hasStatusEffect(TOKEffects.FERROUS)) {
+			self.getWorld().playSound(
+					null, // null = broadcast to nearby players
+					self.getX(),
+					self.getY(),
+					self.getZ(),
+					SoundEvents.BLOCK_ANVIL_HIT, // pick your sound here
+					self.getSoundCategory(),
+					1.0F, // volume
+					0.8F + self.getRandom().nextFloat() * 0.4F // pitch
+			);
+			if (!source.isIn(TOKTags.FERROUS_ALLOWED)) {
+				ci.cancel();
+			}
 		}
 	}
 
@@ -69,7 +107,7 @@ public class LivingEntityMixin {
 				self.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 1000, 1));
 			}
 			self.getWorld().sendEntityStatus(self, (byte) 35);
-			
+
 			used2.decrement(1);
 
 			cir.setReturnValue(true);

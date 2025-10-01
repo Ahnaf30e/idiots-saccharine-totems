@@ -31,18 +31,19 @@ void main() {
     vec4 r = texture(Sampler0, newCoord + vec2(texel.x, 0.0));
 
     // sharpen kernel
-    vec4 sharpened = clamp((c * 2.5) - (u + d + l + r)*(1.5/4.0), 0.0, 1.0);
+    vec4 sharpened = clamp((c * 1.5) - (u + d + l + r)*(0.5/4.0), 0.0, 1.0);
 
-    float val = dot(c.rgb, vec3(0.2126, 0.7152, 0.0722));
+    float val = dot(sharpened.rgb, vec3(0.2126, 0.7152, 0.0722));
     // val = max(max(sharpened.r, sharpened.g), sharpened.b);
     // val = (sharpened.r + sharpened.g + sharpened.b) / 3.0;
 
-    float off = Time * 0.1 + snapped.x * 2.0 + snapped.y * 2.0 + EntityPos.x + EntityPos.y;
-    float rs = round((cos(val * PI * 3.0 + off)+1.0)/2.0 * (val*0.7+0.5) * 6.0) / 6.0;
+    float off = Time * 0.1 + val + snapped.x * 8.0 + snapped.y * 8.0 + EntityPos.x + EntityPos.y;
+    float ts = (cos(val * PI * 3.0 + off)+1.0)/2.0 * (val*0.2+0.8);
+    float rs = round(ts * (val*0.3+0.7) * 8.0) / 8.0;
     // float rs = val;
 
 
-    float s = (0.8 > rs && rs > 0.6) ? 0.99 : (0.4 + 0.5 * rs);
+    float s = (0.8 > ts && ts > 0.7) ? 0.99 : (0.3 + 0.6 * rs);
     vec4 rColor = vec4(vec3(s), c.a) * vertexColor * ColorModulator;
 
     fragColor = linear_fog(rColor, vertexDistance, FogStart, FogEnd, FogColor);
