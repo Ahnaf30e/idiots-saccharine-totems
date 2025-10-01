@@ -1,6 +1,6 @@
 package dev.ahnaf30eidiot.tok.mixin;
 
-import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
+import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
@@ -23,6 +23,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import dev.ahnaf30eidiot.api.TOKPersistentValues;
 import dev.ahnaf30eidiot.api.TOKTrackedEntity;
 import dev.ahnaf30eidiot.component.TOKComponents;
 import dev.ahnaf30eidiot.effect.TOKEffects;
@@ -36,16 +37,15 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 			TrackedDataHandlerRegistry.BOOLEAN);
 
 	static {
-		ServerLivingEntityEvents.AFTER_DEATH.register((entity, source) -> {
-			if (entity instanceof ServerPlayerEntity player) {
-				// Look for a Totem of Keeping that already has stored inventory
-				for (ItemStack stack : player.getInventory().main) {
-					if (stack.isOf(TOKItems.TOTEM_OF_KEEPING) && stack.contains(TOKComponents.STORED_INVENTORY)) {
-						// Put the totem back into their inventory after death/respawn
-						player.getInventory().insertStack(stack.copy());
-						break;
-					}
-				}
+		ServerPlayerEvents.AFTER_RESPAWN.register((newPlayer, oldPlayer, source) -> {
+			if (!(newPlayer instanceof ServerPlayerEntity))
+				return;
+
+			ItemStack pending = TOKPersistentValues.TOK_HELD_ON.remove(newPlayer.getUuid());
+			if (pending != null && !pending.isEmpty()) {
+				newPlayer.getInventory().insertStack(pending);
+				// optional: ensure client sees it immediately
+				newPlayer.playerScreenHandler.sendContentUpdates();
 			}
 		});
 	}
@@ -76,11 +76,11 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 
 		if (self.hasStatusEffect(TOKEffects.FERROUS)) {
 			self.getWorld().playSound(
-					null, // null = broadcast to nearby players
+					null,
 					self.getX(),
 					self.getY(),
 					self.getZ(),
-					SoundEvents.ENTITY_IRON_GOLEM_HURT, // pick your sound here
+					SoundEvents.ENTITY_IRON_GOLEM_HURT,
 					self.getSoundCategory(),
 					1.0F, // volume
 					0.8F + self.getRandom().nextFloat() * 0.4F // pitch
@@ -108,11 +108,11 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 			if (self instanceof ServerPlayerEntity player && used.isOf(TOKItems.TOTEM_OF_KEEPING)) {
 				ItemStack totem = used.copy();
 
-				if (!totem.contains(TOKComponents.STORED_INVENTORY)) {
+				if (!used.contains(TOKComponents.STORED_INVENTORY)) {
 					// Serialization or whatever
 					DefaultedList<ItemStack> inv = player.getInventory().main;
 					List<ItemStack> stacks = inv.stream()
-							.filter(s -> !s.isEmpty())
+							.filter(s -> !s.isEmpty() && !ItemStack.areEqual(s, used))
 							.map(ItemStack::copy)
 							.toList();
 
@@ -120,9 +120,7 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 					totem.set(TOKComponents.STORED_INVENTORY, new TOKComponents.StoredInventory(stacks));
 					// Clear all items so nothing drops / grave mods get nothing
 					player.getInventory().clear();
-
-					// Reinsert the totem so the player keeps it after respawn
-					player.getInventory().insertStack(totem);
+					TOKPersistentValues.TOK_HELD_ON.put(player.getUuid(), totem);
 				}
 
 				cir.setReturnValue(true);
