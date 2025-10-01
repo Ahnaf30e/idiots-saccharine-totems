@@ -22,21 +22,34 @@ import dev.ahnaf30eidiot.api.TOKTrackedEntity;
 import dev.ahnaf30eidiot.effect.TOKEffects;
 import dev.ahnaf30eidiot.item.TOKItems;
 import dev.ahnaf30eidiot.tag.TOKTags;
+import dev.ahnaf30eidiot.tok.IdiotsSaccharineTotems;
 
 @Mixin(LivingEntity.class)
 public class LivingEntityMixin implements TOKTrackedEntity {
 
 	private static final TrackedData<Boolean> FERROUS = DataTracker.registerData(LivingEntity.class,
 			TrackedDataHandlerRegistry.BOOLEAN);
+	
+	private static final TrackedData<ItemStack> LAST_TOTEM =
+    DataTracker.registerData(LivingEntity.class, TrackedDataHandlerRegistry.ITEM_STACK);
 
 	public boolean isFerrous() { // For showing effect on non-player entities.
 		return ((LivingEntity) (Object) this).getDataTracker().get(FERROUS);
+	}
+
+	public ItemStack getTOKTotem() {
+		return ((LivingEntity) (Object) this).getDataTracker().get(LAST_TOTEM);
+	}
+	
+	public void setTOKTotem(ItemStack totem) {
+		((LivingEntity) (Object) this).getDataTracker().set(LAST_TOTEM, totem);
 	}
 
 	@Inject(method = "initDataTracker", at = @At("TAIL"))
 	private void addFerrousTrackedData(DataTracker.Builder builder, CallbackInfo ci) {
 		// Default to false when entity is created
 		builder.add(FERROUS, false);
+		builder.add(LAST_TOTEM, ItemStack.EMPTY);
 	}
 
 	@Inject(method = "tickStatusEffects", at = @At("TAIL"))
@@ -59,7 +72,7 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 					self.getX(),
 					self.getY(),
 					self.getZ(),
-					SoundEvents.BLOCK_ANVIL_HIT, // pick your sound here
+					SoundEvents.ENTITY_IRON_GOLEM_HURT, // pick your sound here
 					self.getSoundCategory(),
 					1.0F, // volume
 					0.8F + self.getRandom().nextFloat() * 0.4F // pitch
@@ -78,7 +91,6 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 		LivingEntity self = (LivingEntity) (Object) this;
 
 		ItemStack used = pickTotem(self);
-		ItemStack used2 = used;
 
 		if (used.isEmpty() || used.isOf(Items.TOTEM_OF_UNDYING))
 			return;
@@ -106,9 +118,13 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 				self.addStatusEffect(new StatusEffectInstance(TOKEffects.FERROUS, 160, 0));
 				self.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 1000, 1));
 			}
+
+			self.getDataTracker().set(LAST_TOTEM, used.copy(), true);
+			IdiotsSaccharineTotems.LOGGER.error("FORCING: " + used.copy().getName());
+
 			self.getWorld().sendEntityStatus(self, (byte) 35);
 
-			used2.decrement(1);
+			used.decrement(1);
 
 			cir.setReturnValue(true);
 			return;

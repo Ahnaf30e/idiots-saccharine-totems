@@ -5,7 +5,8 @@
 	"mixins": [
 		"LivingEntityMixin",
 		"LivingEntityRendererMixin",
-		"ShaderProgramMixin"
+		"ShaderProgramMixin",
+		"ClientPlayNetworkHandlerMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
