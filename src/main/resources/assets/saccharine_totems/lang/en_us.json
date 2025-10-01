@@ -4,5 +4,9 @@
     "item.saccharine_totems.totem_of_tenacity": "Totem of Tenacity",
     "item.saccharine_totems.totem_of_perseverance": "Totem of Perseverance",
 
-    "effect.saccharine_totems.ferrous": "Ferrous"
+    "effect.saccharine_totems.ferrous": "Ferrous",
+
+    "item.tok.totem_of_keeping.empty": "Will store items on death",
+    "item.tok.totem_of_keeping.stored": "Already stored. Use to get items.",
+    "item.tok.totem_of_keeping.no_next_death": "Next death will not be stored"
 }

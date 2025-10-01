@@ -5,6 +5,7 @@ import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import dev.ahnaf30eidiot.component.TOKComponents;
 import dev.ahnaf30eidiot.effect.TOKEffects;
 import dev.ahnaf30eidiot.item.TOKItems;
 
@@ -24,5 +25,6 @@ public class IdiotsSaccharineTotems implements ModInitializer {
 		LOGGER.info("Idiot started with TOK (Totem of Keeping)");
 		TOKItems.registerModItems();
 		TOKEffects.registerEffects();
+		TOKComponents.registerComponentTypes();
 	}
 }

@@ -12,7 +12,7 @@ import net.minecraft.util.Identifier;
 public class TOKShaders {
     public static ShaderProgram FERROUS_SHADER;
 
-    public static void init() {
+    public static void registerShaders() {
 
         IdiotsSaccharineTotems.LOGGER.info("Registering Mod shaders for " + IdiotsSaccharineTotems.MOD_ID);
         ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES)

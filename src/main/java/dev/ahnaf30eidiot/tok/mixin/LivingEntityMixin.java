@@ -1,5 +1,6 @@
 package dev.ahnaf30eidiot.tok.mixin;
 
+import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
@@ -10,7 +11,11 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.tag.DamageTypeTags;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.collection.DefaultedList;
+
+import java.util.List;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -19,16 +24,32 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import dev.ahnaf30eidiot.api.TOKTrackedEntity;
+import dev.ahnaf30eidiot.component.TOKComponents;
 import dev.ahnaf30eidiot.effect.TOKEffects;
 import dev.ahnaf30eidiot.item.TOKItems;
 import dev.ahnaf30eidiot.tag.TOKTags;
 
 @Mixin(LivingEntity.class)
-public class LivingEntityMixin {
+public class LivingEntityMixin implements TOKTrackedEntity {
 
 	private static final TrackedData<Boolean> FERROUS = DataTracker.registerData(LivingEntity.class,
 			TrackedDataHandlerRegistry.BOOLEAN);
-	
+
+	static {
+		ServerLivingEntityEvents.AFTER_DEATH.register((entity, source) -> {
+			if (entity instanceof ServerPlayerEntity player) {
+				// Look for a Totem of Keeping that already has stored inventory
+				for (ItemStack stack : player.getInventory().main) {
+					if (stack.isOf(TOKItems.TOTEM_OF_KEEPING) && stack.contains(TOKComponents.STORED_INVENTORY)) {
+						// Put the totem back into their inventory after death/respawn
+						player.getInventory().insertStack(stack.copy());
+						break;
+					}
+				}
+			}
+		});
+	}
+
 	public boolean isFerrous() { // For showing effect on non-player entities.
 		return ((LivingEntity) (Object) this).getDataTracker().get(FERROUS);
 	}
@@ -81,13 +102,32 @@ public class LivingEntityMixin {
 
 		if (used.isEmpty() || used.isOf(Items.TOTEM_OF_UNDYING))
 			return;
-		if (used.isOf(TOKItems.TOTEM_OF_KEEPING)) {
-			// TODO:
-			cir.setReturnValue(true);
-			return;
-		}
 
 		if (!self.getWorld().isClient()) {
+
+			if (self instanceof ServerPlayerEntity player && used.isOf(TOKItems.TOTEM_OF_KEEPING)) {
+				ItemStack totem = used.copy();
+
+				if (!totem.contains(TOKComponents.STORED_INVENTORY)) {
+					// Serialization or whatever
+					DefaultedList<ItemStack> inv = player.getInventory().main;
+					List<ItemStack> stacks = inv.stream()
+							.filter(s -> !s.isEmpty())
+							.map(ItemStack::copy)
+							.toList();
+
+					// Attach component
+					totem.set(TOKComponents.STORED_INVENTORY, new TOKComponents.StoredInventory(stacks));
+					// Clear all items so nothing drops / grave mods get nothing
+					player.getInventory().clear();
+
+					// Reinsert the totem so the player keeps it after respawn
+					player.getInventory().insertStack(totem);
+				}
+
+				cir.setReturnValue(true);
+				return;
+			}
 
 			self.setHealth(2.0F);
 
