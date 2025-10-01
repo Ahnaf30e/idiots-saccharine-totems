@@ -23,9 +23,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import dev.ahnaf30eidiot.api.TOKPersistentValues;
 import dev.ahnaf30eidiot.api.TOKTrackedEntity;
 import dev.ahnaf30eidiot.component.TOKComponents;
+import dev.ahnaf30eidiot.component.TOKPlayerComponents;
 import dev.ahnaf30eidiot.effect.TOKEffects;
 import dev.ahnaf30eidiot.item.TOKItems;
 import dev.ahnaf30eidiot.tag.TOKTags;
@@ -38,13 +38,15 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 
 	static {
 		ServerPlayerEvents.AFTER_RESPAWN.register((newPlayer, oldPlayer, source) -> {
-			if (!(newPlayer instanceof ServerPlayerEntity))
+			if (!(newPlayer instanceof ServerPlayerEntity) && !newPlayer.getWorld().isClient())
 				return;
 
-			ItemStack pending = TOKPersistentValues.TOK_HELD_ON.remove(newPlayer.getUuid());
-			if (pending != null && !pending.isEmpty()) {
-				newPlayer.getInventory().insertStack(pending);
-				// optional: ensure client sees it immediately
+			var comp = TOKPlayerComponents.PENDING_TOTEM.get(newPlayer);
+			ItemStack pendingTotem = comp.get();
+			if (!pendingTotem.isEmpty()) {
+				newPlayer.getInventory().insertStack(pendingTotem);
+				comp.set(ItemStack.EMPTY);
+				TOKPlayerComponents.PENDING_TOTEM.sync(newPlayer);
 				newPlayer.playerScreenHandler.sendContentUpdates();
 			}
 		});
@@ -108,20 +110,22 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 			if (self instanceof ServerPlayerEntity player && used.isOf(TOKItems.TOTEM_OF_KEEPING)) {
 				ItemStack totem = used.copy();
 
-				if (!used.contains(TOKComponents.STORED_INVENTORY)) {
-					// Serialization or whatever
-					DefaultedList<ItemStack> inv = player.getInventory().main;
-					List<ItemStack> stacks = inv.stream()
-							.filter(s -> !s.isEmpty() && !ItemStack.areEqual(s, used))
-							.map(ItemStack::copy)
-							.toList();
-
-					// Attach component
-					totem.set(TOKComponents.STORED_INVENTORY, new TOKComponents.StoredInventory(stacks));
-					// Clear all items so nothing drops / grave mods get nothing
-					player.getInventory().clear();
-					TOKPersistentValues.TOK_HELD_ON.put(player.getUuid(), totem);
+				if (used.contains(TOKComponents.STORED_INVENTORY)) {
+					return;
 				}
+				// Serialization or whatever
+				DefaultedList<ItemStack> inv = player.getInventory().main;
+				List<ItemStack> stacks = inv.stream()
+						.filter(s -> !s.isEmpty() && !ItemStack.areEqual(s, used))
+						.map(ItemStack::copy)
+						.toList();
+
+				// Attach component
+				totem.set(TOKComponents.STORED_INVENTORY, new TOKComponents.StoredInventory(stacks));
+				// Clear all items so nothing drops / grave mods get nothing
+				player.getInventory().clear();
+				TOKPlayerComponents.PENDING_TOTEM.get(player).set(totem);
+				TOKPlayerComponents.PENDING_TOTEM.sync(player);
 
 				cir.setReturnValue(true);
 				return;

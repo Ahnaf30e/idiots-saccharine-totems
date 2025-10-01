@@ -3,31 +3,22 @@
 	"id": "saccharine_totems",
 	"version": "${version}",
 	"name": "Idiot's Saccharine Totems",
-	"description": "Adds multiple cool and craftable totems like the Totem of Keeping",
-	"authors": [
-		"Me!"
-	],
+	"description": "Adds multiple cool and craftable totems like the Totem of Keeping, Totem of Ferrous and more...",
+	"authors": ["ahnaf30eidiot"],
 	"contact": {
 		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"sources": "https://github.com/Ahnaf30e/idiots-saccharine-totems"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/saccharine_totems/icon.png",
 	"environment": "*",
 	"entrypoints": {
-		"main": [
-			"dev.ahnaf30eidiot.tok.IdiotsSaccharineTotems"
-		],
-		"fabric-datagen": [
-			"dev.ahnaf30eidiot.tok.IdiotsSaccharineTotemsDataGenerator"
-		],
-		"client" : [
-			"dev.ahnaf30eidiot.tok.IdiotsSaccharineTotemsClient"
-		]
+		"main": ["dev.ahnaf30eidiot.tok.IdiotsSaccharineTotems"],
+		"fabric-datagen": ["dev.ahnaf30eidiot.tok.IdiotsSaccharineTotemsDataGenerator"],
+		"cardinal-components": ["dev.ahnaf30eidiot.component.TOKPlayerComponents"],
+		"client": ["dev.ahnaf30eidiot.tok.IdiotsSaccharineTotemsClient"]
 	},
-	"mixins": [
-		"saccharine_totems.mixins.json"
-	],
+	"mixins": ["saccharine_totems.mixins.json"],
 	"depends": {
 		"fabricloader": ">=0.17.2",
 		"minecraft": "~1.21.1",
@@ -36,5 +27,8 @@
 	},
 	"suggests": {
 		"another-mod": "*"
+	},
+	"custom": {
+		"cardinal-components": ["saccharine_totems:pending_totem"]
 	}
 }
