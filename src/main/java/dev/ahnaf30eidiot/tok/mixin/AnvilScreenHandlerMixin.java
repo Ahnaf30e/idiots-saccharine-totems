@@ -8,12 +8,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import dev.ahnaf30eidiot.item.custom.TotemOfKeepingItem;
-import net.minecraft.inventory.CraftingResultInventory;
-import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.screen.AnvilScreenHandler;
-import net.minecraft.screen.ForgingScreenHandler;
 import net.minecraft.screen.Property;
 
 @Mixin(AnvilScreenHandler.class)
@@ -30,7 +27,7 @@ public class AnvilScreenHandlerMixin {
         ItemStack right = self.getSlot(1).getStack();
 
         // If left is your custom item and right is an Ender Pearl
-        if (!left.isEmpty() && left.getItem() instanceof TotemOfKeepingItem && right.isOf(Items.ENDER_PEARL)) {
+        if (!left.isEmpty() && left.getItem() instanceof TotemOfKeepingItem && right.isOf(Items.ENDER_EYE)) {
             ItemStack repaired = left.copy();
             repaired.setDamage(0); // FULLY repaired
 

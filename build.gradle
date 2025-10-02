@@ -35,6 +35,21 @@ dependencies {
 	
 }
 
+loom {
+    runs {
+        client {
+            client()
+            property "fabric.development", "true"
+
+            // Force a consistent username
+            programArgs.addAll([
+                "--username", "Ahnaf30e"
+            ])
+        }
+    }
+}
+
+
 processResources {
 	inputs.property "version", project.version
 

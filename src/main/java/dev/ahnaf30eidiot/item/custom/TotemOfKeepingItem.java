@@ -50,7 +50,7 @@ public class TotemOfKeepingItem extends Item {
 
     @Override
     public boolean canRepair(ItemStack stack, ItemStack ingredient) {
-        return ingredient.isOf(Items.ENDER_PEARL);
+        return ingredient.isOf(Items.ENDER_PEARL) || ingredient.isOf(Items.ENDER_EYE);
     }
 
     @Override
