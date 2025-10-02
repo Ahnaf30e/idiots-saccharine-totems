@@ -40,8 +40,6 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 
 	private static final TrackedData<Boolean> FERROUS = DataTracker.registerData(LivingEntity.class,
 			TrackedDataHandlerRegistry.BOOLEAN);
-	
-	
 
 	static {
 		ServerPlayerEvents.COPY_FROM.register((oldPlayer, newPlayer, source) -> {
@@ -50,7 +48,11 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 			} else {
 				System.out.println("CLIENT: Totem triggered for " + newPlayer);
 			}
-			ItemStack pending = TOKPersistentValues.TOK_HELD_ON.remove(oldPlayer.getUuid());
+
+			TOKPersistentValues state = TOKPersistentValues.get(newPlayer.getServerWorld());
+
+			ItemStack pending = state.getHeldOn().remove(oldPlayer.getUuid());
+			state.markDirty();
 			if (pending != null && !pending.isEmpty() && !newPlayer.getWorld().isClient()) {
 				newPlayer.getInventory().insertStack(pending);
 				// optional: ensure client sees it immediately
@@ -133,7 +135,9 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 					totem.set(TOKComponents.STORED_INVENTORY, new TOKComponents.StoredInventory(stacks));
 					// Clear all items so nothing drops / grave mods get nothing
 					player.getInventory().clear();
-					TOKPersistentValues.TOK_HELD_ON.put(player.getUuid(), totem);
+					TOKPersistentValues state = TOKPersistentValues.get(player.getServerWorld());
+					state.getHeldOn().put(player.getUuid(), totem);
+					state.markDirty();
 				}
 
 				cir.setReturnValue(true);
