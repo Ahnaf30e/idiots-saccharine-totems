@@ -15,6 +15,7 @@ import net.minecraft.sound.SoundEvents;
 @Mixin(PlayerEntity.class)
 public class PlayerEntityMixin {
     
+	// Fuck you Mojang, why the fuck did you overwrite applyDamage for PlayerEntity.
 	@Inject(method = "applyDamage", at = @At("HEAD"), cancellable = true)
 	private void handleFerrous(DamageSource source, float amount, CallbackInfo ci) {
 		LivingEntity self = (PlayerEntity) (Object) this;
