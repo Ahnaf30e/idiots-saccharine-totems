@@ -124,7 +124,7 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 				inv.addAll(player.getInventory().armor);
 				inv.addAll(player.getInventory().offHand);
 				List<ItemStack> stacks = inv.stream()
-						.filter(s -> !s.isEmpty() && !ItemStack.areEqual(s, used))
+						.filter(s -> !s.isEmpty() && s != used)
 						.map(ItemStack::copy)
 						.toList();
 

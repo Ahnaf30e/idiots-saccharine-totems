@@ -27,12 +27,13 @@ public class AnvilScreenHandlerMixin {
         ItemStack right = self.getSlot(1).getStack();
 
         // If left is your custom item and right is an Ender Pearl
-        if (!left.isEmpty() && left.getItem() instanceof TotemOfKeepingItem && right.isOf(Items.ENDER_EYE)) {
+        if (!left.isEmpty() && left.getItem() instanceof TotemOfKeepingItem && right.isOf(Items.ENDER_EYE) && left.getDamage() <= 0) {
+
             ItemStack repaired = left.copy();
             repaired.setDamage(0); // FULLY repaired
 
             self.getSlot(2).setStack(repaired);
-            this.levelCost.set(left.getDamage() + 1);    // 1 xp level cost
+            this.levelCost.set((int) (left.getDamage() * 0.6));    // 1 xp level cost
             this.repairItemUsage = 1; // consume 1 pearl
 
             ci.cancel(); // cancel vanilla logic
