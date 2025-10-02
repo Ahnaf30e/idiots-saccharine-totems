@@ -5,6 +5,7 @@
 	"mixins": [
 		"LivingEntityMixin",
 		"LivingEntityRendererMixin",
+		"PlayerEntityMixin",
 		"ShaderProgramMixin",
 		"ClientPlayNetworkHandlerMixin"
 	],
