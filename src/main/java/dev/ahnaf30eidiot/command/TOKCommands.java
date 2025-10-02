@@ -18,13 +18,15 @@ public class TOKCommands {
                 CommandManager.literal("tokdev")
                         .requires(srs -> srs.hasPermissionLevel(2))
                         .then(CommandManager.literal("cleanup")
-                                .executes(ctx -> runCleanUp(ctx.getSource(), "noarg")))
-                        .then(CommandManager.argument("mode", StringArgumentType.word())
-                                .suggests((c, b) -> {
-                                    return CommandSource.suggestMatching(List.of("all", "empty", "orphan", "noarg"), b);
-                                }).executes(ctx -> {
-                                    return runCleanUp(ctx.getSource(), StringArgumentType.getString(ctx, "mode"));
-                                })));
+                                .executes(ctx -> runCleanUp(ctx.getSource(), "noarg"))
+                                .then(CommandManager.argument("mode", StringArgumentType.word())
+                                        .suggests((c, b) -> {
+                                            return CommandSource
+                                                    .suggestMatching(List.of("all", "empty", "orphan", "noarg"), b);
+                                        }).executes(ctx -> {
+                                            return runCleanUp(ctx.getSource(),
+                                                    StringArgumentType.getString(ctx, "mode"));
+                                        }))));
     }
 
     private static int runCleanUp(ServerCommandSource src, String mode) {
@@ -54,7 +56,8 @@ public class TOKCommands {
 
         state.markDirty();
 
-        src.sendFeedback(() -> Text.literal("§aTOK cleanup [" + mode + "] complete. Removed " + removed + " entries."), true);
+        src.sendFeedback(() -> Text.literal("§aTOK cleanup [" + mode + "] complete. Removed " + removed + " entries."),
+                true);
 
         return removed;
     }
