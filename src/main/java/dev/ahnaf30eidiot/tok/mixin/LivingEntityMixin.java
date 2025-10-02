@@ -15,16 +15,11 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.collection.DefaultedList;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -51,7 +46,7 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 
 			TOKPersistentValues state = TOKPersistentValues.get(newPlayer.getServerWorld());
 
-			ItemStack pending = state.getHeldOn().remove(oldPlayer.getUuid());
+			ItemStack pending = state.getHeldOn().remove(newPlayer.getUuid());
 			state.markDirty();
 			if (pending != null && !pending.isEmpty() && !newPlayer.getWorld().isClient()) {
 				newPlayer.getInventory().insertStack(pending);

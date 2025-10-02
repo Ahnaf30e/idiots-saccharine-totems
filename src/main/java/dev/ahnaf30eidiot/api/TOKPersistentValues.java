@@ -3,20 +3,20 @@ package dev.ahnaf30eidiot.api;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtString;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.PersistentState;
 import net.minecraft.world.PersistentStateManager;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 public class TOKPersistentValues extends PersistentState {
 
-    private final Map<UUID, ItemStack> heldOn = new HashMap<>();
+    private final ConcurrentMap<UUID, ItemStack> heldOn = new ConcurrentHashMap<>();
 
     public TOKPersistentValues() {}
 
@@ -28,7 +28,7 @@ public class TOKPersistentValues extends PersistentState {
         for (int i = 0; i < list.size(); i++) {
             NbtCompound entry = list.getCompound(i);
             UUID uuid = UUID.fromString(entry.getString("uuid"));
-            ItemStack stack = ItemStack.fromNbt(registryLookup, entry.getCompound("item").get("tok_values")).orElse(ItemStack.EMPTY);
+            ItemStack stack = ItemStack.fromNbt(registryLookup, entry.getCompound("item")).orElse(ItemStack.EMPTY);
             state.heldOn.put(uuid, stack);
         }
 
@@ -41,8 +41,12 @@ public class TOKPersistentValues extends PersistentState {
         NbtList list = new NbtList();
         for (Map.Entry<UUID, ItemStack> entry : heldOn.entrySet()) {
             NbtCompound data = new NbtCompound();
+            ItemStack stack = entry.getValue();
+
+            if (stack == null || stack.isEmpty()) continue;
+
             data.putString("uuid", entry.getKey().toString());
-            data.put("item", entry.getValue().encode(registryLookup, new NbtCompound()));
+            data.put("item", stack.encode(registryLookup, new NbtCompound()));
             list.add(data);
         }
         nbt.put("held_on", list);
