@@ -42,22 +42,20 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 			TrackedDataHandlerRegistry.BOOLEAN);
 	
 	
-	private static final HashMap<UUID, ItemStack> TOK_HELD_ON = new HashMap<UUID, ItemStack>();
 
 	static {
-		ServerPlayerEvents.AFTER_RESPAWN.register((newPlayer, oldPlayer, source) -> {
+		ServerPlayerEvents.COPY_FROM.register((oldPlayer, newPlayer, source) -> {
 			if (!newPlayer.getWorld().isClient()) {
 				System.out.println("SERVER: Totem triggered for " + newPlayer);
 			} else {
 				System.out.println("CLIENT: Totem triggered for " + newPlayer);
 			}
-			ItemStack pending = TOK_HELD_ON.get(newPlayer.getUuid());
+			ItemStack pending = TOKPersistentValues.TOK_HELD_ON.remove(oldPlayer.getUuid());
 			if (pending != null && !pending.isEmpty() && !newPlayer.getWorld().isClient()) {
 				newPlayer.getInventory().insertStack(pending);
 				// optional: ensure client sees it immediately
 				newPlayer.playerScreenHandler.sendContentUpdates();
 			}
-			TOK_HELD_ON.remove(newPlayer.getUuid());
 		});
 	}
 
@@ -135,7 +133,7 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 					totem.set(TOKComponents.STORED_INVENTORY, new TOKComponents.StoredInventory(stacks));
 					// Clear all items so nothing drops / grave mods get nothing
 					player.getInventory().clear();
-					TOK_HELD_ON.put(player.getUuid(), totem);
+					TOKPersistentValues.TOK_HELD_ON.put(player.getUuid(), totem);
 				}
 
 				cir.setReturnValue(true);
