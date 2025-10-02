@@ -15,7 +15,10 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.collection.DefaultedList;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -37,6 +40,9 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 
 	private static final TrackedData<Boolean> FERROUS = DataTracker.registerData(LivingEntity.class,
 			TrackedDataHandlerRegistry.BOOLEAN);
+	
+	
+	private static final HashMap<UUID, ItemStack> TOK_HELD_ON = new HashMap<UUID, ItemStack>();
 
 	static {
 		ServerPlayerEvents.AFTER_RESPAWN.register((newPlayer, oldPlayer, source) -> {
@@ -45,14 +51,13 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 			} else {
 				System.out.println("CLIENT: Totem triggered for " + newPlayer);
 			}
-			ItemStack pending = TOKPersistentValues.TOK_HELD_ON.get(newPlayer.getUuid());
+			ItemStack pending = TOK_HELD_ON.get(newPlayer.getUuid());
 			if (pending != null && !pending.isEmpty() && !newPlayer.getWorld().isClient()) {
 				newPlayer.getInventory().insertStack(pending);
 				// optional: ensure client sees it immediately
 				newPlayer.playerScreenHandler.sendContentUpdates();
-				newPlayer.currentScreenHandler.syncState();
 			}
-			TOKPersistentValues.TOK_HELD_ON.remove(newPlayer.getUuid());
+			TOK_HELD_ON.remove(newPlayer.getUuid());
 		});
 	}
 
@@ -130,7 +135,7 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 					totem.set(TOKComponents.STORED_INVENTORY, new TOKComponents.StoredInventory(stacks));
 					// Clear all items so nothing drops / grave mods get nothing
 					player.getInventory().clear();
-					TOKPersistentValues.TOK_HELD_ON.put(player.getUuid(), totem);
+					TOK_HELD_ON.put(player.getUuid(), totem);
 				}
 
 				cir.setReturnValue(true);

@@ -27,6 +27,7 @@ public class ClientPlayNetworkHandlerMixin {
                     || stack.isOf(TOKItems.TOTEM_OF_FERROUS)
                     || stack.isOf(TOKItems.TOTEM_OF_KEEPING)) {
                 ci.setReturnValue(stack);
+                return;
             }
         }
         ci.setReturnValue(ci.getReturnValue());
