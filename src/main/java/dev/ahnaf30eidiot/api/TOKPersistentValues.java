@@ -14,6 +14,8 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import dev.ahnaf30eidiot.tok.IdiotsSaccharineTotems;
+
 public class TOKPersistentValues extends PersistentState {
 
     private final ConcurrentMap<UUID, ItemStack> heldOn = new ConcurrentHashMap<>();
@@ -31,6 +33,8 @@ public class TOKPersistentValues extends PersistentState {
             ItemStack stack = ItemStack.fromNbt(registryLookup, entry.getCompound("item")).orElse(ItemStack.EMPTY);
             state.heldOn.put(uuid, stack);
         }
+        
+        IdiotsSaccharineTotems.LOGGER.error("Reading NBT: " + nbt);
 
         return state;
     }
@@ -50,6 +54,7 @@ public class TOKPersistentValues extends PersistentState {
             list.add(data);
         }
         nbt.put("held_on", list);
+        IdiotsSaccharineTotems.LOGGER.error("Writing NBT: " + nbt);
         return nbt;
     }
 

@@ -114,26 +114,27 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 			if (self instanceof ServerPlayerEntity player && used.isOf(TOKItems.TOTEM_OF_KEEPING)) {
 				ItemStack totem = used.copy();
 
-				if (!used.contains(TOKComponents.STORED_INVENTORY)) {
-					// Serialization or whatever
-					DefaultedList<ItemStack> inv = DefaultedList.of();
-
-					inv.addAll(player.getInventory().main);
-					inv.addAll(player.getInventory().armor);
-					inv.addAll(player.getInventory().offHand);
-					List<ItemStack> stacks = inv.stream()
-							.filter(s -> !s.isEmpty() && !ItemStack.areEqual(s, used))
-							.map(ItemStack::copy)
-							.toList();
-
-					// Attach component
-					totem.set(TOKComponents.STORED_INVENTORY, new TOKComponents.StoredInventory(stacks));
-					// Clear all items so nothing drops / grave mods get nothing
-					player.getInventory().clear();
-					TOKPersistentValues state = TOKPersistentValues.get(player.getServerWorld());
-					state.getHeldOn().put(player.getUuid(), totem);
-					state.markDirty();
+				if (used.contains(TOKComponents.STORED_INVENTORY)) {
+					return;
 				}
+				// Serialization or whatever
+				DefaultedList<ItemStack> inv = DefaultedList.of();
+
+				inv.addAll(player.getInventory().main);
+				inv.addAll(player.getInventory().armor);
+				inv.addAll(player.getInventory().offHand);
+				List<ItemStack> stacks = inv.stream()
+						.filter(s -> !s.isEmpty() && !ItemStack.areEqual(s, used))
+						.map(ItemStack::copy)
+						.toList();
+
+				// Attach component
+				totem.set(TOKComponents.STORED_INVENTORY, new TOKComponents.StoredInventory(stacks));
+				// Clear all items so nothing drops / grave mods get nothing
+				player.getInventory().clear();
+				TOKPersistentValues state = TOKPersistentValues.get(player.getServerWorld());
+				state.getHeldOn().put(player.getUuid(), totem);
+				state.markDirty();
 
 				cir.setReturnValue(true);
 				return;

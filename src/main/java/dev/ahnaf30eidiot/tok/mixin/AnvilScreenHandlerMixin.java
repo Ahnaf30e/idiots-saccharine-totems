@@ -20,24 +20,21 @@ import net.minecraft.screen.Property;
 public class AnvilScreenHandlerMixin {
     @Shadow @Final private Property levelCost;
 
-    @Shadow @Final protected Inventory input;
-
-    @Shadow @Final private CraftingResultInventory output;
-
     @Shadow private int repairItemUsage;
 
     @Inject(method = "updateResult", at = @At("HEAD"), cancellable = true)
     private void totemOfKeepingFullRepair(CallbackInfo ci) {
+        AnvilScreenHandler self = (AnvilScreenHandler) (Object) this;
         
-        ItemStack left = this.input.getStack(0);
-        ItemStack right = this.input.getStack(1);
+        ItemStack left = self.getSlot(0).getStack();
+        ItemStack right = self.getSlot(1).getStack();
 
         // If left is your custom item and right is an Ender Pearl
         if (!left.isEmpty() && left.getItem() instanceof TotemOfKeepingItem && right.isOf(Items.ENDER_PEARL)) {
             ItemStack repaired = left.copy();
             repaired.setDamage(0); // FULLY repaired
 
-            this.output.setStack(0, repaired);
+            self.getSlot(2).setStack(repaired);
             this.levelCost.set(left.getDamage() + 1);    // 1 xp level cost
             this.repairItemUsage = 1; // consume 1 pearl
 
