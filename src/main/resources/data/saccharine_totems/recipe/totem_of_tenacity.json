@@ -18,7 +18,11 @@
         },
         "P": {
             "item": "minecraft:potion",
-            "nbt": "{Potion:strength}"
+            "components": {
+                "minecraft:potion_contents": {
+                    "potion": "minecraft:strength"
+                }
+            }
         },
         "C": {
             "item": "minecraft:copper_block"

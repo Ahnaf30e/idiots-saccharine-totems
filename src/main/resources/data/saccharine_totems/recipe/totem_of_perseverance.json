@@ -18,7 +18,11 @@
         },
         "P": {
             "item": "minecraft:potion",
-            "nbt": "{Potion:regeneration}"
+            "components": {
+                "minecraft:potion_contents": {
+                    "potion": "minecraft:regeneration"
+                }
+            }
         },
         "C": {
             "item": "minecraft:copper_block"

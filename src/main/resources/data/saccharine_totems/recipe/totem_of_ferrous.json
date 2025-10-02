@@ -18,7 +18,11 @@
         },
         "P": {
             "item": "minecraft:potion",
-            "nbt": "{Potion:slowness}"
+            "components": {
+                "minecraft:potion_contents": {
+                    "potion": "minecraft:slowness"
+                }
+            }
         },
         "R": {
             "item": "minecraft:redstone"

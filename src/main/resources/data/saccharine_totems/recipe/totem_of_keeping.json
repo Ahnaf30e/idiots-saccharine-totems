@@ -18,7 +18,11 @@
         },
         "P": {
             "item": "minecraft:potion",
-            "nbt": "{Potion:harming}"
+            "components": {
+                "minecraft:potion_contents": {
+                    "potion": "minecraft:harming"
+                }
+            }
         },
         "D": {
             "item": "minecraft:diamond"

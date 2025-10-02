@@ -21,6 +21,9 @@
 		"fabric-datagen": [
 			"dev.ahnaf30eidiot.tok.IdiotsSaccharineTotemsDataGenerator"
 		],
+    	"emi": [
+      		"dev.ahnaf30eidiot.compat.emi.TOKEmiPlugin"
+    	],
 		"client" : [
 			"dev.ahnaf30eidiot.tok.IdiotsSaccharineTotemsClient"
 		]
