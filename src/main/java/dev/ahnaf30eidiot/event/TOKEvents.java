@@ -46,7 +46,7 @@ public class TOKEvents {
                     if (potion != Potions.WATER && potion != Potions.AWKWARD && potion != Potions.MUNDANE) {
                         return pot.getColor();
                     }
-                    return 0xe3bd4bFF; // Honey-ish
+                    return 0xe3bd4b; // Honey-ish
                 }
                 return 0;
             }

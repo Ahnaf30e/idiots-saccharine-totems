@@ -52,7 +52,7 @@ public class TotemCoreItem extends Item {
 
     @Override
     public int getMaxUseTime(ItemStack stack, LivingEntity user) {
-        return 4;
+        return 12;
     }
 
     @Override
@@ -65,12 +65,15 @@ public class TotemCoreItem extends Item {
         PotionContentsComponent potion = stack.get(DataComponentTypes.POTION_CONTENTS);
         if (potion != null && !world.isClient) {
             for (StatusEffectInstance inst : potion.getEffects()) {
-                user.addStatusEffect(new StatusEffectInstance(inst));
+                int scaled = (Math.max(1, inst.getDuration() / 26) + 16) * Integer.signum(inst.getDuration());
+                user.addStatusEffect(new StatusEffectInstance(
+                    inst.getEffectType(), scaled, inst.getAmplifier(), inst.isAmbient(), inst.shouldShowParticles(), inst.shouldShowIcon()
+                ));
             }
         }
 
         if (user instanceof PlayerEntity player) {
-            player.getItemCooldownManager().set(this, 200);
+            player.getItemCooldownManager().set(this, 80);
         }
         return stack;
     }
@@ -79,7 +82,7 @@ public class TotemCoreItem extends Item {
 	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack stack = user.getStackInHand(hand);
         PotionContentsComponent potion = stack.get(DataComponentTypes.POTION_CONTENTS);
-        
+
         if (potion == null || !potion.potion().isPresent()) return TypedActionResult.fail(stack);
 
 		return ItemUsage.consumeHeldItem(world, user, hand);
