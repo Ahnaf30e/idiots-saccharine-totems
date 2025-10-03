@@ -28,8 +28,8 @@ public class TOKItemGroups {
                         entries.add(TOKItems.TOTEM_OF_PERSEVERANCE);
                         entries.add(TOKItems.TOTEM_CORE);
                         Registries.POTION.stream().forEach(potion -> {
-                            if (potion.getEffects().isEmpty())
-                                return; // skip
+                            // if (potion.getEffects().isEmpty())
+                            //     return; // Keep the water one for honey
                             ItemStack imbued = new ItemStack(TOKItems.TOTEM_CORE);
                             imbued.set(DataComponentTypes.POTION_CONTENTS, new PotionContentsComponent(RegistryEntry.of(potion)));
                             entries.add(imbued);

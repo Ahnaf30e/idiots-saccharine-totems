@@ -6,11 +6,17 @@ import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUsage;
 import net.minecraft.potion.Potion;
+import net.minecraft.potion.Potions;
 import net.minecraft.text.Text;
+import net.minecraft.util.Hand;
+import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
+import net.minecraft.world.World;
 
 public class TotemCoreItem extends Item {
     public TotemCoreItem(Settings settings) {
@@ -22,20 +28,21 @@ public class TotemCoreItem extends Item {
         PotionContentsComponent potion = stack.get(DataComponentTypes.POTION_CONTENTS);
         String imbuedText = "item.saccharine_totems.totem_core.imbued";
         if (potion != null && potion.potion().isPresent()) {
-            List<StatusEffectInstance> effects = potion.potion().get().value().getEffects();
+
+            Potion pot = potion.potion().get().value();
+            List<StatusEffectInstance> effects = pot.getEffects();
+
             if (effects.size() == 1) {
                 return Text.translatable(imbuedText, Text.translatable(effects.get(0).getTranslationKey()));
             }
-            // if (effects.size() > 1 && potion.potion().get().getKey().isPresent() &&
-            // potion.potion().get().getKey().get().getValue() != null) { // Simplify
-            // return Text.translatable(imbuedText,
-            // Text.translatable(Util.createTranslationKey("potion",
-            // potion.potion().get().getKey().get().getValue())));
-            // }
-            // Potion.finishTranslationKey(potion.potion(),
-            // "item.minecraft.potion.effect.");
+
             if (effects.size() > 1) {
-                return Text.translatable(imbuedText, Text.translatable(Potion.finishTranslationKey(potion.potion(),"item.minecraft.potion.effect.")));
+                return Text.translatable(imbuedText, Text
+                        .translatable(Potion.finishTranslationKey(potion.potion(), "item.minecraft.potion.effect.")));
+            }
+
+            if (pot == Potions.WATER) {
+                return Text.translatable("item.saccharine_totems.totem_core.saccharine");
             }
 
             return Text.translatable("item.saccharine_totems.totem_core.mysterious");
@@ -52,4 +59,20 @@ public class TotemCoreItem extends Item {
     public UseAction getUseAction(ItemStack stack) {
         return UseAction.DRINK;
     }
+
+    @Override
+    public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
+        PotionContentsComponent potion = stack.get(DataComponentTypes.POTION_CONTENTS);
+        if (potion != null && !world.isClient) {
+            for (StatusEffectInstance inst : potion.getEffects()) {
+                user.addStatusEffect(new StatusEffectInstance(inst));
+            }
+        }
+        return stack;
+    }
+
+    @Override
+	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+		return ItemUsage.consumeHeldItem(world, user, hand);
+	}
 }

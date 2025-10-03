@@ -11,6 +11,7 @@
     "item.tok.totem_of_keeping.stored": "Already stored. Use to get items.",
     "item.tok.totem_of_keeping.no_next_death": "Next death will not be stored",
     "item.saccharine_totems.totem_core.imbued": "%s Imbued Core",
+    "item.saccharine_totems.totem_core.saccharine": "Saccharine Core",
     "item.saccharine_totems.totem_core.mysterious": "Mysterious Totem Core",
 
     "itemGroup.saccharine_totems.totems_cores": "Idiot's Saccharine Totems"
