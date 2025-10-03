@@ -189,9 +189,9 @@ public class TotemCoreItem extends Item {
 
     @Override
     public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type) {
-        PotionContentsComponent potions = stack.get(DataComponentTypes.POTION_CONTENTS);
-        Iterable<StatusEffectInstance> effects = potions.getEffects();
-        if (potions != null) {
+        PotionContentsComponent potion = stack.get(DataComponentTypes.POTION_CONTENTS);
+        if (potion != null && potion.potion().isPresent()) {
+            Iterable<StatusEffectInstance> effects = potion.getEffects();
             buildTooltip(effects, tooltip::add, 1.0F, context.getUpdateTickRate());
         }
     }
