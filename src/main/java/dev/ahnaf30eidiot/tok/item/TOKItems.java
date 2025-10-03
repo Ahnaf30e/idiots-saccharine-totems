@@ -14,8 +14,8 @@ import net.minecraft.util.Rarity;
 public class TOKItems {
     public static final Item TOTEM_OF_KEEPING = registerItem("totem_of_keeping", new TotemOfKeepingItem(new TotemOfKeepingItem.Settings().maxCount(1).rarity(Rarity.UNCOMMON).fireproof().maxDamage(5)));
     public static final Item TOTEM_OF_FERROUS = registerItem("totem_of_ferrous", new Item(new Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON).fireproof()));
-    public static final Item TOTEM_OF_TENACITY = registerItem("totem_of_tenacity", new Item(new Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON).fireproof()));
-    public static final Item TOTEM_OF_PERSEVERANCE = registerItem("totem_of_perseverance", new Item(new Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON).fireproof()));
+    public static final Item TOTEM_OF_TENACITY = registerItem("totem_of_tenacity", new Item(new Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON)));
+    public static final Item TOTEM_OF_PERSEVERANCE = registerItem("totem_of_perseverance", new Item(new Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON)));
 
     
     public static final Item TOTEM_CORE = registerItem("totem_core", new TotemCoreItem(new TotemCoreItem.Settings().maxCount(64).rarity(Rarity.UNCOMMON).fireproof()));

@@ -51,7 +51,7 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 			if (pending != null && !pending.isEmpty() && !newPlayer.getWorld().isClient()) {
 				newPlayer.getInventory().insertStack(pending);
 				// optional: ensure client sees it immediately
-				newPlayer.playerScreenHandler.sendContentUpdates();
+				// newPlayer.playerScreenHandler.sendContentUpdates();
 			}
 		});
 	}
