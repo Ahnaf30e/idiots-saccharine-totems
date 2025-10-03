@@ -14,6 +14,7 @@ import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.potion.Potion;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.util.Identifier;
 
 public class TOKEvents {
 
@@ -24,14 +25,27 @@ public class TOKEvents {
         });
     }
 
+    private static final Identifier WOODLAND_MANSION_CHEST_ID = LootTables.WOODLAND_MANSION_CHEST.getValue();
+    private static final Identifier SIMPLE_DUNGEON_CHEST_ID = LootTables.SIMPLE_DUNGEON_CHEST.getValue();
+    private static final Identifier ABANDONED_MINESHAFT_CHEST_ID = LootTables.ABANDONED_MINESHAFT_CHEST.getValue();
+    private static final Identifier JUNGLE_TEMPLE_CHEST_ID = LootTables.JUNGLE_TEMPLE_CHEST.getValue();
+    private static final Identifier DESERT_PYRAMID_CHEST_ID = LootTables.DESERT_PYRAMID_CHEST.getValue();
+    
+
     public static void registerLootTables() {
 
         LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
-            if ((key.equals(LootTables.WOODLAND_MANSION_CHEST) || key.equals(LootTables.SIMPLE_DUNGEON_CHEST))
-                    && source.isBuiltin()) {
-                tableBuilder.pool(LootPool.builder()
+            Identifier k = key.getValue();
+            if (WOODLAND_MANSION_CHEST_ID.equals(k) 
+            || SIMPLE_DUNGEON_CHEST_ID.equals(k) 
+            || ABANDONED_MINESHAFT_CHEST_ID.equals(k)
+            || JUNGLE_TEMPLE_CHEST_ID.equals(k)
+            || DESERT_PYRAMID_CHEST_ID.equals(k)) { // && source.isBuiltin()
+                LootPool.Builder builder = LootPool.builder()
                         .with(ItemEntry.builder(TOKItems.TOTEM_CORE).weight(10))
-                        .rolls(ConstantLootNumberProvider.create(1)));
+                        .rolls(ConstantLootNumberProvider.create(2));
+                
+                tableBuilder.pool(builder.build());
             }
         });
     }
