@@ -27,6 +27,7 @@ public class IdiotsSaccharineTotems implements ModInitializer {
 		LOGGER.info("Idiot started with TOK (Totem of Keeping)");
 		TOKItems.registerModItems();
 		TOKItemGroups.registerItemGroups();
+		TOKEvents.registerItemEvents();
 		TOKEffects.registerEffects();
 		TOKEvents.registerEvents();
 		TOKComponents.registerComponentTypes();

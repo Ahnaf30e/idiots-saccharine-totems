@@ -3,10 +3,15 @@
     "item.saccharine_totems.totem_of_ferrous": "Totem of Ferrous",
     "item.saccharine_totems.totem_of_tenacity": "Totem of Tenacity",
     "item.saccharine_totems.totem_of_perseverance": "Totem of Perseverance",
+    "item.saccharine_totems.totem_core": "Totem Core",
 
     "effect.saccharine_totems.ferrous": "Ferrous",
 
     "item.tok.totem_of_keeping.empty": "Will store items on death",
     "item.tok.totem_of_keeping.stored": "Already stored. Use to get items.",
-    "item.tok.totem_of_keeping.no_next_death": "Next death will not be stored"
+    "item.tok.totem_of_keeping.no_next_death": "Next death will not be stored",
+    "item.saccharine_totems.totem_core.imbued": "%s Imbued Core",
+    "item.saccharine_totems.totem_core.mysterious": "Mysterious Totem Core",
+
+    "itemGroup.saccharine_totems.totems_cores": "Idiot's Saccharine Totems"
 }
