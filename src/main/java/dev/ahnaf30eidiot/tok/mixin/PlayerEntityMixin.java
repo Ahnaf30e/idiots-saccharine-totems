@@ -5,8 +5,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import dev.ahnaf30eidiot.api.TOKTrackedEntity;
-import dev.ahnaf30eidiot.tag.TOKTags;
+import dev.ahnaf30eidiot.tok.api.TOKTrackedEntity;
+import dev.ahnaf30eidiot.tok.tag.TOKTags;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;

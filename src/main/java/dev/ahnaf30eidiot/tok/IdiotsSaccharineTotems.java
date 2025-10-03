@@ -5,12 +5,12 @@ import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import dev.ahnaf30eidiot.component.TOKComponents;
-import dev.ahnaf30eidiot.effect.TOKEffects;
-import dev.ahnaf30eidiot.event.TOKEvents;
-import dev.ahnaf30eidiot.item.TOKItemGroups;
-import dev.ahnaf30eidiot.item.TOKItems;
-import dev.ahnaf30eidiot.recipe.TOKRecipes;
+import dev.ahnaf30eidiot.tok.component.TOKComponents;
+import dev.ahnaf30eidiot.tok.effect.TOKEffects;
+import dev.ahnaf30eidiot.tok.event.TOKEvents;
+import dev.ahnaf30eidiot.tok.item.TOKItemGroups;
+import dev.ahnaf30eidiot.tok.item.TOKItems;
+import dev.ahnaf30eidiot.tok.recipe.TOKRecipes;
 
 public class IdiotsSaccharineTotems implements ModInitializer {
 	public static final String MOD_ID = "saccharine_totems";

@@ -23,12 +23,12 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import dev.ahnaf30eidiot.api.TOKPersistentValues;
-import dev.ahnaf30eidiot.api.TOKTrackedEntity;
-import dev.ahnaf30eidiot.component.TOKComponents;
-import dev.ahnaf30eidiot.effect.TOKEffects;
-import dev.ahnaf30eidiot.item.TOKItems;
-import dev.ahnaf30eidiot.tag.TOKTags;
+import dev.ahnaf30eidiot.tok.api.TOKPersistentValues;
+import dev.ahnaf30eidiot.tok.api.TOKTrackedEntity;
+import dev.ahnaf30eidiot.tok.component.TOKComponents;
+import dev.ahnaf30eidiot.tok.effect.TOKEffects;
+import dev.ahnaf30eidiot.tok.item.TOKItems;
+import dev.ahnaf30eidiot.tok.tag.TOKTags;
 
 @Mixin(LivingEntity.class)
 public class LivingEntityMixin implements TOKTrackedEntity {

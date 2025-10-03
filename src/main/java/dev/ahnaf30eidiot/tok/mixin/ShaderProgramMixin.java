@@ -4,7 +4,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-import dev.ahnaf30eidiot.render.ShaderNamespaceContext;
+import dev.ahnaf30eidiot.tok.render.ShaderNamespaceContext;
 import net.minecraft.client.gl.ShaderProgram;
 import net.minecraft.util.Identifier;
 
