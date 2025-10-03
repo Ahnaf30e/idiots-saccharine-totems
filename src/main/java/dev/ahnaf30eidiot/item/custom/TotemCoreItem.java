@@ -41,7 +41,7 @@ public class TotemCoreItem extends Item {
                         .translatable(Potion.finishTranslationKey(potion.potion(), "item.minecraft.potion.effect.")));
             }
 
-            if (pot == Potions.WATER) {
+            if (pot == Potions.WATER.value() ) {
                 return Text.translatable("item.saccharine_totems.totem_core.saccharine");
             }
 
@@ -52,7 +52,7 @@ public class TotemCoreItem extends Item {
 
     @Override
     public int getMaxUseTime(ItemStack stack, LivingEntity user) {
-        return 12;
+        return 4;
     }
 
     @Override
@@ -68,11 +68,20 @@ public class TotemCoreItem extends Item {
                 user.addStatusEffect(new StatusEffectInstance(inst));
             }
         }
+
+        if (user instanceof PlayerEntity player) {
+            player.getItemCooldownManager().set(this, 200);
+        }
         return stack;
     }
 
     @Override
 	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+        ItemStack stack = user.getStackInHand(hand);
+        PotionContentsComponent potion = stack.get(DataComponentTypes.POTION_CONTENTS);
+        
+        if (potion == null || !potion.potion().isPresent()) return TypedActionResult.fail(stack);
+
 		return ItemUsage.consumeHeldItem(world, user, hand);
 	}
 }

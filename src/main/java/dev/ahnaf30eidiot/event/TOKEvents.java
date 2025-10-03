@@ -13,6 +13,7 @@ import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.Potions;
+import net.minecraft.registry.entry.RegistryEntry;
 
 public class TOKEvents {
 
@@ -41,7 +42,7 @@ public class TOKEvents {
             if (tintIndex == 1) { // bottom layer in item model
                 PotionContentsComponent pot = stack.get(DataComponentTypes.POTION_CONTENTS);
                 if (pot != null && pot.potion().isPresent()) {
-                    Potion potion = pot.potion().get().value();
+                    RegistryEntry<Potion> potion = pot.potion().get();
                     if (potion != Potions.WATER && potion != Potions.AWKWARD && potion != Potions.MUNDANE) {
                         return pot.getColor();
                     }
