@@ -11,6 +11,7 @@ import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTables;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
+import net.minecraft.loot.provider.number.UniformLootNumberProvider;
 import net.minecraft.potion.Potion;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.entry.RegistryEntry;
@@ -42,9 +43,13 @@ public class TOKEvents {
             || JUNGLE_TEMPLE_CHEST_ID.equals(k)
             || DESERT_PYRAMID_CHEST_ID.equals(k)) { // && source.isBuiltin()
                 LootPool.Builder builder = LootPool.builder()
-                        .with(ItemEntry.builder(TOKItems.TOTEM_CORE).weight(10))
-                        .rolls(ConstantLootNumberProvider.create(2));
-                
+                        .with(ItemEntry.builder(TOKItems.TOTEM_CORE).weight(7))
+                        .rolls(UniformLootNumberProvider.create(0, 1));
+
+                tableBuilder.modifyPools(pool -> {
+                    pool.with(ItemEntry.builder(TOKItems.TOTEM_CORE).weight(2)); 
+                });
+
                 tableBuilder.pool(builder.build());
             }
         });
