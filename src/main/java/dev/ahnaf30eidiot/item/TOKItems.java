@@ -17,6 +17,9 @@ public class TOKItems {
     public static final Item TOTEM_OF_PERSEVERANCE = registerItem("totem_of_perseverance", new Item(new Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON).fireproof()));
 
     
+    public static final Item TOTEM_CORE = registerItem("totem_core", new Item(new Item.Settings().maxCount(64).rarity(Rarity.UNCOMMON).fireproof()));
+
+    
     private static Item registerItem(String name, Item item) {
         return Registry.register(Registries.ITEM, Identifier.of(IdiotsSaccharineTotems.MOD_ID, name), item);
     }
@@ -28,6 +31,9 @@ public class TOKItems {
             entries.add(TOTEM_OF_FERROUS);
             entries.add(TOTEM_OF_TENACITY);
             entries.add(TOTEM_OF_PERSEVERANCE);
+        });
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(entries -> {
+            entries.add(TOTEM_CORE);
         });
     }
 }

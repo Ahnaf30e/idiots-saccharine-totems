@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import dev.ahnaf30eidiot.component.TOKComponents;
 import dev.ahnaf30eidiot.effect.TOKEffects;
 import dev.ahnaf30eidiot.event.TOKEvents;
+import dev.ahnaf30eidiot.item.TOKItemGroups;
 import dev.ahnaf30eidiot.item.TOKItems;
 
 public class IdiotsSaccharineTotems implements ModInitializer {
@@ -25,6 +26,7 @@ public class IdiotsSaccharineTotems implements ModInitializer {
 		// Proceed with mild caution.
 		LOGGER.info("Idiot started with TOK (Totem of Keeping)");
 		TOKItems.registerModItems();
+		TOKItemGroups.registerItemGroups();
 		TOKEffects.registerEffects();
 		TOKEvents.registerEvents();
 		TOKComponents.registerComponentTypes();
