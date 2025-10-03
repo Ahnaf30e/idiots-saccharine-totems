@@ -12,7 +12,7 @@ import net.minecraft.loot.LootTables;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.potion.Potion;
-import net.minecraft.potion.Potions;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.entry.RegistryEntry;
 
 public class TOKEvents {
@@ -43,10 +43,10 @@ public class TOKEvents {
                 PotionContentsComponent pot = stack.get(DataComponentTypes.POTION_CONTENTS);
                 if (pot != null && pot.potion().isPresent()) {
                     RegistryEntry<Potion> potion = pot.potion().get();
-                    if (potion != Potions.WATER && potion != Potions.AWKWARD && potion != Potions.MUNDANE) {
+                    if (!potion.value().getEffects().isEmpty() || Registries.POTION.getId(potion.value()).getNamespace() != "minecraft") {
                         return pot.getColor();
                     }
-                    return 0xe3bd4b; // Honey-ish
+                    return 0xFFF5A83D; // Honey-ish
                 }
                 return 0;
             }
