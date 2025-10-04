@@ -10,7 +10,6 @@ import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTables;
 import net.minecraft.loot.entry.ItemEntry;
-import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.loot.provider.number.UniformLootNumberProvider;
 import net.minecraft.potion.Potion;
 import net.minecraft.registry.Registries;
@@ -31,6 +30,8 @@ public class TOKEvents {
     private static final Identifier ABANDONED_MINESHAFT_CHEST_ID = LootTables.ABANDONED_MINESHAFT_CHEST.getValue();
     private static final Identifier JUNGLE_TEMPLE_CHEST_ID = LootTables.JUNGLE_TEMPLE_CHEST.getValue();
     private static final Identifier DESERT_PYRAMID_CHEST_ID = LootTables.DESERT_PYRAMID_CHEST.getValue();
+    private static final Identifier STRONGHOLD_CORRIDOR_CHEST_ID = LootTables.STRONGHOLD_CORRIDOR_CHEST.getValue();
+    private static final Identifier VILLAGE_TOOLSMITH_CHEST_ID = LootTables.VILLAGE_TOOLSMITH_CHEST.getValue();
     
 
     public static void registerLootTables() {
@@ -41,14 +42,12 @@ public class TOKEvents {
             || SIMPLE_DUNGEON_CHEST_ID.equals(k) 
             || ABANDONED_MINESHAFT_CHEST_ID.equals(k)
             || JUNGLE_TEMPLE_CHEST_ID.equals(k)
-            || DESERT_PYRAMID_CHEST_ID.equals(k)) { // && source.isBuiltin()
+            || DESERT_PYRAMID_CHEST_ID.equals(k)
+            || STRONGHOLD_CORRIDOR_CHEST_ID.equals(k)
+            || VILLAGE_TOOLSMITH_CHEST_ID.equals(k)) { // && source.isBuiltin()
                 LootPool.Builder builder = LootPool.builder()
-                        .with(ItemEntry.builder(TOKItems.TOTEM_CORE).weight(7))
-                        .rolls(UniformLootNumberProvider.create(0, 1));
-
-                tableBuilder.modifyPools(pool -> {
-                    pool.with(ItemEntry.builder(TOKItems.TOTEM_CORE).weight(2)); 
-                });
+                        .with(ItemEntry.builder(TOKItems.TOTEM_CORE).weight(5))
+                        .rolls(UniformLootNumberProvider.create(0, 2));
 
                 tableBuilder.pool(builder.build());
             }
