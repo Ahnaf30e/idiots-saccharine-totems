@@ -17,12 +17,9 @@
             "item": "minecraft:soul_sand"
         },
         "P": {
-            "item": "minecraft:potion",
-            "components": {
-                "minecraft:potion_contents": {
-                    "potion": "minecraft:harming"
-                }
-            }
+            "fabric:type": "saccharine_totems:components",
+            "item": "saccharine_totems:totem_core",
+            "potion": "minecraft:harming"
         },
         "D": {
             "item": "minecraft:diamond"

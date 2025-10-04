@@ -18,9 +18,9 @@
         },
         "P": {
             "fabric:type": "saccharine_totems:components",
-            "item": "minecraft:potion",
-            "potion": "minecraft:healing"
-    },
+            "item": "saccharine_totems:totem_core",
+            "potion": "minecraft:slowness"
+        },
         "R": {
             "item": "minecraft:redstone"
         },
