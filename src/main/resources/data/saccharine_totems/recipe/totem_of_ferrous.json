@@ -17,13 +17,10 @@
             "item": "minecraft:soul_sand"
         },
         "P": {
+            "fabric:type": "saccharine_totems:components",
             "item": "minecraft:potion",
-            "components": {
-                "minecraft:potion_contents": {
-                    "potion": "minecraft:slowness"
-                }
-            }
-        },
+            "potion": "minecraft:healing"
+    },
         "R": {
             "item": "minecraft:redstone"
         },

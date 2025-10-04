@@ -2,9 +2,11 @@ package dev.ahnaf30eidiot.tok.event;
 
 import dev.ahnaf30eidiot.tok.command.TOKCommands;
 import dev.ahnaf30eidiot.tok.item.TOKItems;
+import dev.ahnaf30eidiot.tok.recipe.ingredient.TOKComponentIngredientSerializer;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
+import net.fabricmc.fabric.api.recipe.v1.ingredient.CustomIngredientSerializer;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.loot.LootPool;
@@ -70,5 +72,11 @@ public class TOKEvents {
             }
             return 0xFFFFFFFF;
         }, TOKItems.TOTEM_CORE);
+    }
+
+    public static void registerIngredientSerializers() {
+        CustomIngredientSerializer.register(
+            new TOKComponentIngredientSerializer()
+        );
     }
 }
