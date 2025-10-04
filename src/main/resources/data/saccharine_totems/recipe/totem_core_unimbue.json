@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "ingredient": {
+    "fabric:type": "saccharine_totems:components",
+    "item": "saccharine_totems:totem_core",
+    "potion": "*"
+  },
+  "result": {
+    "id": "saccharine_totems:totem_core"
+  },
+  "experience": 0.35,
+  "cookingtime": 200
+}

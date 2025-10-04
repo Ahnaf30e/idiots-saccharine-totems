@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
 
+import dev.ahnaf30eidiot.tok.IdiotsSaccharineTotems;
 import net.fabricmc.fabric.api.recipe.v1.ingredient.CustomIngredient;
 import net.fabricmc.fabric.api.recipe.v1.ingredient.CustomIngredientSerializer;
 import net.minecraft.component.DataComponentTypes;
@@ -17,21 +18,31 @@ public class TOKComponentIngredient implements CustomIngredient {
     public final Item item;
     @Nullable
     public final RegistryEntry<Potion> requiredPotion;
+    public final boolean allowAnyPotion;
 
-    public TOKComponentIngredient(Item item, @Nullable RegistryEntry<Potion> requiredPotion) {
+    public TOKComponentIngredient(Item item, @Nullable RegistryEntry<Potion> requiredPotion, boolean allowAnyPotion) {
         this.item = item;
         this.requiredPotion = requiredPotion;
+        this.allowAnyPotion = allowAnyPotion;
+    }
+
+    public TOKComponentIngredient(Item item, @Nullable RegistryEntry<Potion> requiredPotion) {
+        this(item, requiredPotion, false);
     }
 
     @Override
     public boolean test(ItemStack stack) {
-        if (!stack.isOf(item)) return false;
-        if (requiredPotion == null) return true;
+        IdiotsSaccharineTotems.LOGGER.info("Actually: " + stack + " " + requiredPotion + " " + allowAnyPotion);
 
+        if (!stack.isOf(item)) return false;
+
+        if (requiredPotion == null && !allowAnyPotion) return true;
+        
         PotionContentsComponent contents = stack.get(DataComponentTypes.POTION_CONTENTS);
         if (contents == null || contents.potion().isEmpty()) return false;
 
-        return contents.potion().get().equals(requiredPotion);
+
+        return allowAnyPotion || contents.potion().get().equals(requiredPotion);
     }
 
     @Override
