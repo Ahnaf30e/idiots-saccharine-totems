@@ -25,8 +25,8 @@ public class TOKShaders {
                     @Override
                     public void reload(ResourceManager manager) {
                         try {
-                            ShaderNamespaceContext.set(IdiotsSaccharineTotems.MOD_ID); // Allows for ShaderProgramMixin
-                                                                                       // to get the MOD_ID
+                            ShaderNamespaceContext.set(IdiotsSaccharineTotems.MOD_ID);
+                            // Allows for ShaderProgramMixin to get the MOD_ID
                             String shaderName = "ferrous";
                             IdiotsSaccharineTotems.LOGGER.info("Loading shader: " + shaderName + ".fsh");
 

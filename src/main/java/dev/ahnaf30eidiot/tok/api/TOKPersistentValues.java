@@ -34,7 +34,7 @@ public class TOKPersistentValues extends PersistentState {
             state.heldOn.put(uuid, stack);
         }
         
-        IdiotsSaccharineTotems.LOGGER.error("Reading NBT: " + nbt);
+        IdiotsSaccharineTotems.LOGGER.info("Reading NBT: " + nbt);
 
         return state;
     }
@@ -54,7 +54,7 @@ public class TOKPersistentValues extends PersistentState {
             list.add(data);
         }
         nbt.put("held_on", list);
-        IdiotsSaccharineTotems.LOGGER.error("Writing NBT: " + nbt);
+        IdiotsSaccharineTotems.LOGGER.info("Writing NBT: " + nbt);
         return nbt;
     }
 

@@ -27,9 +27,15 @@ public final class TOKComponentIngredientSerializer implements CustomIngredientS
     public MapCodec<TOKComponentIngredient> getCodec(boolean allowEmpty) {
         return RecordCodecBuilder.mapCodec(instance -> instance.group(
                 Identifier.CODEC.fieldOf("item").forGetter(ingredient -> Registries.ITEM.getId(ingredient.item)),
-                Identifier.CODEC.optionalFieldOf("potion").forGetter(ingredient -> ingredient.requiredPotion != null
-                        ? Optional.of(Registries.POTION.getId(ingredient.requiredPotion.value()))
-                        : Optional.empty()),
+                Codec.STRING.optionalFieldOf("potion")
+                        .forGetter(ingredient -> {
+                            if (ingredient.allowAnyPotion)
+                                return Optional.of("*");
+                            if (ingredient.requiredPotion != null)
+                                return Optional
+                                        .of(Registries.POTION.getId(ingredient.requiredPotion.value()).toString());
+                            return Optional.empty();
+                        }),
                 Codec.BOOL.optionalFieldOf("allow_any_potion", false).forGetter(i -> i.allowAnyPotion))
                 .apply(instance, (itemId, potionOpt, allowAnyPotion) -> {
                     Item item = Registries.ITEM.get(itemId);
@@ -37,11 +43,12 @@ public final class TOKComponentIngredientSerializer implements CustomIngredientS
                     boolean any = allowAnyPotion;
 
                     if (potionOpt.isPresent()) {
-                        String raw = potionOpt.get().toString();
+                        String raw = potionOpt.get();
                         if (raw.equals("*") || raw.isEmpty()) {
                             any = true;
                         } else {
-                            potion = Registries.POTION.getEntry(potionOpt.get()).orElse(null);
+                            Identifier potionId = Identifier.of(raw);
+                            potion = Registries.POTION.getEntry(potionId).orElse(null);
                         }
                     }
 
