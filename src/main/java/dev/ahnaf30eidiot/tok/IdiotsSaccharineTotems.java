@@ -10,6 +10,7 @@ import dev.ahnaf30eidiot.tok.effect.TOKEffects;
 import dev.ahnaf30eidiot.tok.event.TOKEvents;
 import dev.ahnaf30eidiot.tok.item.TOKItemGroups;
 import dev.ahnaf30eidiot.tok.item.TOKItems;
+import dev.ahnaf30eidiot.tok.potion.TOKPotions;
 import dev.ahnaf30eidiot.tok.recipe.TOKRecipes;
 
 public class IdiotsSaccharineTotems implements ModInitializer {
@@ -27,6 +28,7 @@ public class IdiotsSaccharineTotems implements ModInitializer {
 		// Proceed with mild caution.
 		LOGGER.info("Idiot started with TOK (Totem of Keeping)");
 		TOKItems.registerModItems();
+		TOKPotions.registerPotions();
 		TOKItemGroups.registerItemGroups();
 		TOKEvents.registerItemEvents();
 		TOKRecipes.registerSpecialRecipes();

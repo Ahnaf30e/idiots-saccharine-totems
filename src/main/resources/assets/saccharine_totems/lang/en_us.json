@@ -13,6 +13,9 @@
     "item.saccharine_totems.totem_core.imbued": "%s Imbued Core",
     "item.saccharine_totems.totem_core.saccharine": "Saccharine Core",
     "item.saccharine_totems.totem_core.mysterious": "Mysterious Totem Core",
+    "item.minecraft.potion.effect.ferrous_potion": "Ferrous Potion",
+    "item.minecraft.splash_potion.effect.ferrous_potion": "Ferrous Splash Potion",
+    "item.minecraft.lingering_potion.effect.ferrous_potion": "Ferrous Lingering Potion",
 
     "itemGroup.saccharine_totems.totems_cores": "Idiot's Saccharine Totems"
 }
