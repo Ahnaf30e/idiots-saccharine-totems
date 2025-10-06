@@ -1,0 +1,21 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "misc",
+    "pattern": [
+        "iii",
+        "iC ",
+        "iii"
+    ],
+    "key": {
+        "i": {
+            "item": "saccharine_totems:ferrous_metal"
+        },
+        "C": {
+            "item": "minecraft:cobweb"
+        }
+    },
+    "result": {
+        "id": "saccharine_totems:totem_core",
+        "count": 1
+    }
+}

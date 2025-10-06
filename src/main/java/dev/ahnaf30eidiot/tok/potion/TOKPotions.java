@@ -2,6 +2,7 @@ package dev.ahnaf30eidiot.tok.potion;
 
 import dev.ahnaf30eidiot.tok.IdiotsSaccharineTotems;
 import dev.ahnaf30eidiot.tok.effect.TOKEffects;
+import dev.ahnaf30eidiot.tok.item.TOKItems;
 import net.fabricmc.fabric.api.registry.FabricBrewingRecipeRegistryBuilder;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.Items;
@@ -22,7 +23,7 @@ public class TOKPotions {
 
     public static void registerPotions() {
         FabricBrewingRecipeRegistryBuilder.BUILD.register(builder -> {
-            builder.registerPotionRecipe(Potions.SLOWNESS, Items.IRON_BLOCK, TOKPotions.FERROUS_POTION);
+            builder.registerPotionRecipe(Potions.SLOWNESS, TOKItems.FERROUS_METAL, TOKPotions.FERROUS_POTION);
         });
     }
 

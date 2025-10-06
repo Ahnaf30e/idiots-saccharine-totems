@@ -19,6 +19,7 @@ public class TOKItems {
 
     
     public static final Item TOTEM_CORE = registerItem("totem_core", new TotemCoreItem(new TotemCoreItem.Settings().maxCount(1).rarity(Rarity.UNCOMMON).fireproof()));
+    public static final Item FERROUS_METAL = registerItem("ferrous_metal", new TotemCoreItem(new TotemCoreItem.Settings().maxCount(64).fireproof()));
 
     
     private static Item registerItem(String name, Item item) {
@@ -35,6 +36,7 @@ public class TOKItems {
         });
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(entries -> {
             entries.add(TOTEM_CORE);
+            entries.add(FERROUS_METAL);
         });
     }
 }
