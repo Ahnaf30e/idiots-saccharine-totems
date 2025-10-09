@@ -1,0 +1,13 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "category": "misc",
+    "ingredients": [
+        {
+            "item": "saccharine_totems:ferrous_metal_block"
+        }
+    ],
+    "result": {
+        "id": "saccharine_totems:ferrous_metal",
+        "count": 4
+    }
+}

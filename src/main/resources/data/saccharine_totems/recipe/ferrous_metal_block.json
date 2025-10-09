@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "misc",
+    "pattern": [
+        "ff",
+        "ff"
+    ],
+    "key": {
+        "f": {
+            "item": "saccharine_totems:ferrous_metal"
+        }
+    },
+    "result": {
+        "id": "saccharine_totems:ferrous_metal_block",
+        "count": 1
+    }
+}

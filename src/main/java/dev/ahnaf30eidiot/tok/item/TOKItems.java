@@ -19,7 +19,7 @@ public class TOKItems {
 
     
     public static final Item TOTEM_CORE = registerItem("totem_core", new TotemCoreItem(new TotemCoreItem.Settings().maxCount(1).rarity(Rarity.UNCOMMON).fireproof()));
-    public static final Item FERROUS_METAL = registerItem("ferrous_metal", new Item(new Item.Settings().maxCount(1).fireproof()));
+    public static final Item FERROUS_METAL = registerItem("ferrous_metal", new Item(new Item.Settings().fireproof()));
 
     
     private static Item registerItem(String name, Item item) {

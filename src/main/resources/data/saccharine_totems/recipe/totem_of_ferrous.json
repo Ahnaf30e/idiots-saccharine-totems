@@ -19,7 +19,7 @@
         "P": {
             "fabric:type": "saccharine_totems:components",
             "item": "saccharine_totems:totem_core",
-            "potion": "minecraft:slowness"
+            "potion": "saccharine_totems:ferrous"
         },
         "R": {
             "item": "minecraft:redstone"

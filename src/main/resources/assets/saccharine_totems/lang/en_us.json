@@ -18,5 +18,9 @@
     "item.minecraft.splash_potion.effect.ferrous_potion": "Ferrous Splash Potion",
     "item.minecraft.lingering_potion.effect.ferrous_potion": "Ferrous Lingering Potion",
 
-    "itemGroup.saccharine_totems.totems_cores": "Idiot's Saccharine Totems"
+    
+    "block.saccharine_totems.ferrous_metal_block": "Ferrous Metal Block",
+
+    "itemGroup.saccharine_totems.saccharine": "Idiot's Saccharine Totems",
+    "itemGroup.saccharine_totems.totems_cores": "Totem Cores"
 }

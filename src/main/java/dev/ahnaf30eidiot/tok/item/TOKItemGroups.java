@@ -1,6 +1,7 @@
 package dev.ahnaf30eidiot.tok.item;
 
 import dev.ahnaf30eidiot.tok.IdiotsSaccharineTotems;
+import dev.ahnaf30eidiot.tok.block.TOKBlocks;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.PotionContentsComponent;
@@ -14,22 +15,35 @@ import net.minecraft.util.Identifier;
 
 public class TOKItemGroups {
 
-    public static final ItemGroup TOTEMS = Registry.register(
+    public static final ItemGroup SACCHARINE = Registry.register(
             Registries.ITEM_GROUP,
-            Identifier.of(IdiotsSaccharineTotems.MOD_ID, "totems_cores"),
+            Identifier.of(IdiotsSaccharineTotems.MOD_ID, "saccharine"),
             FabricItemGroup.builder()
-                    .displayName(Text.translatable("itemGroup.saccharine_totems.totems_cores"))
+                    .displayName(Text.translatable("itemGroup.saccharine_totems.saccharine"))
+                    .noRenderedName()
                     .icon(() -> new ItemStack(TOKItems.TOTEM_OF_KEEPING))
                     .entries((displayContext, entries) -> {
                         entries.add(TOKItems.TOTEM_OF_KEEPING);
                         entries.add(TOKItems.TOTEM_OF_FERROUS);
                         entries.add(TOKItems.TOTEM_OF_TENACITY);
                         entries.add(TOKItems.TOTEM_OF_PERSEVERANCE);
+                        entries.add(TOKItems.TOTEM_CORE);
                         entries.add(TOKItems.FERROUS_METAL);
+                        entries.add(TOKBlocks.FERROUS_METAL_BLOCK);
+                    })
+                    .build());
+    
+    public static final ItemGroup TOTEMS_CORES = Registry.register(
+            Registries.ITEM_GROUP,
+            Identifier.of(IdiotsSaccharineTotems.MOD_ID, "totems_cores"),
+            FabricItemGroup.builder()
+                    .displayName(Text.translatable("itemGroup.saccharine_totems.totems_cores"))
+                    .icon(() -> new ItemStack(TOKItems.TOTEM_CORE))
+                    .entries((displayContext, entries) -> {
                         entries.add(TOKItems.TOTEM_CORE);
                         Registries.POTION.stream().forEach(potion -> {
                             // if (potion.getEffects().isEmpty())
-                            //     return; // Keep the water one for honey
+                            //     return; // Keep the water one for useless but fun honey core
                             ItemStack imbued = new ItemStack(TOKItems.TOTEM_CORE);
                             imbued.set(DataComponentTypes.POTION_CONTENTS, new PotionContentsComponent(RegistryEntry.of(potion)));
                             entries.add(imbued);

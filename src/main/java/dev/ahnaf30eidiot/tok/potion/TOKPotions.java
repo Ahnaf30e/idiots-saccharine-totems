@@ -5,7 +5,6 @@ import dev.ahnaf30eidiot.tok.effect.TOKEffects;
 import dev.ahnaf30eidiot.tok.item.TOKItems;
 import net.fabricmc.fabric.api.registry.FabricBrewingRecipeRegistryBuilder;
 import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.item.Items;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.Potions;
 import net.minecraft.registry.Registries;
@@ -14,7 +13,7 @@ import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 
 public class TOKPotions {
-    public static final RegistryEntry<Potion> FERROUS_POTION = registerPotion("ferrous_potion", new Potion(new StatusEffectInstance(TOKEffects.FERROUS, 1400, 0)));
+    public static final RegistryEntry<Potion> FERROUS_POTION = registerPotion("ferrous", new Potion(new StatusEffectInstance(TOKEffects.FERROUS, 1400, 0)));
 
 
     private static RegistryEntry<Potion> registerPotion(String name, Potion potion) {
