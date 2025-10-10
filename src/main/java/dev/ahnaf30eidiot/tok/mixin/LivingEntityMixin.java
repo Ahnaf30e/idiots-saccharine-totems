@@ -1,7 +1,9 @@
 package dev.ahnaf30eidiot.tok.mixin;
 
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MovementType;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
@@ -14,6 +16,8 @@ import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.collection.DefaultedList;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
 
 import java.util.List;
 
@@ -25,6 +29,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import dev.ahnaf30eidiot.tok.api.TOKPersistentValues;
 import dev.ahnaf30eidiot.tok.api.TOKTrackedEntity;
+import dev.ahnaf30eidiot.tok.block.TOKBlocks;
 import dev.ahnaf30eidiot.tok.component.TOKComponents;
 import dev.ahnaf30eidiot.tok.effect.TOKEffects;
 import dev.ahnaf30eidiot.tok.item.TOKItems;
@@ -194,5 +199,28 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 				|| stack.isOf(TOKItems.TOTEM_OF_FERROUS)
 				|| stack.isOf(Items.TOTEM_OF_UNDYING) // vanilla
 				|| stack.isOf(TOKItems.TOTEM_OF_KEEPING);
+	}
+
+	@Inject(method = "travel", at = @At("HEAD"), cancellable = true)
+	private void onTravel(Vec3d movementInput, CallbackInfo ci) {
+		Entity self = (LivingEntity) (Object) this;
+		if (self.isLogicalSideForUpdatingMovement()) {
+			World world = self.getWorld();
+
+			if ((world.getBlockState(self.getBlockPos().down()).isOf(TOKBlocks.FERROUS_METAL_BLOCK) && self.groundCollision)
+					|| (world.getBlockState(self.getBlockPos().up(2)).isOf(TOKBlocks.FERROUS_METAL_BLOCK) && self.verticalCollision)
+					|| ((world.getBlockState(self.getBlockPos().north()).isOf(TOKBlocks.FERROUS_METAL_BLOCK)
+					|| world.getBlockState(self.getBlockPos().south()).isOf(TOKBlocks.FERROUS_METAL_BLOCK)
+					|| world.getBlockState(self.getBlockPos().east()).isOf(TOKBlocks.FERROUS_METAL_BLOCK)
+					|| world.getBlockState(self.getBlockPos().west()).isOf(TOKBlocks.FERROUS_METAL_BLOCK)) && self.horizontalCollision)) {
+				Vec3d vel = self.getVelocity();
+				// cancel any damping (including gravity if you wish)
+				// self.setVelocity(vel.x, vel.y, vel.z);
+				self.setVelocity(vel.x, vel.y, vel.z);
+				self.updateVelocity(0.02F, movementInput);
+				self.move(MovementType.SELF, self.getVelocity());
+				ci.cancel();
+			}
+		}
 	}
 }
