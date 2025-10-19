@@ -14,7 +14,7 @@ import net.minecraft.util.Identifier;
 
 public class TOKBlocks {
 
-    public static final Block FERROUS_METAL_BLOCK = registerBlock("ferrous_metal_block", new Block(AbstractBlock.Settings.create().requiresTool().strength(52.0F, 1800.0F).sounds(BlockSoundGroup.NETHERITE).velocityMultiplier(1.05F).slipperiness(1.0F))); // Bug that is cool.
+    public static final Block FERROUS_METAL_BLOCK = registerBlock("ferrous_metal_block", new Block(AbstractBlock.Settings.create().requiresTool().strength(52.0F, 1800.0F).sounds(BlockSoundGroup.NETHERITE).velocityMultiplier(1.0F).slipperiness(1.02041F))); // Perfect slipperiness for items
 
     private static Block registerBlock(String name, Block block) {
         registerBlockItem(name, block);

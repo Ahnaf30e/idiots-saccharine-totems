@@ -158,7 +158,7 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 				self.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 600, 0));
 				self.addStatusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 2, 2));
 			} else if (used.isOf(TOKItems.TOTEM_OF_FERROUS)) {
-				self.addStatusEffect(new StatusEffectInstance(TOKEffects.FERROUS, 240, 0));
+				self.addStatusEffect(new StatusEffectInstance(TOKEffects.FERROUS, 440, 0));
 				self.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 1000, 1));
 			}
 
@@ -201,8 +201,8 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 				|| stack.isOf(TOKItems.TOTEM_OF_KEEPING);
 	}
 
-	@Inject(method = "travel", at = @At("HEAD"), cancellable = true)
-	private void onTravel(Vec3d movementInput, CallbackInfo ci) {
+	@Inject(method = "hasNoDrag", at = @At("HEAD"), cancellable = true)
+	private void onTravel(CallbackInfoReturnable<Boolean> ci) {
 		Entity self = (LivingEntity) (Object) this;
 		if (self.isLogicalSideForUpdatingMovement()) {
 			World world = self.getWorld();
@@ -213,13 +213,13 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 					|| world.getBlockState(self.getBlockPos().south()).isOf(TOKBlocks.FERROUS_METAL_BLOCK)
 					|| world.getBlockState(self.getBlockPos().east()).isOf(TOKBlocks.FERROUS_METAL_BLOCK)
 					|| world.getBlockState(self.getBlockPos().west()).isOf(TOKBlocks.FERROUS_METAL_BLOCK)) && self.horizontalCollision)) {
-				Vec3d vel = self.getVelocity();
-				// cancel any damping (including gravity if you wish)
+				// Vec3d vel = self.getVelocity();
+				// // cancel any damping (including gravity if you wish)
+				// // self.setVelocity(vel.x, vel.y, vel.z);
 				// self.setVelocity(vel.x, vel.y, vel.z);
-				self.setVelocity(vel.x, vel.y, vel.z);
-				self.updateVelocity(0.02F, movementInput);
-				self.move(MovementType.SELF, self.getVelocity());
-				ci.cancel();
+				// self.updateVelocity(0.02F, movementInput);
+				// self.move(MovementType.SELF, self.getVelocity());
+				ci.setReturnValue(true);
 			}
 		}
 	}

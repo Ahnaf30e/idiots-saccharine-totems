@@ -89,12 +89,13 @@ public class TotemCoreItem extends Item {
     }
 
     public static int getLickBalancedDuration(int duration, float n, float p) {
-        return (int) (Math.max(1, (Math.log((duration - 1) / p + 1) * n)) + 15) * Integer.signum(duration - 1) + 1;
+        // return (int) (Math.max(1, (Math.log((duration - 1) / p + 1) * n)) + 15) * Integer.signum(duration - 1) + 1;
+        return (int) Math.max(1, n * (Math.sqrt((duration / p) + 1) - 1)) * Integer.signum(duration - 1) + 1;
     }
 
-    public static final int baseN = 318;
-    public static final int baseP = 1120;
-
+    public static final int baseN = 12;
+    public static final int baseP = 10;
+    
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
         PotionContentsComponent potion = stack.get(DataComponentTypes.POTION_CONTENTS);

@@ -49,7 +49,7 @@ public class TOKEvents {
             || VILLAGE_TOOLSMITH_CHEST_ID.equals(k)) { // && source.isBuiltin()
                 LootPool.Builder builder = LootPool.builder()
                         .with(ItemEntry.builder(TOKItems.TOTEM_CORE).weight(5))
-                        .rolls(UniformLootNumberProvider.create(0, 2));
+                        .rolls(UniformLootNumberProvider.create(0, 1));
 
                 tableBuilder.pool(builder.build());
             }

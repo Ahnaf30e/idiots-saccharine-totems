@@ -14,9 +14,9 @@
     "item.saccharine_totems.totem_core.imbued": "%s Imbued Core",
     "item.saccharine_totems.totem_core.saccharine": "Saccharine Core",
     "item.saccharine_totems.totem_core.mysterious": "Mysterious Totem Core",
-    "item.minecraft.potion.effect.ferrous_potion": "Ferrous Potion",
-    "item.minecraft.splash_potion.effect.ferrous_potion": "Ferrous Splash Potion",
-    "item.minecraft.lingering_potion.effect.ferrous_potion": "Ferrous Lingering Potion",
+    "item.minecraft.potion.effect.ferrous": "Potion of Ferrous",
+    "item.minecraft.splash_potion.effect.ferrous": "Splash Potion of Ferrous",
+    "item.minecraft.lingering_potion.effect.ferrous": "Lingering Potion of Ferrous",
 
     
     "block.saccharine_totems.ferrous_metal_block": "Ferrous Metal Block",
