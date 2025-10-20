@@ -4,6 +4,7 @@ import dev.ahnaf30eidiot.tok.IdiotsSaccharineTotems;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.MapColor;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
@@ -14,7 +15,7 @@ import net.minecraft.util.Identifier;
 
 public class TOKBlocks {
 
-    public static final Block FERROUS_METAL_BLOCK = registerBlock("ferrous_metal_block", new Block(AbstractBlock.Settings.create().requiresTool().strength(52.0F, 1800.0F).sounds(BlockSoundGroup.NETHERITE).velocityMultiplier(1.0F).slipperiness(1.02041F))); // Perfect slipperiness for items
+    public static final Block FERROUS_METAL_BLOCK = registerBlock("ferrous_metal_block", new Block(AbstractBlock.Settings.create().mapColor(MapColor.RAW_IRON_PINK).requiresTool().strength(52.0F, 1800.0F).sounds(BlockSoundGroup.NETHERITE).velocityMultiplier(1.0F).slipperiness(1.02041F))); // Perfect slipperiness for items
 
     private static Block registerBlock(String name, Block block) {
         registerBlockItem(name, block);

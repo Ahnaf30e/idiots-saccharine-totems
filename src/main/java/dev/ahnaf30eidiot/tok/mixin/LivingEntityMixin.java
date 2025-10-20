@@ -3,7 +3,6 @@ package dev.ahnaf30eidiot.tok.mixin;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MovementType;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
@@ -16,7 +15,6 @@ import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -158,8 +156,8 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 				self.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 600, 0));
 				self.addStatusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 2, 2));
 			} else if (used.isOf(TOKItems.TOTEM_OF_FERROUS)) {
-				self.addStatusEffect(new StatusEffectInstance(TOKEffects.FERROUS, 440, 0));
-				self.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 1000, 1));
+				self.addStatusEffect(new StatusEffectInstance(TOKEffects.FERROUS, 240, 0));
+				self.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 1100, 0));
 			}
 
 			self.getWorld().sendEntityStatus(self, (byte) 35);

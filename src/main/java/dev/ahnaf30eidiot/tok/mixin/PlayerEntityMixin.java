@@ -1,23 +1,16 @@
 package dev.ahnaf30eidiot.tok.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import dev.ahnaf30eidiot.tok.api.TOKTrackedEntity;
-import dev.ahnaf30eidiot.tok.block.TOKBlocks;
 import dev.ahnaf30eidiot.tok.tag.TOKTags;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
 
 @Mixin(PlayerEntity.class)
 public class PlayerEntityMixin {
