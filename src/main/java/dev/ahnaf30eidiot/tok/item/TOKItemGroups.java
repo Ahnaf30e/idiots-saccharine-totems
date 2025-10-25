@@ -20,7 +20,6 @@ public class TOKItemGroups {
             Identifier.of(IdiotsSaccharineTotems.MOD_ID, "saccharine"),
             FabricItemGroup.builder()
                     .displayName(Text.translatable("itemGroup.saccharine_totems.saccharine"))
-                    .noRenderedName()
                     .icon(() -> new ItemStack(TOKItems.TOTEM_OF_KEEPING))
                     .entries((displayContext, entries) -> {
                         entries.add(TOKItems.TOTEM_OF_KEEPING);

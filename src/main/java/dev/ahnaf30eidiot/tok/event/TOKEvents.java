@@ -12,6 +12,7 @@ import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTables;
 import net.minecraft.loot.entry.ItemEntry;
+import net.minecraft.loot.function.SetDamageLootFunction;
 import net.minecraft.loot.provider.number.UniformLootNumberProvider;
 import net.minecraft.potion.Potion;
 import net.minecraft.registry.Registries;
@@ -33,7 +34,6 @@ public class TOKEvents {
     private static final Identifier JUNGLE_TEMPLE_CHEST_ID = LootTables.JUNGLE_TEMPLE_CHEST.getValue();
     private static final Identifier DESERT_PYRAMID_CHEST_ID = LootTables.DESERT_PYRAMID_CHEST.getValue();
     private static final Identifier STRONGHOLD_CORRIDOR_CHEST_ID = LootTables.STRONGHOLD_CORRIDOR_CHEST.getValue();
-    private static final Identifier VILLAGE_TOOLSMITH_CHEST_ID = LootTables.VILLAGE_TOOLSMITH_CHEST.getValue();
     
 
     public static void registerLootTables() {
@@ -45,13 +45,15 @@ public class TOKEvents {
             || ABANDONED_MINESHAFT_CHEST_ID.equals(k)
             || JUNGLE_TEMPLE_CHEST_ID.equals(k)
             || DESERT_PYRAMID_CHEST_ID.equals(k)
-            || STRONGHOLD_CORRIDOR_CHEST_ID.equals(k)
-            || VILLAGE_TOOLSMITH_CHEST_ID.equals(k)) { // && source.isBuiltin()
+            || STRONGHOLD_CORRIDOR_CHEST_ID.equals(k)) { // && source.isBuiltin()
                 LootPool.Builder builder = LootPool.builder()
-                        .with(ItemEntry.builder(TOKItems.TOTEM_CORE).weight(5))
-                        .rolls(UniformLootNumberProvider.create(0, 1));
+                        .with(ItemEntry.builder(TOKItems.TOTEM_OF_KEEPING)
+                            .apply(SetDamageLootFunction.builder(UniformLootNumberProvider.create(0.2F, 0.4F)))
+                            .weight(2))
+                        .with(ItemEntry.builder(TOKItems.TOTEM_CORE).weight(20))
+                        .rolls(UniformLootNumberProvider.create(0, 0.5F));
 
-                tableBuilder.pool(builder.build());
+                tableBuilder.pool(builder);
             }
         });
     }

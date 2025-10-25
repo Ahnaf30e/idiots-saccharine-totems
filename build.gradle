@@ -1,6 +1,8 @@
 plugins {
 	id 'fabric-loom' version "${loom_version}"
 	id 'maven-publish'
+	id 'java'
+	id 'base'
 }
 
 version = project.mod_version
@@ -20,6 +22,10 @@ repositories {
 		name = "TerraformersMC"
 		url = "https://maven.terraformersmc.com/"
 	}
+	maven {
+		name = "Ladysnake Libs"
+		url = 'https://maven.ladysnake.org/releases'
+	}
 }
 
 fabricApi {
@@ -38,6 +44,8 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	modCompileOnly "dev.emi:emi-fabric:${project.emi_version}"
 	modLocalRuntime "dev.emi:emi-fabric:${project.emi_version}"
+	modCompileOnly "dev.emi:trinkets:${trinkets_version}"
+	modImplementation "dev.emi:trinkets:${trinkets_version}"
 }
 
 loom {
