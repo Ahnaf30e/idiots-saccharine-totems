@@ -49,7 +49,7 @@ public class TOKComponentIngredient implements CustomIngredient {
     public List<ItemStack> getMatchingStacks() {
         ItemStack example = new ItemStack(item);
         if (allowAnyPotion) {
-            example.set(DataComponentTypes.POTION_CONTENTS, new PotionContentsComponent(Potions.WATER));
+            example.set(DataComponentTypes.POTION_CONTENTS, new PotionContentsComponent(Potions.AWKWARD));
         } else if (requiredPotion != null) {
             example.set(DataComponentTypes.POTION_CONTENTS, new PotionContentsComponent(requiredPotion));
         }

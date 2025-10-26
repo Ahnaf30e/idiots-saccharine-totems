@@ -8,7 +8,6 @@ import dev.ahnaf30eidiot.tok.item.TOKItems;
 import dev.emi.emi.api.EmiPlugin;
 import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.recipe.EmiCraftingRecipe;
-import dev.emi.emi.api.recipe.VanillaEmiRecipeCategories;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.recipe.EmiAnvilRecipe;
@@ -75,12 +74,12 @@ public class TOKEmiPlugin implements EmiPlugin {
                         Identifier.of(IdiotsSaccharineTotems.MOD_ID, "/totem_repair_eye")));
         
         
-        // Un-imbue in furnace
-        registry.addRecipe(new TOKEmiCookingRecipe(
-                Identifier.of(IdiotsSaccharineTotems.MOD_ID, "/unimbue_core"),
-                EmiIngredient.of(sampleImbued), // input shows rotating cores
-                EmiStack.of(TOKItems.TOTEM_CORE), // output plain core
-                200, 0.1f,
-                VanillaEmiRecipeCategories.SMELTING));
+        // Un-imbue in furnace (Doesnt work, so might remove it)
+        // registry.addRecipe(new TOKEmiCookingRecipe(
+        //         Identifier.of(IdiotsSaccharineTotems.MOD_ID, "/unimbue_core"),
+        //         EmiIngredient.of(sampleImbued), // input shows rotating cores
+        //         EmiStack.of(TOKItems.TOTEM_CORE), // output plain core
+        //         200, 0.1f,
+        //         VanillaEmiRecipeCategories.BLASTING));
     }
 }
