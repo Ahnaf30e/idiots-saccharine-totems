@@ -33,7 +33,7 @@ public class AnvilScreenHandlerMixin {
             repaired.setDamage(0); // FULLY repaired
 
             self.getSlot(2).setStack(repaired);
-            this.levelCost.set((int) (left.getDamage() * 0.6));    // 1 xp level cost
+            this.levelCost.set(0);
             this.repairItemUsage = 1; // consume 1 pearl
 
             ci.cancel(); // cancel vanilla logic
