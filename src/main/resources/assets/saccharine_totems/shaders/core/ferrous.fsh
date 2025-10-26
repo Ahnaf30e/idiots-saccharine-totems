@@ -20,8 +20,8 @@ out vec4 fragColor;
 
 void main() {
     vec2 texel = 1.0 / SSize;
-    vec2 newCoord = (floor(texCoord0 * SSize - 1e-5) + 0.5) * texel;
-    vec2 snapped = round(newCoord / texel) * texel;
+    vec2 newCoord = (floor(texCoord0 * SSize) + 0.2) / SSize;
+    vec2 snapped = floor(newCoord / texel) * texel;
 
     vec4 c = texture(Sampler0, newCoord);
     if (c.a < 0.1) discard;

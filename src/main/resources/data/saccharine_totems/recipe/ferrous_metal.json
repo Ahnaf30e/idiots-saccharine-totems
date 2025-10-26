@@ -6,7 +6,7 @@
             "item": "minecraft:fire_charge"
         },
         {
-            "item": "minecraft:copper_ingot"
+            "item": "minecraft:magma_cream"
         },
         {
             "item": "minecraft:nether_wart"
@@ -25,13 +25,10 @@
         },
         {
             "item": "minecraft:iron_ingot"
-        },
-        {
-            "item": "minecraft:iron_ingot"
         }
     ],
     "result": {
         "id": "saccharine_totems:ferrous_metal",
-        "count": 1
+        "count": 2
     }
 }

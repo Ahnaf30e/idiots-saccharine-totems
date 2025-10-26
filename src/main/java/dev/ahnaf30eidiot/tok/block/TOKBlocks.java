@@ -15,7 +15,7 @@ import net.minecraft.util.Identifier;
 
 public class TOKBlocks {
 
-    public static final Block FERROUS_METAL_BLOCK = registerBlock("ferrous_metal_block", new Block(AbstractBlock.Settings.create().mapColor(MapColor.RAW_IRON_PINK).requiresTool().strength(52.0F, 1800.0F).sounds(BlockSoundGroup.NETHERITE).velocityMultiplier(1.0F).slipperiness(1.02041F))); // Perfect slipperiness for items
+    public static final Block FERROUS_METAL_BLOCK = registerBlock("ferrous_metal_block", new Block(AbstractBlock.Settings.create().mapColor(MapColor.TERRACOTTA_WHITE).strength(51.0F, 1900.0F).requiresTool().sounds(BlockSoundGroup.NETHERITE).velocityMultiplier(1.0F).slipperiness(1.02041F))); // Perfect slipperiness for items
 
     private static Block registerBlock(String name, Block block) {
         registerBlockItem(name, block);
