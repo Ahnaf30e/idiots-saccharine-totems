@@ -26,6 +26,18 @@ repositories {
 		name = "Ladysnake Libs"
 		url = 'https://maven.ladysnake.org/releases'
 	}
+    
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = "Modrinth"
+                url = "https://api.modrinth.com/maven"
+            }
+        }
+        filter {
+            includeGroup "maven.modrinth"
+        }
+    }
 }
 
 fabricApi {
@@ -45,7 +57,9 @@ dependencies {
 	modCompileOnly "dev.emi:emi-fabric:${project.emi_version}"
 	modLocalRuntime "dev.emi:emi-fabric:${project.emi_version}"
 	modCompileOnly "dev.emi:trinkets:${trinkets_version}"
-	modImplementation "dev.emi:trinkets:${trinkets_version}"
+	modLocalRuntime "dev.emi:trinkets:${trinkets_version}"
+	modCompileOnly "maven.modrinth:iris:${iris_version}"
+	modLocalRuntime "maven.modrinth:iris:${iris_version}"
 }
 
 loom {
@@ -56,7 +70,7 @@ loom {
 
             // Force a consistent username
             programArgs.addAll([
-                "--username", "Ahnaf30e"
+                "--username", "TestMan01"
             ])
         }
     }

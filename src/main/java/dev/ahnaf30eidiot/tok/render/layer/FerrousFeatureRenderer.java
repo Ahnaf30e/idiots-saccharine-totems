@@ -8,9 +8,11 @@ import dev.ahnaf30eidiot.tok.IdiotsSaccharineTotems;
 import dev.ahnaf30eidiot.tok.api.TOKTrackedEntity;
 import dev.ahnaf30eidiot.tok.effect.TOKEffects;
 import dev.ahnaf30eidiot.tok.render.TOKShaders;
+import net.irisshaders.iris.api.v0.IrisApi;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.ShaderProgram;
 import net.minecraft.client.render.OverlayTexture;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
@@ -19,11 +21,23 @@ import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.MathHelper;
 
 public class FerrousFeatureRenderer<T extends LivingEntity, M extends EntityModel<T>> extends FeatureRenderer<T, M> {
 
     public FerrousFeatureRenderer(FeatureRendererContext<T, M> context) {
         super(context);
+    }
+
+    public static final Identifier FERROUS_TEXTURE = Identifier.of(IdiotsSaccharineTotems.MOD_ID,
+            "textures/misc/ferrous_glint_entity.png");
+
+    private boolean isIrisShaderLoaded() {
+        try {
+            return IrisApi.getInstance().isShaderPackInUse();
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override
@@ -38,16 +52,20 @@ public class FerrousFeatureRenderer<T extends LivingEntity, M extends EntityMode
             float headYaw,
             float headPitch) {
 
+        if (entity.hasStatusEffect(TOKEffects.FERROUS) || ((TOKTrackedEntity) entity).isFerrous()) {
 
-        if (entity.hasStatusEffect(TOKEffects.FERROUS) || ((TOKTrackedEntity)entity).isFerrous()) {
+            boolean isIrisActive = isIrisShaderLoaded();
+            IdiotsSaccharineTotems.LOGGER.info(String.valueOf(isIrisActive));
 
-            Identifier texture = getTexture(entity);
+            // Identifier texture = getTexture(entity);
+            Identifier texture = isIrisActive ? FERROUS_TEXTURE : getTexture(entity);
             // VertexConsumer consumer = ItemRenderer.getArmorGlintConsumer(
             // vertexConsumers, RenderLayer.getArmorCutoutNoCull(texture), true
             // );
-            VertexConsumer consumer = vertexConsumers.getBuffer(FerrousRenderLayers.ferrous(texture));
+            VertexConsumer consumer = isIrisActive ? vertexConsumers.getBuffer(RenderLayer.getBreezeWind(texture,
+                    (entity.age + tickDelta) * 0.01F, (entity.age + tickDelta) * 0.005F)) : vertexConsumers.getBuffer(FerrousRenderLayers.ferrous(texture));
 
-            ShaderProgram shader = TOKShaders.FERROUS_SHADER;
+            ShaderProgram shader = isIrisActive ? null : TOKShaders.FERROUS_SHADER;
 
             RenderSystem.setShader(() -> shader);
             RenderSystem.setShaderTexture(0, texture);
@@ -57,7 +75,7 @@ public class FerrousFeatureRenderer<T extends LivingEntity, M extends EntityMode
             if (shader != null) {
                 var timeUniform = shader.getUniform("Time");
                 if (timeUniform != null)
-                    timeUniform.set((MinecraftClient.getInstance().world.getTime() + tickDelta));
+                    timeUniform.set((entity.age + tickDelta) % 60F);
 
                 var posUniform = shader.getUniform("EntityPos");
                 if (posUniform != null)
