@@ -31,11 +31,15 @@ public class FerrousFeatureRenderer<T extends LivingEntity, M extends EntityMode
 
     public static final Identifier FERROUS_TEXTURE = Identifier.of(IdiotsSaccharineTotems.MOD_ID,
             "textures/misc/ferrous_glint_entity.png");
+    
+    public static boolean irisNotLoaded = false;
 
     private boolean isIrisShaderLoaded() {
+        if (irisNotLoaded) return false;
         try {
             return IrisApi.getInstance().isShaderPackInUse();
         } catch (Exception e) {
+            irisNotLoaded = true;
             return false;
         }
     }
@@ -54,8 +58,8 @@ public class FerrousFeatureRenderer<T extends LivingEntity, M extends EntityMode
 
         if (entity.hasStatusEffect(TOKEffects.FERROUS) || ((TOKTrackedEntity) entity).isFerrous()) {
 
-            // boolean isIrisActive = isIrisShaderLoaded();
-            boolean isIrisActive = true;
+            boolean isIrisActive = isIrisShaderLoaded();
+            // boolean isIrisActive = true;
             IdiotsSaccharineTotems.LOGGER.info(String.valueOf(isIrisActive));
 
             // Identifier texture = getTexture(entity);
@@ -66,7 +70,7 @@ public class FerrousFeatureRenderer<T extends LivingEntity, M extends EntityMode
             VertexConsumer consumer = isIrisActive ? vertexConsumers.getBuffer(RenderLayer.getBreezeWind(texture,
                     (entity.age + tickDelta) * 0.01F, (entity.age + tickDelta) * 0.005F)) : vertexConsumers.getBuffer(FerrousRenderLayers.ferrous(texture));
 
-            ShaderProgram shader = isIrisActive ? null : TOKShaders.FERROUS_SHADER;
+            ShaderProgram shader = TOKShaders.FERROUS_SHADER;
 
             RenderSystem.setShader(() -> shader);
             RenderSystem.setShaderTexture(0, texture);
