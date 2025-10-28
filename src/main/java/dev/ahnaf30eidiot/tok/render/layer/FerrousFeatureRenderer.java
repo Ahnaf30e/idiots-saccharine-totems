@@ -8,6 +8,8 @@ import dev.ahnaf30eidiot.tok.IdiotsSaccharineTotems;
 import dev.ahnaf30eidiot.tok.api.TOKTrackedEntity;
 import dev.ahnaf30eidiot.tok.effect.TOKEffects;
 import dev.ahnaf30eidiot.tok.render.TOKShaders;
+import dev.ahnaf30eidiot.tok.render.TOKSizedResourceTexture;
+import net.fabricmc.loader.api.FabricLoader;
 import net.irisshaders.iris.api.v0.IrisApi;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.ShaderProgram;
@@ -18,6 +20,11 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.entity.model.EntityModel;
+import net.minecraft.client.texture.AbstractTexture;
+import net.minecraft.client.texture.DynamicTexture;
+import net.minecraft.client.texture.NativeImageBackedTexture;
+import net.minecraft.client.texture.ResourceTexture;
+import net.minecraft.client.texture.TextureManager;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Identifier;
@@ -31,17 +38,32 @@ public class FerrousFeatureRenderer<T extends LivingEntity, M extends EntityMode
 
     public static final Identifier FERROUS_TEXTURE = Identifier.of(IdiotsSaccharineTotems.MOD_ID,
             "textures/misc/ferrous_glint_entity.png");
-    
+
     public static boolean irisNotLoaded = false;
 
     private boolean isIrisShaderLoaded() {
-        if (irisNotLoaded) return false;
+        if (!FabricLoader.getInstance().isModLoaded("iris"))
+            irisNotLoaded = true;
+        if (irisNotLoaded)
+            return false;
         try {
             return IrisApi.getInstance().isShaderPackInUse();
         } catch (NoClassDefFoundError e) {
             irisNotLoaded = true;
             return false;
         }
+    }
+
+    private static float[] getTextureSize(AbstractTexture texture) {
+        if (texture instanceof NativeImageBackedTexture nativeTex) {
+            var img = nativeTex.getImage();
+            if (img != null)
+                return new float[] { img.getWidth(), img.getHeight() };
+        }
+        if (texture instanceof TOKSizedResourceTexture sizedTex) {
+            return new float[] { sizedTex.getWidth(), sizedTex.getHeight() };
+        }
+        return new float[] { 1f, 1f };
     }
 
     @Override
@@ -60,24 +82,50 @@ public class FerrousFeatureRenderer<T extends LivingEntity, M extends EntityMode
 
             boolean isIrisActive = isIrisShaderLoaded();
             // boolean isIrisActive = true;
-            IdiotsSaccharineTotems.LOGGER.info(String.valueOf(isIrisActive));
 
             // Identifier texture = getTexture(entity);
             Identifier texture = isIrisActive ? FERROUS_TEXTURE : getTexture(entity);
             // VertexConsumer consumer = ItemRenderer.getArmorGlintConsumer(
             // vertexConsumers, RenderLayer.getArmorCutoutNoCull(texture), true
             // );
-            VertexConsumer consumer = isIrisActive ? vertexConsumers.getBuffer(RenderLayer.getEnergySwirl(texture,
-                    (entity.age + tickDelta) * 0.01F, (entity.age + tickDelta) * 0.005F)) : vertexConsumers.getBuffer(FerrousRenderLayers.ferrous(texture));
+
+            VertexConsumer consumer = isIrisActive ? vertexConsumers.getBuffer(RenderLayer.getBreezeWind(texture,
+                    (entity.age + tickDelta) * 0.01F, (entity.age + tickDelta) * 0.005F))
+                    : vertexConsumers.getBuffer(FerrousRenderLayers.ferrous(texture));
 
             ShaderProgram shader = TOKShaders.FERROUS_SHADER;
 
             RenderSystem.setShader(() -> shader);
             RenderSystem.setShaderTexture(0, texture);
 
-            var tex = MinecraftClient.getInstance().getTextureManager().getTexture(texture);
+            TextureManager manager = MinecraftClient.getInstance().getTextureManager();
+
+            var abstractTexture = manager.getOrDefault(texture, null);
+
+            if (abstractTexture == null) {
+                abstractTexture = new TOKSizedResourceTexture(texture);
+                manager.registerTexture(texture, abstractTexture);
+            }
+
+            if (abstractTexture instanceof ResourceTexture && !(abstractTexture instanceof TOKSizedResourceTexture)) {
+                try {
+                    // Close old texture cleanly to avoid leaks
+                    abstractTexture.close();
+
+                    var newTex = new TOKSizedResourceTexture(texture);
+                    manager.registerTexture(texture, newTex);
+
+                    abstractTexture = newTex;
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            var tex = abstractTexture;
 
             if (shader != null) {
+
+                shader.bind();
                 var timeUniform = shader.getUniform("Time");
                 if (timeUniform != null)
                     timeUniform.set((entity.age + tickDelta) % 60F);
@@ -88,15 +136,25 @@ public class FerrousFeatureRenderer<T extends LivingEntity, M extends EntityMode
 
                 var screenUniform = shader.getUniform("SSize");
                 if (screenUniform != null) {
-                    RenderSystem.bindTexture(tex.getGlId()); // bind the texture
-                    int w = GL11.glGetTexLevelParameteri(GL11.GL_TEXTURE_2D, 0, GL11.GL_TEXTURE_WIDTH);
-                    int h = GL11.glGetTexLevelParameteri(GL11.GL_TEXTURE_2D, 0, GL11.GL_TEXTURE_HEIGHT);
+                    // int w2 = GL11.glGetTexLevelParameteri(GL11.GL_TEXTURE_2D, 0,
+                    // GL11.GL_TEXTURE_WIDTH);
+                    // int h2 = GL11.glGetTexLevelParameteri(GL11.GL_TEXTURE_2D, 0,
+                    // GL11.GL_TEXTURE_HEIGHT);
+                    // RenderSystem.bindTexture(tex.getGlId()); // bind the texture
+                    // int w = GL11.glGetTexLevelParameteri(GL11.GL_TEXTURE_2D, 0,
+                    // GL11.GL_TEXTURE_WIDTH);
+                    // int h = GL11.glGetTexLevelParameteri(GL11.GL_TEXTURE_2D, 0,
+                    // GL11.GL_TEXTURE_HEIGHT);
+                    float[] size = getTextureSize(tex);
 
-                    screenUniform.set((float) w, (float) h);
+                    screenUniform.set(size[0], size[1]);
+                    IdiotsSaccharineTotems.LOGGER.info("" + tex + "w={} h={}", size[0], size[1]);
+                    // IdiotsSaccharineTotems.LOGGER.info("THe w={} h={}", size[0], size[1]);
                 }
 
                 this.getContextModel().render(matrices, consumer, light,
                         OverlayTexture.DEFAULT_UV);
+                shader.unbind();
 
             } else {
                 IdiotsSaccharineTotems.LOGGER.error("Hey man, the saccharine shaders didn't load? Huh.");

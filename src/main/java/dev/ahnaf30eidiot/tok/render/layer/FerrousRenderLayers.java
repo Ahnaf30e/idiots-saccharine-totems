@@ -20,7 +20,7 @@ public class FerrousRenderLayers {
                 VertexFormat.DrawMode.QUADS,
                 256,
                 RenderLayer.MultiPhaseParameters.builder()
-                        .program(FERROUS_PROGRAM)
+                        .program(new RenderPhase.ShaderProgram(() -> TOKShaders.FERROUS_SHADER))
                         .texture(new RenderPhase.Texture(texture, false, false))
                 .transparency(RenderPhase.TRANSLUCENT_TRANSPARENCY)
                 .cull(RenderPhase.DISABLE_CULLING)
