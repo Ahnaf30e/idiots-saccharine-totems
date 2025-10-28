@@ -38,7 +38,7 @@ public class FerrousFeatureRenderer<T extends LivingEntity, M extends EntityMode
         if (irisNotLoaded) return false;
         try {
             return IrisApi.getInstance().isShaderPackInUse();
-        } catch (Exception e) {
+        } catch (NoClassDefFoundError e) {
             irisNotLoaded = true;
             return false;
         }
@@ -67,7 +67,7 @@ public class FerrousFeatureRenderer<T extends LivingEntity, M extends EntityMode
             // VertexConsumer consumer = ItemRenderer.getArmorGlintConsumer(
             // vertexConsumers, RenderLayer.getArmorCutoutNoCull(texture), true
             // );
-            VertexConsumer consumer = isIrisActive ? vertexConsumers.getBuffer(RenderLayer.getBreezeWind(texture,
+            VertexConsumer consumer = isIrisActive ? vertexConsumers.getBuffer(RenderLayer.getEnergySwirl(texture,
                     (entity.age + tickDelta) * 0.01F, (entity.age + tickDelta) * 0.005F)) : vertexConsumers.getBuffer(FerrousRenderLayers.ferrous(texture));
 
             ShaderProgram shader = TOKShaders.FERROUS_SHADER;

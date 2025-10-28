@@ -37,7 +37,7 @@ void main() {
     // val = max(max(sharpened.r, sharpened.g), sharpened.b);
     // val = (sharpened.r + sharpened.g + sharpened.b) / 3.0;
 
-    float off = Time * 0.104719 + val + snapped.x * 8.0 + snapped.y * 8.0 + EntityPos.x + EntityPos.y;
+    float off = Time * 0.1 + val + snapped.x * 8.0 + snapped.y * 8.0 + EntityPos.x + EntityPos.y;
     float ts = (cos(val * PI * 3.0 + off)+1.0)/2.0 * (val* 0.3 + 0.7);
     float rs = round((ts * 0.7 + (val*0.3)) * 8.0) / 8.0;
     // float rs = val;
