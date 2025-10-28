@@ -54,7 +54,8 @@ public class FerrousFeatureRenderer<T extends LivingEntity, M extends EntityMode
 
         if (entity.hasStatusEffect(TOKEffects.FERROUS) || ((TOKTrackedEntity) entity).isFerrous()) {
 
-            boolean isIrisActive = isIrisShaderLoaded();
+            // boolean isIrisActive = isIrisShaderLoaded();
+            boolean isIrisActive = true;
             IdiotsSaccharineTotems.LOGGER.info(String.valueOf(isIrisActive));
 
             // Identifier texture = getTexture(entity);
