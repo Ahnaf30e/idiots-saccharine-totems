@@ -72,7 +72,7 @@ public class FerrousFeatureRenderer<T extends LivingEntity, M extends EntityMode
             // );
             VertexConsumer consumer = isIrisActive ? vertexConsumers.getBuffer(RenderLayer.getBreezeWind(texture,
                     (entity.age + tickDelta) * 0.01F, (entity.age + tickDelta) * 0.005F))
-                    : vertexConsumers.getBuffer(FerrousRenderLayers.ferrous(texture));
+                    : vertexConsumers.getBuffer(FerrousRenderLayers.animatedFerrous(texture));
 
             ShaderProgram shader = TOKShaders.FERROUS_SHADER;
 
