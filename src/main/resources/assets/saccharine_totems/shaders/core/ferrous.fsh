@@ -18,6 +18,11 @@ uniform vec3 EntityPos;
 
 out vec4 fragColor;
 
+vec3 mix(float n, vec3 c1, vec3 c2) {
+    n = clamp(n , 0.0, 1.0);
+    return c1 * (1.0 - n) + c2 * n;
+}
+
 void main() {
     vec2 texel = 1.0 / texSize0;
     vec2 newCoord = (floor(texCoord0 * texSize0) + 0.2) / texSize0;
@@ -43,11 +48,11 @@ void main() {
     // float rs = val;
 
     
-    float ss = (0.8 > ts && ts > 0.7) ? 0.99 : (0.3 + 0.6 * rs);
-    float s = (0.8 > ts && ts > 0.7) ? 0.99 : (0.3 + 0.6 * rs);
+    // float ss = (0.8 > ts && ts > 0.7) ? 0.99 : (0.2 + 0.7 * rs);
+    float s = (0.8 > ts && ts > 0.7) ? 0.99 : (0.2 + 0.7 * rs);
     vec3 lEffColor = vec3(0.886,0.835,0.835);
-    vec3 dEffColor = vec3(0.222,0.276,0.292);
-    vec4 rColor = vec4(s < 0.90 ? lEffColor * s + dEffColor * (1.0-s) : vec3(0.99), c.a) * vertexColor * ColorModulator;
+    vec3 dEffColor = mix(exp(3.0*(-rs)), vec3(0.262,0.236,0.212) ,vec3(0.222,0.256,0.292));
+    vec4 rColor = vec4(s < 0.90 ? mix(s, dEffColor, lEffColor) : vec3(0.99), c.a) * vertexColor * ColorModulator;
 
     fragColor = linear_fog(rColor, vertexDistance, FogStart, FogEnd, FogColor);
 }

@@ -71,23 +71,27 @@ public class FerrousFeatureRenderer<T extends LivingEntity, M extends EntityMode
             // vertexConsumers, RenderLayer.getArmorCutoutNoCull(texture), true
             // );
             VertexConsumer consumer = isIrisActive ? vertexConsumers.getBuffer(RenderLayer.getBreezeWind(texture,
-                    (entity.age + tickDelta) * 0.01F, (entity.age + tickDelta) * 0.005F)) : vertexConsumers.getBuffer(FerrousRenderLayers.ferrous(texture));
+                    (entity.age + tickDelta) * 0.01F, (entity.age + tickDelta) * 0.005F))
+                    : vertexConsumers.getBuffer(FerrousRenderLayers.ferrous(texture));
 
             ShaderProgram shader = TOKShaders.FERROUS_SHADER;
 
             RenderSystem.setShader(() -> shader);
             RenderSystem.setShaderTexture(0, texture);
 
-            var tex = MinecraftClient.getInstance().getTextureManager().getTexture(texture);
-
             if (shader != null) {
                 var timeUniform = shader.getUniform("Time");
                 if (timeUniform != null)
-                    timeUniform.set((entity.age + tickDelta) % 60F);
+                    timeUniform.set((MinecraftClient.getInstance().world.getTime() + tickDelta) % 60F);
 
                 var posUniform = shader.getUniform("EntityPos");
-                if (posUniform != null)
-                    posUniform.set((float) entity.getX(), (float) entity.getY(), (float) entity.getZ());
+                if (posUniform != null) {
+                    if (irisNotLoaded) {
+                        posUniform.set((float) entity.getX(), (float) entity.getY(), (float) entity.getZ());
+                    } else {
+                        posUniform.set(110F, 110F, 110F);
+                    }
+                }
 
                 this.getContextModel().render(matrices, consumer, light,
                         OverlayTexture.DEFAULT_UV);
