@@ -4,6 +4,7 @@
 
 in float vertexDistance;
 in vec2 texCoord0;
+in vec2 texSize0;
 in vec4 vertexColor;
 
 uniform sampler2D Sampler0;
@@ -14,13 +15,12 @@ uniform vec4 FogColor;
 
 uniform float Time;
 uniform vec3 EntityPos;
-uniform vec2 SSize;
 
 out vec4 fragColor;
 
 void main() {
-    vec2 texel = 1.0 / SSize;
-    vec2 newCoord = (floor(texCoord0 * SSize) + 0.2) / SSize;
+    vec2 texel = 1.0 / texSize0;
+    vec2 newCoord = (floor(texCoord0 * texSize0) + 0.2) / texSize0;
     vec2 snapped = floor(newCoord / texel) * texel;
 
     vec4 c = texture(Sampler0, newCoord);
