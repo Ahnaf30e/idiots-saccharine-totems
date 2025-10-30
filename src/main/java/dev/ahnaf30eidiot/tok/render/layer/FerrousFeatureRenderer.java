@@ -70,16 +70,16 @@ public class FerrousFeatureRenderer<T extends LivingEntity, M extends EntityMode
             // VertexConsumer consumer = ItemRenderer.getArmorGlintConsumer(
             // vertexConsumers, RenderLayer.getArmorCutoutNoCull(texture), true
             // );
-            VertexConsumer consumer = isIrisActive ? vertexConsumers.getBuffer(RenderLayer.getBreezeWind(texture,
+            VertexConsumer consumer = isIrisActive ? vertexConsumers.getBuffer(FerrousRenderLayers.irisFerrous(texture,
                     (entity.age + tickDelta) * 0.01F, (entity.age + tickDelta) * 0.005F))
                     : vertexConsumers.getBuffer(FerrousRenderLayers.animatedFerrous(texture));
 
-            ShaderProgram shader = TOKShaders.FERROUS_SHADER;
-
-            RenderSystem.setShader(() -> shader);
-            RenderSystem.setShaderTexture(0, texture);
+            ShaderProgram shader = isIrisActive ? null : TOKShaders.FERROUS_SHADER;
 
             if (shader != null) {
+                RenderSystem.setShader(() -> shader);
+                RenderSystem.setShaderTexture(0, texture);
+
                 var timeUniform = shader.getUniform("Time");
                 if (timeUniform != null)
                     timeUniform.set((MinecraftClient.getInstance().world.getTime() + tickDelta) % 60F);
@@ -93,12 +93,10 @@ public class FerrousFeatureRenderer<T extends LivingEntity, M extends EntityMode
                     }
                 }
 
-                this.getContextModel().render(matrices, consumer, light,
-                        OverlayTexture.DEFAULT_UV);
-
-            } else {
-                IdiotsSaccharineTotems.LOGGER.error("Hey man, the saccharine shaders didn't load? Huh.");
             }
+
+            this.getContextModel().render(matrices, consumer, light,
+                    OverlayTexture.DEFAULT_UV);
 
         }
     }
