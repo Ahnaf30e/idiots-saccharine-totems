@@ -1,0 +1,28 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "category": "misc",
+    "ingredients": [
+        {
+            "item": "saccharine_totems:ferrous_metal"
+        },
+        {
+            "item": "saccharine_totems:ferrous_metal"
+        },
+        {
+            "item": "saccharine_totems:ferrous_metal"
+        },
+        {
+            "item": "minecraft:blaze_powder"
+        },
+        {
+            "item": "minecraft:netherite_scrap"
+        },
+        {
+            "item": "minecraft:blaze_powder"
+        }
+    ],
+    "result": {
+        "id": "saccharine_totems:clamped_ferrous_link",
+        "count": 2
+    }
+}

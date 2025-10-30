@@ -26,6 +26,7 @@ public class TOKItemGroups {
                         entries.add(TOKItems.TOTEM_OF_FERROUS);
                         entries.add(TOKItems.TOTEM_OF_TENACITY);
                         entries.add(TOKItems.TOTEM_OF_PERSEVERANCE);
+                        entries.add(TOKItems.CLAMPED_FERROUS_LINK);
                         entries.add(TOKItems.TOTEM_CORE);
                         entries.add(TOKItems.FERROUS_METAL);
                         entries.add(TOKBlocks.FERROUS_METAL_BLOCK);
