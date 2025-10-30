@@ -109,7 +109,7 @@ public class TotemCoreItem extends Item {
         }
 
         if (user instanceof PlayerEntity player) {
-            player.getItemCooldownManager().set(this, 200);
+            player.getItemCooldownManager().set(this, 260);
         }
         return stack;
     }
