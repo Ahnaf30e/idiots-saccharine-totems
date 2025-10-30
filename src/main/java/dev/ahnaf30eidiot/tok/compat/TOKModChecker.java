@@ -1,8 +1,5 @@
 package dev.ahnaf30eidiot.tok.compat;
 
-import org.jetbrains.annotations.Nullable;
-
-import dev.emi.trinkets.api.TrinketsApi;
 import net.fabricmc.loader.api.FabricLoader;
 import net.irisshaders.iris.api.v0.IrisApi;
 

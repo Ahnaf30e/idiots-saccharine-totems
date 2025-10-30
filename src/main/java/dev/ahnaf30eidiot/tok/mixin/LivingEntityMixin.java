@@ -1,8 +1,7 @@
 package dev.ahnaf30eidiot.tok.mixin;
 
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
-import net.fabricmc.loader.api.FabricLoader;
-import net.irisshaders.iris.api.v0.IrisApi;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -26,9 +25,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import dev.emi.trinkets.api.TrinketComponent;
-import dev.emi.trinkets.api.TrinketsApi;
 
 import dev.ahnaf30eidiot.tok.api.TOKPersistentValues;
 import dev.ahnaf30eidiot.tok.api.TOKTrackedEntity;
@@ -154,20 +150,23 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 			}
 
 			self.setHealth(2.0F);
-
+			
+				// this.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 900, 1));
+				// this.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 100, 1));
+				// this.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 800, 0));
 			if (used.isOf(TOKItems.TOTEM_OF_TENACITY)) {
 				self.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 40, 0));
 				self.addStatusEffect(new StatusEffectInstance(StatusEffects.HEALTH_BOOST, 700, 0));
-				self.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 400, 1));
-				self.addStatusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 4, 2));
+				self.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 300, 1));
+				self.addStatusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 1, 0));
 			} else if (used.isOf(TOKItems.TOTEM_OF_PERSEVERANCE)) {
-				self.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 100, 0));
-				self.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 400, 1));
+				self.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 50, 0));
+				self.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 300, 1));
 				self.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 600, 0));
-				self.addStatusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 2, 2));
+				self.addStatusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 1, 0));
 			} else if (used.isOf(TOKItems.TOTEM_OF_FERROUS)) {
-				self.addStatusEffect(new StatusEffectInstance(TOKEffects.FERROUS, 320, 0));
-				self.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 900, 1));
+				self.addStatusEffect(new StatusEffectInstance(TOKEffects.FERROUS, 200, 0));
+				self.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 620, 0));
 			}
 
 			self.getWorld().sendEntityStatus(self, (byte) 35);
