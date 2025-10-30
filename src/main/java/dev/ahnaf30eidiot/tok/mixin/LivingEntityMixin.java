@@ -34,6 +34,7 @@ import dev.ahnaf30eidiot.tok.api.TOKPersistentValues;
 import dev.ahnaf30eidiot.tok.api.TOKTrackedEntity;
 import dev.ahnaf30eidiot.tok.block.TOKBlocks;
 import dev.ahnaf30eidiot.tok.compat.TOKModChecker;
+import dev.ahnaf30eidiot.tok.compat.TOKTrinkets;
 import dev.ahnaf30eidiot.tok.component.TOKComponents;
 import dev.ahnaf30eidiot.tok.effect.TOKEffects;
 import dev.ahnaf30eidiot.tok.item.TOKItems;
@@ -132,16 +133,7 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 				inv.addAll(player.getInventory().armor);
 				inv.addAll(player.getInventory().offHand);
 
-				TrinketComponent trinkComp = TOKModChecker.isTrinketsLoaded() ? TrinketsApi.getTrinketComponent((LivingEntity) player).orElse(null): null;
-
-				if (TOKModChecker.isTrinketsLoaded() && trinkComp != null) {
-					trinkComp.getAllEquipped().forEach((pair) -> {
-						ItemStack stack = pair.getRight();
-						if (!stack.isEmpty()) {
-							inv.add(stack);
-						}
-					});
-				}
+				if (TOKModChecker.isTrinketsLoaded()) TOKTrinkets.collectTrinkets(player, inv);
 
 				List<ItemStack> stacks = inv.stream()
 						.filter(s -> !s.isEmpty() && s != used)
@@ -152,7 +144,7 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 				totem.set(TOKComponents.STORED_INVENTORY, new TOKComponents.StoredInventory(stacks));
 				// Clear all items so nothing drops / grave mods get nothing
 				player.getInventory().clear();
-				if (trinkComp != null) trinkComp.getInventory().clear();
+				if (TOKModChecker.isTrinketsLoaded()) TOKTrinkets.emptyTrinkets(player);
 				TOKPersistentValues state = TOKPersistentValues.get(player.getServerWorld());
 				state.getHeldOn().put(player.getUuid(), totem);
 				state.markDirty();
