@@ -1,6 +1,8 @@
 package dev.ahnaf30eidiot.tok.mixin;
 
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
+import net.fabricmc.loader.api.FabricLoader;
+import net.irisshaders.iris.api.v0.IrisApi;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -31,6 +33,7 @@ import dev.emi.trinkets.api.TrinketsApi;
 import dev.ahnaf30eidiot.tok.api.TOKPersistentValues;
 import dev.ahnaf30eidiot.tok.api.TOKTrackedEntity;
 import dev.ahnaf30eidiot.tok.block.TOKBlocks;
+import dev.ahnaf30eidiot.tok.compat.TOKModChecker;
 import dev.ahnaf30eidiot.tok.component.TOKComponents;
 import dev.ahnaf30eidiot.tok.effect.TOKEffects;
 import dev.ahnaf30eidiot.tok.item.TOKItems;
@@ -45,9 +48,9 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 	static {
 		ServerPlayerEvents.COPY_FROM.register((oldPlayer, newPlayer, source) -> {
 			// if (!newPlayer.getWorld().isClient()) {
-			// 	System.out.println("SERVER: Totem triggered for " + newPlayer);
+			// System.out.println("SERVER: Totem triggered for " + newPlayer);
 			// } else {
-			// 	System.out.println("CLIENT: Totem triggered for " + newPlayer);
+			// System.out.println("CLIENT: Totem triggered for " + newPlayer);
 			// }
 
 			TOKPersistentValues state = TOKPersistentValues.get(newPlayer.getServerWorld());
@@ -128,10 +131,11 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 				inv.addAll(player.getInventory().main);
 				inv.addAll(player.getInventory().armor);
 				inv.addAll(player.getInventory().offHand);
-				
-				TrinketComponent trinkComp = TrinketsApi.getTrinketComponent((LivingEntity) player).orElse(null);
-				if (trinkComp != null) {
-					trinkComp.getAllEquipped().forEach((pair)->{
+
+				TrinketComponent trinkComp = TOKModChecker.isTrinketsLoaded() ? TrinketsApi.getTrinketComponent((LivingEntity) player).orElse(null): null;
+
+				if (TOKModChecker.isTrinketsLoaded() && trinkComp != null) {
+					trinkComp.getAllEquipped().forEach((pair) -> {
 						ItemStack stack = pair.getRight();
 						if (!stack.isEmpty()) {
 							inv.add(stack);
@@ -148,7 +152,7 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 				totem.set(TOKComponents.STORED_INVENTORY, new TOKComponents.StoredInventory(stacks));
 				// Clear all items so nothing drops / grave mods get nothing
 				player.getInventory().clear();
-				trinkComp.getInventory().clear();
+				if (trinkComp != null) trinkComp.getInventory().clear();
 				TOKPersistentValues state = TOKPersistentValues.get(player.getServerWorld());
 				state.getHeldOn().put(player.getUuid(), totem);
 				state.markDirty();
@@ -219,12 +223,15 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 		if (self.isLogicalSideForUpdatingMovement()) {
 			World world = self.getWorld();
 
-			if ((world.getBlockState(self.getBlockPos().down()).isOf(TOKBlocks.FERROUS_METAL_BLOCK) && self.groundCollision)
-					|| (world.getBlockState(self.getBlockPos().up(2)).isOf(TOKBlocks.FERROUS_METAL_BLOCK) && self.verticalCollision)
+			if ((world.getBlockState(self.getBlockPos().down()).isOf(TOKBlocks.FERROUS_METAL_BLOCK)
+					&& self.groundCollision)
+					|| (world.getBlockState(self.getBlockPos().up(2)).isOf(TOKBlocks.FERROUS_METAL_BLOCK)
+							&& self.verticalCollision)
 					|| ((world.getBlockState(self.getBlockPos().north()).isOf(TOKBlocks.FERROUS_METAL_BLOCK)
-					|| world.getBlockState(self.getBlockPos().south()).isOf(TOKBlocks.FERROUS_METAL_BLOCK)
-					|| world.getBlockState(self.getBlockPos().east()).isOf(TOKBlocks.FERROUS_METAL_BLOCK)
-					|| world.getBlockState(self.getBlockPos().west()).isOf(TOKBlocks.FERROUS_METAL_BLOCK)) && self.horizontalCollision)) {
+							|| world.getBlockState(self.getBlockPos().south()).isOf(TOKBlocks.FERROUS_METAL_BLOCK)
+							|| world.getBlockState(self.getBlockPos().east()).isOf(TOKBlocks.FERROUS_METAL_BLOCK)
+							|| world.getBlockState(self.getBlockPos().west()).isOf(TOKBlocks.FERROUS_METAL_BLOCK))
+							&& self.horizontalCollision)) {
 				// Vec3d vel = self.getVelocity();
 				// // cancel any damping (including gravity if you wish)
 				// // self.setVelocity(vel.x, vel.y, vel.z);

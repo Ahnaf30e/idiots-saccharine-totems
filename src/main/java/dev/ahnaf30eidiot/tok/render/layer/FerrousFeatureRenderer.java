@@ -1,11 +1,10 @@
 package dev.ahnaf30eidiot.tok.render.layer;
 
-import org.lwjgl.opengl.GL11;
-
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import dev.ahnaf30eidiot.tok.IdiotsSaccharineTotems;
 import dev.ahnaf30eidiot.tok.api.TOKTrackedEntity;
+import dev.ahnaf30eidiot.tok.compat.TOKModChecker;
 import dev.ahnaf30eidiot.tok.effect.TOKEffects;
 import dev.ahnaf30eidiot.tok.render.TOKShaders;
 import net.fabricmc.loader.api.FabricLoader;
@@ -13,7 +12,6 @@ import net.irisshaders.iris.api.v0.IrisApi;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.ShaderProgram;
 import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
@@ -32,21 +30,6 @@ public class FerrousFeatureRenderer<T extends LivingEntity, M extends EntityMode
     public static final Identifier FERROUS_TEXTURE = Identifier.of(IdiotsSaccharineTotems.MOD_ID,
             "textures/misc/ferrous_glint_entity.png");
 
-    public static boolean irisNotLoaded = false;
-
-    private boolean isIrisShaderLoaded() {
-        if (!FabricLoader.getInstance().isModLoaded("iris"))
-            irisNotLoaded = true;
-        if (irisNotLoaded)
-            return false;
-        try {
-            // return true;
-            return IrisApi.getInstance().isShaderPackInUse();
-        } catch (NoClassDefFoundError e) {
-            irisNotLoaded = true;
-            return false;
-        }
-    }
 
     @Override
     public void render(MatrixStack matrices,
@@ -62,7 +45,7 @@ public class FerrousFeatureRenderer<T extends LivingEntity, M extends EntityMode
 
         if (entity.hasStatusEffect(TOKEffects.FERROUS) || ((TOKTrackedEntity) entity).isFerrous()) {
 
-            boolean isIrisActive = isIrisShaderLoaded();
+            boolean isIrisActive = TOKModChecker.isIrisShaderLoaded();
             // boolean isIrisActive = true;
 
             // Identifier texture = getTexture(entity);
@@ -86,7 +69,7 @@ public class FerrousFeatureRenderer<T extends LivingEntity, M extends EntityMode
 
                 var posUniform = shader.getUniform("EntityPos");
                 if (posUniform != null) {
-                    if (irisNotLoaded) {
+                    if (!TOKModChecker.isIrisLoaded()) {
                         posUniform.set((float) entity.getX(), (float) entity.getY(), (float) entity.getZ());
                     } else {
                         posUniform.set(110F, 110F, 110F);
