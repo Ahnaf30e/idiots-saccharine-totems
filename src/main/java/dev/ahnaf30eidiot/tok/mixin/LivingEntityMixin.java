@@ -166,8 +166,8 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 				self.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 600, 0));
 				self.addStatusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 2, 2));
 			} else if (used.isOf(TOKItems.TOTEM_OF_FERROUS)) {
-				self.addStatusEffect(new StatusEffectInstance(TOKEffects.FERROUS, 160, 0));
-				self.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 1100, 0));
+				self.addStatusEffect(new StatusEffectInstance(TOKEffects.FERROUS, 320, 0));
+				self.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 900, 1));
 			}
 
 			self.getWorld().sendEntityStatus(self, (byte) 35);
