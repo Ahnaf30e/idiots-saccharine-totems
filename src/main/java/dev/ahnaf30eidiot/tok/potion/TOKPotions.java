@@ -13,7 +13,7 @@ import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 
 public class TOKPotions {
-    public static final RegistryEntry<Potion> FERROUS_POTION = registerPotion("ferrous", new Potion(new StatusEffectInstance(TOKEffects.FERROUS, 240, 0)));
+    public static final RegistryEntry<Potion> FERROUS_POTION = registerPotion("ferrous", new Potion(new StatusEffectInstance(TOKEffects.FERROUS, 160, 0)));
 
 
     private static RegistryEntry<Potion> registerPotion(String name, Potion potion) {
