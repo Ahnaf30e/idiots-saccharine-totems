@@ -150,23 +150,25 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 			}
 
 			self.setHealth(2.0F);
+			self.clearStatusEffects();
 			
 				// this.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 900, 1));
 				// this.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 100, 1));
 				// this.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 800, 0));
 			if (used.isOf(TOKItems.TOTEM_OF_TENACITY)) {
-				self.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 40, 0));
-				self.addStatusEffect(new StatusEffectInstance(StatusEffects.HEALTH_BOOST, 700, 0));
-				self.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 300, 1));
-				self.addStatusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 1, 0));
-			} else if (used.isOf(TOKItems.TOTEM_OF_PERSEVERANCE)) {
 				self.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 50, 0));
+				self.addStatusEffect(new StatusEffectInstance(StatusEffects.HEALTH_BOOST, 700, 0));
+				self.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 240, 1));
+				self.addStatusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 2, 0));
+			} else if (used.isOf(TOKItems.TOTEM_OF_PERSEVERANCE)) {
+				self.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 60, 0));
 				self.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 300, 1));
-				self.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 600, 0));
-				self.addStatusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 1, 0));
+				self.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 580, 0));
+				self.addStatusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 2, 0));
 			} else if (used.isOf(TOKItems.TOTEM_OF_FERROUS)) {
-				self.addStatusEffect(new StatusEffectInstance(TOKEffects.FERROUS, 180, 0));
-				self.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 620, 0));
+				self.addStatusEffect(new StatusEffectInstance(TOKEffects.FERROUS, 200, 0));
+				self.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 680, 0));
+				self.addStatusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 2, 0));
 			}
 
 			self.getWorld().sendEntityStatus(self, (byte) 35);

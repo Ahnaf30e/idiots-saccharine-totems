@@ -13,7 +13,7 @@ import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 
 public class TOKPotions {
-    public static final RegistryEntry<Potion> FERROUS_POTION = registerPotion("ferrous", new Potion(new StatusEffectInstance(TOKEffects.FERROUS, 160, 0)));
+    public static final RegistryEntry<Potion> FERROUS_POTION = registerPotion("ferrous", new Potion(new StatusEffectInstance(TOKEffects.FERROUS, 180, 0)));
 
 
     private static RegistryEntry<Potion> registerPotion(String name, Potion potion) {
@@ -22,7 +22,7 @@ public class TOKPotions {
 
     public static void registerPotions() {
         FabricBrewingRecipeRegistryBuilder.BUILD.register(builder -> {
-            builder.registerPotionRecipe(Potions.REGENERATION, TOKItems.FERROUS_METAL, TOKPotions.FERROUS_POTION);
+            builder.registerPotionRecipe(Potions.REGENERATION, TOKItems.CLAMPED_FERROUS_LINK, TOKPotions.FERROUS_POTION);
         });
     }
 
