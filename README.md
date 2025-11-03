@@ -1,6 +1,6 @@
 # Idiot's Saccharine Totems
 
-Repository of the mod https://modrinth.com/mod/saccharine-totems
+Repository of https://modrinth.com/project/Wr9bRGhm
 
 Adds 4 new craftable totems. Adds a new effect called Ferrous and also Ferrous Metal and Block.
 
