@@ -2,7 +2,6 @@ package dev.ahnaf30eidiot.tok.render.layer;
 
 import org.joml.Matrix4f;
 
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import dev.ahnaf30eidiot.tok.render.TOKShaders;
