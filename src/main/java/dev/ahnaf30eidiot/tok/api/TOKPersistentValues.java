@@ -54,7 +54,7 @@ public class TOKPersistentValues extends PersistentState {
             list.add(data);
         }
         nbt.put("held_on", list);
-        IdiotsSaccharineTotems.LOGGER.info("Writing NBT: " + nbt);
+        // IdiotsSaccharineTotems.LOGGER.info("Writing NBT: " + nbt);
         return nbt;
     }
 
