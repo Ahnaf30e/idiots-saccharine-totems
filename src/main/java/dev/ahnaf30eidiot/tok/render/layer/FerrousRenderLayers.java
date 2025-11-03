@@ -51,8 +51,8 @@ public class FerrousRenderLayers {
                         .lightmap(RenderPhase.ENABLE_LIGHTMAP)
                         .overlay(RenderPhase.ENABLE_OVERLAY_COLOR)
                         .depthTest(RenderPhase.LEQUAL_DEPTH_TEST)
-                        .writeMaskState(RenderPhase.COLOR_MASK) // important: ensures color + depth write
-                        .layering(RenderPhase.VIEW_OFFSET_Z_LAYERING)
+                        .writeMaskState(RenderPhase.ALL_MASK) // important: ensures color + depth write
+                        .layering(RenderPhase.POLYGON_OFFSET_LAYERING)
                         .build(false));
     }
 
@@ -72,8 +72,8 @@ public class FerrousRenderLayers {
                         .lightmap(RenderPhase.ENABLE_LIGHTMAP)
                         .overlay(RenderPhase.DISABLE_OVERLAY_COLOR)
                         .depthTest(RenderPhase.LEQUAL_DEPTH_TEST)
-                        .writeMaskState(RenderPhase.COLOR_MASK)
-                        .layering(RenderPhase.VIEW_OFFSET_Z_LAYERING)
+                        .writeMaskState(RenderPhase.ALL_MASK)
+                        .layering(RenderPhase.POLYGON_OFFSET_LAYERING)
                         .build(false));
     }
 }
