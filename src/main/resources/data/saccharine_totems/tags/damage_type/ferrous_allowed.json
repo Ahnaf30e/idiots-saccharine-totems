@@ -3,6 +3,8 @@
     "values": [
         "minecraft:magic",
         "minecraft:indirect_magic",
+        "minecraft:dragon_breath",
+        "minecraft:outside_border",
         "minecraft:generic_kill"
     ]
 }

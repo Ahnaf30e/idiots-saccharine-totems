@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
@@ -16,6 +17,7 @@ import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.collection.DefaultedList;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -35,6 +37,7 @@ import dev.ahnaf30eidiot.tok.component.TOKComponents;
 import dev.ahnaf30eidiot.tok.effect.TOKEffects;
 import dev.ahnaf30eidiot.tok.item.TOKItems;
 import dev.ahnaf30eidiot.tok.tag.TOKTags;
+import io.netty.util.internal.MathUtil;
 
 @Mixin(LivingEntity.class)
 public class LivingEntityMixin implements TOKTrackedEntity {
@@ -81,8 +84,8 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 		}
 	}
 
-	@Inject(method = "applyDamage", at = @At("HEAD"), cancellable = true)
-	private void handleFerrous(DamageSource source, float amount, CallbackInfo ci) {
+	@Inject(method = "modifyAppliedDamage", at = @At("HEAD"), cancellable = true)
+	private void handleFerrous(DamageSource source, float amount, CallbackInfoReturnable<Float> ci) {
 		LivingEntity self = (LivingEntity) (Object) this;
 
 		if (((TOKTrackedEntity) (Object) this).isFerrous()) {
@@ -97,10 +100,38 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 					0.8F + self.getRandom().nextFloat() * 0.4F // pitch
 			);
 			if (!source.isIn(TOKTags.FERROUS_ALLOWED)) {
-				ci.cancel();
+				ci.setReturnValue(0F);
+				return;
+			}
+			if (!source.isOf(DamageTypes.GENERIC_KILL)) {
+				ci.setReturnValue(MathHelper.clamp(amount * 0.75F, 0.0F, self.getHealth() - 1.0F));
 			}
 		}
 	}
+
+	// @Inject(method = "applyDamage", at = @At("HEAD"), cancellable = true)
+	// private void handleFerrous(DamageSource source, float amount, CallbackInfo ci) {
+	// 	LivingEntity self = (LivingEntity) (Object) this;
+
+	// 	if (((TOKTrackedEntity) (Object) this).isFerrous()) {
+	// 		self.getWorld().playSound(
+	// 				null,
+	// 				self.getX(),
+	// 				self.getY(),
+	// 				self.getZ(),
+	// 				SoundEvents.ENTITY_IRON_GOLEM_HURT,
+	// 				self.getSoundCategory(),
+	// 				1.0F, // volume
+	// 				0.8F + self.getRandom().nextFloat() * 0.4F // pitch
+	// 		);
+	// 		if (!source.isIn(TOKTags.FERROUS_ALLOWED)) {
+	// 			ci.cancel();
+	// 		}
+	// 		if (!source.isOf(DamageTypes.GENERIC_KILL)) {
+	// 			float clampedDamage = MathHelper.clamp(amount * 0.75F, amount, amount)
+	// 		}
+	// 	}
+	// }
 
 	@Inject(method = "tryUseTotem", at = @At("HEAD"), cancellable = true)
 	private void handleTOKTotems(DamageSource source, CallbackInfoReturnable<Boolean> cir) {
@@ -166,7 +197,7 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 				self.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 580, 0));
 				self.addStatusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 2, 0));
 			} else if (used.isOf(TOKItems.TOTEM_OF_FERROUS)) {
-				self.addStatusEffect(new StatusEffectInstance(TOKEffects.FERROUS, 200, 0));
+				self.addStatusEffect(new StatusEffectInstance(TOKEffects.FERROUS, 220, 0));
 				self.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 680, 0));
 				self.addStatusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 2, 0));
 			}
