@@ -17,6 +17,8 @@ public class TOKCommands {
         dispatcher.register(
                 CommandManager.literal("tokdev")
                         .requires(srs -> srs.hasPermissionLevel(2))
+                        .then(CommandManager.literal("entries")
+                                .executes(ctx -> getEntries(ctx.getSource())))
                         .then(CommandManager.literal("cleanup")
                                 .executes(ctx -> runCleanUp(ctx.getSource(), "noarg"))
                                 .then(CommandManager.argument("mode", StringArgumentType.word())
@@ -40,7 +42,7 @@ public class TOKCommands {
             case "empty" -> state.getHeldOn().entrySet()
                     .removeIf(e -> e.getValue() == null || e.getValue().isEmpty());
 
-            case "orphan", "noarg" -> {
+            case "orphans", "noarg" -> {
                 state.getHeldOn().entrySet().removeIf(e -> (e.getValue() == null || e.getValue().isEmpty()) ||
                         src.getServer().getPlayerManager().getPlayer(e.getKey()) == null);
             }
@@ -56,9 +58,19 @@ public class TOKCommands {
 
         state.markDirty();
 
-        src.sendFeedback(() -> Text.literal("§aTOK cleanup [" + mode + "] complete. Removed " + removed + " entries."),
+        src.sendFeedback(() -> Text.literal("§aTOK cleanup [ " + mode + " ] complete. Removed " + removed + " entries."),
                 true);
 
         return removed;
+    }
+
+    private static int getEntries(ServerCommandSource src) {
+        ServerWorld world = src.getWorld();
+        TOKPersistentValues state = TOKPersistentValues.get(world);
+        java.util.Map<?, ?> held = state.getHeldOn();
+
+        src.sendFeedback(() -> Text.literal("§aTOK persistant data [ " + held.size() + " entries ]: \n" + held.toString()),
+                true);
+        return held.size();
     }
 }
