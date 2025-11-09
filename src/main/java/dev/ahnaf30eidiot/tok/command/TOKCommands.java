@@ -40,7 +40,7 @@ public class TOKCommands {
             case "empty" -> state.getHeldOn().entrySet()
                     .removeIf(e -> e.getValue() == null || e.getValue().isEmpty());
 
-            case "orphans", "noarg" -> {
+            case "orphan", "noarg" -> {
                 state.getHeldOn().entrySet().removeIf(e -> (e.getValue() == null || e.getValue().isEmpty()) ||
                         src.getServer().getPlayerManager().getPlayer(e.getKey()) == null);
             }
