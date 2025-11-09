@@ -70,7 +70,7 @@ public class TOKCommands {
         java.util.Map<?, ?> held = state.getHeldOn();
 
         src.sendFeedback(() -> Text.literal("§aTOK persistant data [ " + held.size() + " entries ]: \n" + held.toString()),
-                true);
+                false);
         return held.size();
     }
 }
