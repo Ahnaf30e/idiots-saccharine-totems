@@ -24,7 +24,7 @@ public class TOKCommands {
                                 .then(CommandManager.argument("mode", StringArgumentType.word())
                                         .suggests((c, b) -> {
                                             return CommandSource
-                                                    .suggestMatching(List.of("all", "empty", "orphan", "noarg"), b);
+                                                    .suggestMatching(List.of("all", "empty", "orphans", "noarg"), b);
                                         }).executes(ctx -> {
                                             return runCleanUp(ctx.getSource(),
                                                     StringArgumentType.getString(ctx, "mode"));
