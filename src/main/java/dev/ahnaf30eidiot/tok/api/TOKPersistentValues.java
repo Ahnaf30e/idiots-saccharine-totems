@@ -66,7 +66,7 @@ public class TOKPersistentValues extends PersistentState {
     public static final Type<TOKPersistentValues> TYPE = new Type<>(
         TOKPersistentValues::new,     // constructor
         TOKPersistentValues::fromNbt, // deserializer
-        null                          // you can pass a codec if using datafixer
+        null
     );
 
     // Utility: get instance for a given world

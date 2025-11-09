@@ -24,6 +24,9 @@
     	"emi": [
       		"dev.ahnaf30eidiot.tok.compat.emi.TOKEmiPlugin"
     	],
+		"rei_client": [
+			"dev.ahnaf30eidiot.tok.compat.emi.TOKReiPlugin"
+		],
 		"client" : [
 			"dev.ahnaf30eidiot.tok.IdiotsSaccharineTotemsClient"
 		]

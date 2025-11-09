@@ -37,7 +37,6 @@ import dev.ahnaf30eidiot.tok.component.TOKComponents;
 import dev.ahnaf30eidiot.tok.effect.TOKEffects;
 import dev.ahnaf30eidiot.tok.item.TOKItems;
 import dev.ahnaf30eidiot.tok.tag.TOKTags;
-import io.netty.util.internal.MathUtil;
 
 @Mixin(LivingEntity.class)
 public class LivingEntityMixin implements TOKTrackedEntity {
