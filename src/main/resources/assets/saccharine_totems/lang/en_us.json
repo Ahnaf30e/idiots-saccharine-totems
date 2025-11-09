@@ -8,6 +8,7 @@
     "item.saccharine_totems.clamped_ferrous_link": "Clamped Ferrous Linkage",
 
     "effect.saccharine_totems.ferrous": "Ferrous",
+    "effect.saccharine_totems.ferrous.description": "Grants full invulnarability to most physical damages and decreases walking speed; magical damanges except wither can still bypass it.",
 
     "item.tok.totem_of_keeping.empty": "Will store items on death",
     "item.tok.totem_of_keeping.stored": "Already stored. Use to get items.",
