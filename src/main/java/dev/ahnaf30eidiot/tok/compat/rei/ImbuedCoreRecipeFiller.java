@@ -6,6 +6,7 @@ import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import me.shedaniel.rei.plugin.client.categories.crafting.filler.CraftingRecipeFiller;
+import me.shedaniel.rei.plugin.common.displays.crafting.DefaultCraftingDisplay;
 import me.shedaniel.rei.plugin.common.displays.crafting.DefaultCustomDisplay;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.PotionContentsComponent;
@@ -25,19 +26,19 @@ public class ImbuedCoreRecipeFiller implements CraftingRecipeFiller<TotemCoreImb
         Set<Identifier> registeredPotions = new HashSet<>();
         List<Display> displays = new ArrayList<>();
         
-        EntryRegistry.getInstance().getEntryStacks().filter(entry -> entry.getValueType() == ItemStack.class && entry.<ItemStack>castValue().getItem() == Items.LINGERING_POTION).forEach(entry -> {
-            ItemStack itemStack = (ItemStack) entry.getValue();
-            PotionContentsComponent potion = itemStack.get(DataComponentTypes.POTION_CONTENTS);
+        EntryRegistry.getInstance().getEntryStacks().filter(entry -> entry.getValueType() == ItemStack.class && entry.<ItemStack>castValue().getItem() == Items.POTION).forEach(entry -> {
+            ItemStack potionStack = (ItemStack) entry.getValue();
+            PotionContentsComponent potion = potionStack.get(DataComponentTypes.POTION_CONTENTS);
             if (potion.potion().isPresent() && potion.potion().get().getKey().isPresent() && registeredPotions.add(potion.potion().get().getKey().get().getValue())) {
                 List<EntryIngredient> input = new ArrayList<>();
-                for (int i = 0; i < 4; i++)
-                    input.add(coreStack);
-                input.add(EntryIngredients.of(itemStack));
-                for (int i = 0; i < 4; i++)
-                    input.add(coreStack);
-                ItemStack outputStack = new ItemStack(Items.TIPPED_ARROW, 8);
+                input.add(coreStack);
+                input.add(EntryIngredient.of(EntryStacks.of(Items.SUGAR)));
+                input.add(EntryIngredient.of(EntryStacks.of(Items.SUGAR)));
+                input.add(EntryIngredient.of(EntryStacks.of(Items.HONEY_BOTTLE)));
+                input.add(EntryIngredients.of(potionStack));
+                ItemStack outputStack = new ItemStack(TOKItems.TOTEM_CORE, 1);
                 outputStack.set(DataComponentTypes.POTION_CONTENTS, potion);
-                displays.add(new DefaultCustomDisplay(recipe, input, List.of(EntryIngredients.of(outputStack))));
+                displays.add(new DefaultCustomDisplay(null, input, List.of(EntryIngredients.of(outputStack))));
             }
         });
         

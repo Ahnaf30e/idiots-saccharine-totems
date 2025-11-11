@@ -50,7 +50,7 @@ public class TOKEvents {
                         .with(ItemEntry.builder(TOKItems.TOTEM_OF_KEEPING)
                             .apply(SetDamageLootFunction.builder(UniformLootNumberProvider.create(0.2F, 0.4F)))
                             .weight(2))
-                        .with(ItemEntry.builder(TOKItems.TOTEM_CORE).weight(20))
+                        .with(ItemEntry.builder(TOKItems.TOTEM_CORE).weight(15))
                         .rolls(UniformLootNumberProvider.create(0, 0.4F));
 
                 tableBuilder.pool(builder);
