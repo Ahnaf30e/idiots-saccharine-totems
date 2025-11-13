@@ -68,12 +68,11 @@ public class TOKEvents {
                     if (!potion.value().getEffects().isEmpty() || Registries.POTION.getId(potion.value()).getNamespace() != "minecraft") {
                         return pot.getColor();
                     }
-                    return 0xFFF5A83D; // Honey-ish
                 }
-                return 0;
+                return 0xFFF5A83D; // Honey-ish
             }
             return 0xFFFFFFFF;
-        }, TOKItems.TOTEM_CORE);
+        }, TOKItems.IMBUED_CORE);
     }
 
     public static void registerIngredientSerializers() {

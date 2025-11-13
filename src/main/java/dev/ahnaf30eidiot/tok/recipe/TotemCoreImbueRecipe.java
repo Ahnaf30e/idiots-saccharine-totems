@@ -1,7 +1,7 @@
 package dev.ahnaf30eidiot.tok.recipe;
 
 import dev.ahnaf30eidiot.tok.item.TOKItems;
-import dev.ahnaf30eidiot.tok.item.custom.TotemCoreItem;
+import dev.ahnaf30eidiot.tok.item.custom.ImbuedCoreItem;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.item.ItemStack;
@@ -32,7 +32,7 @@ public class TotemCoreImbueRecipe extends SpecialCraftingRecipe {
             if (stack.isEmpty())
                 continue;
 
-            if (stack.getItem() instanceof TotemCoreItem)
+            if (stack.getItem() instanceof ImbuedCoreItem)
                 cores++;
             else if (stack.isOf(Items.SUGAR))
                 sugars++;
@@ -58,7 +58,7 @@ public class TotemCoreImbueRecipe extends SpecialCraftingRecipe {
         }
 
         if (!core.isEmpty()) {
-            ItemStack result = new ItemStack(core.getItem());
+            ItemStack result = new ItemStack(TOKItems.IMBUED_CORE);
 
             PotionContentsComponent potionData = potion.isEmpty() ? new PotionContentsComponent(Potions.WATER) : potion.get(DataComponentTypes.POTION_CONTENTS);
             if (potionData != null) {

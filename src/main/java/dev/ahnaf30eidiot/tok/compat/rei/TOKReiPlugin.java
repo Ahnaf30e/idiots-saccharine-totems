@@ -38,7 +38,7 @@ public class TOKReiPlugin implements REIClientPlugin {
         registry.group(Identifier.of("saccharine_totems", "totem_core"),
                 Text.translatable("item.saccharine_totems.totem_core"),
                 stack -> stack.getType() == VanillaEntryTypes.ITEM
-                        && stack.<ItemStack>castValue().isOf(TOKItems.TOTEM_CORE));
+                        && stack.<ItemStack>castValue().isOf(TOKItems.IMBUED_CORE));
     }
 
     @Override

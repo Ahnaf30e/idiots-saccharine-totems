@@ -1,6 +1,7 @@
 package dev.ahnaf30eidiot.tok.item;
 
 import dev.ahnaf30eidiot.tok.IdiotsSaccharineTotems;
+import dev.ahnaf30eidiot.tok.item.custom.ImbuedCoreItem;
 import dev.ahnaf30eidiot.tok.item.custom.TotemCoreItem;
 import dev.ahnaf30eidiot.tok.item.custom.TotemOfKeepingItem;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
@@ -17,8 +18,8 @@ public class TOKItems {
     public static final Item TOTEM_OF_TENACITY = registerItem("totem_of_tenacity", new Item(new Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON)));
     public static final Item TOTEM_OF_PERSEVERANCE = registerItem("totem_of_perseverance", new Item(new Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON)));
 
-    
-    public static final Item TOTEM_CORE = registerItem("totem_core", new TotemCoreItem(new TotemCoreItem.Settings().maxCount(1).rarity(Rarity.UNCOMMON).fireproof()));
+    public static final Item TOTEM_CORE = registerItem("totem_core", new TotemCoreItem(new Item.Settings().maxCount(64).rarity(Rarity.COMMON).fireproof()));
+    public static final Item IMBUED_CORE = registerItem("imbued_core", new ImbuedCoreItem(new ImbuedCoreItem.Settings().maxCount(1).rarity(Rarity.UNCOMMON).fireproof()));
     public static final Item FERROUS_METAL = registerItem("ferrous_metal", new Item(new Item.Settings().fireproof()));
     public static final Item CLAMPED_FERROUS_LINK = registerItem("clamped_ferrous_link", new Item(new Item.Settings().fireproof()));
 
@@ -38,7 +39,7 @@ public class TOKItems {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(entries -> {
             entries.add(FERROUS_METAL);
             entries.add(CLAMPED_FERROUS_LINK);
-            entries.add(TOTEM_CORE);
+            entries.add(IMBUED_CORE);
         });
     }
 }

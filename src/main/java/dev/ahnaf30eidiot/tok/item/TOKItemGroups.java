@@ -40,11 +40,11 @@ public class TOKItemGroups {
                     .displayName(Text.translatable("itemGroup.saccharine_totems.totems_cores"))
                     .icon(() -> new ItemStack(TOKItems.TOTEM_CORE))
                     .entries((displayContext, entries) -> {
-                        entries.add(TOKItems.TOTEM_CORE);
+                        entries.add(TOKItems.IMBUED_CORE);
                         Registries.POTION.stream().forEach(potion -> {
                             // if (potion.getEffects().isEmpty())
                             //     return; // Keep the water one for useless but fun honey core
-                            ItemStack imbued = new ItemStack(TOKItems.TOTEM_CORE);
+                            ItemStack imbued = new ItemStack(TOKItems.IMBUED_CORE);
                             imbued.set(DataComponentTypes.POTION_CONTENTS, new PotionContentsComponent(RegistryEntry.of(potion)));
                             entries.add(imbued);
                         });

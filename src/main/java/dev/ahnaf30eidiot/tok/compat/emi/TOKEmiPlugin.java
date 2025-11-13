@@ -35,7 +35,7 @@ public class TOKEmiPlugin implements EmiPlugin {
         for (Potion potion : Registries.POTION) {
 
             if (sampleImbued.size() < 8) {
-                ItemStack imbued = new ItemStack(TOKItems.TOTEM_CORE);
+                ItemStack imbued = new ItemStack(TOKItems.IMBUED_CORE);
                 imbued.set(DataComponentTypes.POTION_CONTENTS,
                         new PotionContentsComponent(Registries.POTION.getEntry(potion)));
                 sampleImbued.add(EmiStack.of(imbued));
@@ -48,7 +48,7 @@ public class TOKEmiPlugin implements EmiPlugin {
             EmiStack emiPotion = EmiStack.of(pot);
 
             // result imbued core (store component unchanged)
-            ItemStack imbued = new ItemStack(TOKItems.TOTEM_CORE);
+            ItemStack imbued = new ItemStack(TOKItems.IMBUED_CORE);
             imbued.set(DataComponentTypes.POTION_CONTENTS,
                     new PotionContentsComponent(Registries.POTION.getEntry(potion)));
 
@@ -78,7 +78,7 @@ public class TOKEmiPlugin implements EmiPlugin {
         // registry.addRecipe(new TOKEmiCookingRecipe(
         //         Identifier.of(IdiotsSaccharineTotems.MOD_ID, "/unimbue_core"),
         //         EmiIngredient.of(sampleImbued), // input shows rotating cores
-        //         EmiStack.of(TOKItems.TOTEM_CORE), // output plain core
+        //         EmiStack.of(TOKItems.IMBUED_CORE), // output plain core
         //         200, 0.1f,
         //         VanillaEmiRecipeCategories.BLASTING));
     }
