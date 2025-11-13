@@ -32,7 +32,7 @@ public class TotemCoreImbueRecipe extends SpecialCraftingRecipe {
             if (stack.isEmpty())
                 continue;
 
-            if (stack.getItem() instanceof ImbuedCoreItem)
+            if (stack.isOf(TOKItems.TOTEM_CORE))
                 cores++;
             else if (stack.isOf(Items.SUGAR))
                 sugars++;

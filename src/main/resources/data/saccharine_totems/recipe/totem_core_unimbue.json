@@ -2,10 +2,10 @@
   "type": "minecraft:blasting",
   "category": "misc",
   "ingredient": {
-    "item": "saccharine_totems:totem_core"
+    "item": "saccharine_totems:imbued_totem_core"
   },
   "result": {
-    "id": "saccharine_totems:empty_totem_core"
+    "id": "saccharine_totems:totem_core"
   },
   "experience": 0.35,
   "cookingtime": 200

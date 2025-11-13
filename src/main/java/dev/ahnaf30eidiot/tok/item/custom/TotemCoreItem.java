@@ -30,6 +30,7 @@ public class TotemCoreItem extends Item {
 
         if (entity instanceof PlayerEntity player) {
             player.getInventory().setStack(slot, newStack);
+            return;
         }
 
         if (entity instanceof ItemEntity itemEntity) {

@@ -18,7 +18,7 @@
         },
         "P": {
             "fabric:type": "saccharine_totems:components",
-            "item": "saccharine_totems:totem_core",
+            "item": "saccharine_totems:imbued_totem_core",
             "potion": "minecraft:regeneration"
         },
         "C": {

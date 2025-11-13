@@ -1,0 +1,7 @@
+{
+	"parent": "minecraft:item/generated",
+	"textures": {
+		"layer0": "saccharine_totems:item/totem_core",
+		"layer1": "saccharine_totems:item/totem_core_overlay"
+	}
+}

@@ -14,11 +14,14 @@ import me.shedaniel.rei.api.client.plugins.REIClientPlugin;
 import me.shedaniel.rei.api.client.registry.category.CategoryRegistry;
 import me.shedaniel.rei.api.client.registry.display.DisplayRegistry;
 import me.shedaniel.rei.api.client.registry.entry.CollapsibleEntryRegistry;
+import me.shedaniel.rei.api.common.entry.EntryIngredient;
+import me.shedaniel.rei.api.common.entry.EntryStack;
 import me.shedaniel.rei.api.common.entry.type.VanillaEntryTypes;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
 import me.shedaniel.rei.plugin.client.categories.crafting.filler.CraftingRecipeFiller;
 import me.shedaniel.rei.plugin.common.displays.anvil.AnvilRecipe;
 import me.shedaniel.rei.plugin.common.displays.anvil.DefaultAnvilDisplay;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.SpawnEggItem;
@@ -43,19 +46,38 @@ public class TOKReiPlugin implements REIClientPlugin {
 
     @Override
     public void registerDisplays(DisplayRegistry registry) {
-        ItemStack tokStackBase = TOKItems.TOTEM_OF_KEEPING.getDefaultStack();
-        ItemStack enderEye = Items.ENDER_PEARL.getDefaultStack();
-        ItemStack result = new ItemStack(TOKItems.TOTEM_OF_KEEPING);
-
-        // registry.registerFiller(TotemCoreImbueRecipe.class, DefaultAnvilDisplay::new);
-        // IdiotsSaccharineTotems.LOGGER.info("Bollocs: " + output.get());
         IMBUED_CORE_FILLER.registerDisplays(registry);
-        
-        registry.add(new DefaultAnvilDisplay(
-                List.of(EntryIngredients.of(tokStackBase), EntryIngredients.of(enderEye)),
-                Collections.singletonList(EntryIngredients.of(result)),
-                Optional.empty(),
-                OptionalInt.of(1)));
-    }
 
+        Item tokItem = TOKItems.TOTEM_OF_KEEPING;
+        ItemStack tokBase = tokItem.getDefaultStack();
+        int max = tokBase.getMaxDamage();
+
+        // Ender Eye recipe
+        ItemStack enderEye = Items.ENDER_EYE.getDefaultStack();
+        ItemStack eyeDamaged = new ItemStack(tokItem);
+        eyeDamaged.setDamage(max - 1);
+
+        registry.add(new DefaultAnvilDisplay(
+                List.of(EntryIngredients.of(eyeDamaged), EntryIngredients.of(enderEye)),
+                Collections.singletonList(EntryIngredients.of(new ItemStack(tokItem))),
+                Optional.empty(),
+                OptionalInt.of(0)));
+
+        // Make multiple damage variants
+        for (int i = 1; i <= 2; i++) {
+            ItemStack damaged = new ItemStack(tokItem);
+            damaged.setDamage(max / 3 * i);
+
+            ItemStack output = tokBase;
+            ItemStack enderPearlRepair = new ItemStack(Items.ENDER_PEARL);
+            enderPearlRepair.setCount(i);
+            EntryIngredient repairIng = EntryIngredients.of(enderPearlRepair);
+
+            registry.add(new DefaultAnvilDisplay(
+                    List.of(EntryIngredients.of(damaged), repairIng),
+                    Collections.singletonList(EntryIngredients.of(output)),
+                    Optional.empty(),
+                    OptionalInt.of(i)));
+        }
+    }
 }

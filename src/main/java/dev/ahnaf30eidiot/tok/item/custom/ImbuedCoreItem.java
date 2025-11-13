@@ -42,7 +42,7 @@ public class ImbuedCoreItem extends Item {
     @Override
     public Text getName(ItemStack stack) {
         PotionContentsComponent potion = stack.get(DataComponentTypes.POTION_CONTENTS);
-        String imbuedText = "item.saccharine_totems.totem_core.imbued";
+        String imbuedText = "item.saccharine_totems.imbued_totem_core.imbued";
         if (potion != null && potion.potion().isPresent()) {
 
             Potion pot = potion.potion().get().value();
@@ -59,12 +59,12 @@ public class ImbuedCoreItem extends Item {
             }
 
             if (pot == Potions.WATER.value()) {
-                return Text.translatable("item.saccharine_totems.totem_core.saccharine");
+                return Text.translatable("item.saccharine_totems.imbued_totem_core.saccharine");
             }
 
-            return Text.translatable("item.saccharine_totems.totem_core.mysterious");
+            return Text.translatable("item.saccharine_totems.imbued_totem_core.mysterious");
         }
-        return Text.translatable("item.saccharine_totems.totem_core");
+        return Text.translatable("item.saccharine_totems.imbued_totem_core");
     }
 
     @Override

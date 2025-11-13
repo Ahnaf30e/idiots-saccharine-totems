@@ -19,24 +19,24 @@ public class AnvilScreenHandlerMixin {
 
     @Shadow private int repairItemUsage;
 
-    @Inject(method = "updateResult", at = @At("HEAD"), cancellable = true)
-    private void totemOfKeepingFullRepair(CallbackInfo ci) {
-        AnvilScreenHandler self = (AnvilScreenHandler) (Object) this;
+    // @Inject(method = "updateResult", at = @At("HEAD"), cancellable = true)
+    // private void totemOfKeepingFullRepair(CallbackInfo ci) {
+    //     AnvilScreenHandler self = (AnvilScreenHandler) (Object) this;
         
-        ItemStack left = self.getSlot(0).getStack();
-        ItemStack right = self.getSlot(1).getStack();
+    //     ItemStack left = self.getSlot(0).getStack();
+    //     ItemStack right = self.getSlot(1).getStack();
 
-        // If left is your custom item and right is an Ender Pearl
-        if (!left.isEmpty() && left.getItem() instanceof TotemOfKeepingItem && right.isOf(Items.ENDER_EYE) && left.getDamage() > 0) {
+    //     // If left is your custom item and right is an Ender Pearl
+    //     if (!left.isEmpty() && left.getItem() instanceof TotemOfKeepingItem && right.isOf(Items.ENDER_EYE) && left.getDamage() > 0) {
 
-            ItemStack repaired = left.copy();
-            repaired.setDamage(0); // FULLY repaired
+    //         ItemStack repaired = left.copy();
+    //         repaired.setDamage(0); // FULLY repaired
 
-            self.getSlot(2).setStack(repaired);
-            this.levelCost.set(0);
-            this.repairItemUsage = 1; // consume 1 pearl
+    //         self.getSlot(2).setStack(repaired);
+    //         this.levelCost.set(0);
+    //         this.repairItemUsage = 1; // consume 1 pearl
 
-            ci.cancel(); // cancel vanilla logic
-        }
-    }
+    //         ci.cancel(); // cancel vanilla logic
+    //     }
+    // }
 }

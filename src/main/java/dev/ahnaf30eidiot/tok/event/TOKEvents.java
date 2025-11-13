@@ -69,7 +69,7 @@ public class TOKEvents {
                         return pot.getColor();
                     }
                 }
-                return 0xFFF5A83D; // Honey-ish
+                return 0xFFFFC336; // Honey-ish
             }
             return 0xFFFFFFFF;
         }, TOKItems.IMBUED_CORE);

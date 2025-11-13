@@ -22,7 +22,7 @@ import dev.ahnaf30eidiot.tok.recipe.TotemCoreImbueRecipe;
 public class ImbuedCoreRecipeFiller implements CraftingRecipeFiller<TotemCoreImbueRecipe> {
     @Override
     public Collection<Display> apply(RecipeEntry<TotemCoreImbueRecipe> recipe) {
-        EntryIngredient coreStack = EntryIngredient.of(EntryStacks.of(TOKItems.IMBUED_CORE));
+        EntryIngredient coreStack = EntryIngredient.of(EntryStacks.of(TOKItems.TOTEM_CORE));
         Set<Identifier> registeredPotions = new HashSet<>();
         List<Display> displays = new ArrayList<>();
         
