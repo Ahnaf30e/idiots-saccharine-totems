@@ -15,28 +15,48 @@ import net.minecraft.screen.Property;
 
 @Mixin(AnvilScreenHandler.class)
 public class AnvilScreenHandlerMixin {
-    @Shadow @Final private Property levelCost;
+    @Shadow
+    @Final
+    private Property levelCost;
 
-    @Shadow private int repairItemUsage;
+    @Shadow
+    private int repairItemUsage;
 
-    // @Inject(method = "updateResult", at = @At("HEAD"), cancellable = true)
-    // private void totemOfKeepingFullRepair(CallbackInfo ci) {
-    //     AnvilScreenHandler self = (AnvilScreenHandler) (Object) this;
-        
-    //     ItemStack left = self.getSlot(0).getStack();
-    //     ItemStack right = self.getSlot(1).getStack();
+    @Inject(method = "updateResult", at = @At("HEAD"), cancellable = true)
+    private void totemOfKeepingFullRepair(CallbackInfo ci) {
+        AnvilScreenHandler self = (AnvilScreenHandler) (Object) this;
 
-    //     // If left is your custom item and right is an Ender Pearl
-    //     if (!left.isEmpty() && left.getItem() instanceof TotemOfKeepingItem && right.isOf(Items.ENDER_EYE) && left.getDamage() > 0) {
+        ItemStack left = self.getSlot(0).getStack();
+        ItemStack right = self.getSlot(1).getStack();
 
-    //         ItemStack repaired = left.copy();
-    //         repaired.setDamage(0); // FULLY repaired
+        // [Insert AI slop comment.]
+        if (!left.isEmpty() && left.getItem() instanceof TotemOfKeepingItem && left.getDamage() > 0) {
 
-    //         self.getSlot(2).setStack(repaired);
-    //         this.levelCost.set(0);
-    //         this.repairItemUsage = 1; // consume 1 pearl
+            if (right.isOf(Items.ENDER_EYE)) {
+                // ENDER EYE
+                ItemStack repaired = left.copy();
+                repaired.setDamage(0); // FULLY repaired
 
-    //         ci.cancel(); // cancel vanilla logic
-    //     }
-    // }
+                self.getSlot(2).setStack(repaired);
+                this.levelCost.set(1);
+                this.repairItemUsage = 1;
+
+                ci.cancel();
+                return;
+
+            }
+            else if (right.isOf(Items.ENDER_PEARL)) {
+                // ENDER PEARL
+                int repairAmount = Math.min(left.getDamage(), right.getCount());
+                ItemStack repaired = left.copy();
+                repaired.setDamage(left.getDamage() - repairAmount);
+
+                self.getSlot(2).setStack(repaired);
+                this.levelCost.set(repairAmount);
+                this.repairItemUsage = repairAmount;
+
+                ci.cancel();
+            }
+        }
+    }
 }

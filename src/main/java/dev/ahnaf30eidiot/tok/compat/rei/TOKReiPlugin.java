@@ -61,7 +61,7 @@ public class TOKReiPlugin implements REIClientPlugin {
                 List.of(EntryIngredients.of(eyeDamaged), EntryIngredients.of(enderEye)),
                 Collections.singletonList(EntryIngredients.of(new ItemStack(tokItem))),
                 Optional.empty(),
-                OptionalInt.of(0)));
+                OptionalInt.of(1)));
 
         // Make multiple damage variants
         for (int i = 1; i <= 2; i++) {
