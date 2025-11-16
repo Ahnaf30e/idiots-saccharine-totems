@@ -36,24 +36,24 @@ public class PlayerEntityMixin {
     // }
 
 	// Fuck you Mojang, why the fuck did you overwrite applyDamage for PlayerEntity.
-	@Inject(method = "applyDamage", at = @At("HEAD"), cancellable = true)
-	private void handleFerrous(DamageSource source, float amount, CallbackInfo ci) {
-		LivingEntity self = (PlayerEntity) (Object) this;
+	// @Inject(method = "applyDamage", at = @At("HEAD"), cancellable = true)
+	// private void handleFerrous(DamageSource source, float amount, CallbackInfo ci) {
+	// 	LivingEntity self = (PlayerEntity) (Object) this;
 
-		if (((TOKTrackedEntity) (Object) this).isFerrous()) {
-			self.getWorld().playSound(
-					null,
-					self.getX(),
-					self.getY(),
-					self.getZ(),
-					SoundEvents.ENTITY_IRON_GOLEM_HURT,
-					self.getSoundCategory(),
-					1.0F, // volume
-					0.8F + self.getRandom().nextFloat() * 0.4F // pitch
-			);
-			if (!source.isIn(TOKTags.FERROUS_ALLOWED)) {
-				ci.cancel();
-			}
-		}
-	}
+	// 	if (((TOKTrackedEntity) (Object) this).isFerrous()) {
+	// 		self.getWorld().playSound(
+	// 				null,
+	// 				self.getX(),
+	// 				self.getY(),
+	// 				self.getZ(),
+	// 				SoundEvents.ENTITY_IRON_GOLEM_HURT,
+	// 				self.getSoundCategory(),
+	// 				1.0F, // volume
+	// 				0.8F + self.getRandom().nextFloat() * 0.4F // pitch
+	// 		);
+	// 		if (!source.isIn(TOKTags.FERROUS_ALLOWED)) {
+	// 			ci.cancel();
+	// 		}
+	// 	}
+	// }
 }

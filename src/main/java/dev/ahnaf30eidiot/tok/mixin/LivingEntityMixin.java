@@ -3,6 +3,7 @@ package dev.ahnaf30eidiot.tok.mixin;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityStatuses;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.DamageTypes;
@@ -28,6 +29,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import dev.ahnaf30eidiot.tok.IdiotsSaccharineTotems;
 import dev.ahnaf30eidiot.tok.api.TOKPersistentValues;
 import dev.ahnaf30eidiot.tok.api.TOKTrackedEntity;
 import dev.ahnaf30eidiot.tok.block.TOKBlocks;
@@ -98,12 +100,14 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 					1.0F, // volume
 					0.8F + self.getRandom().nextFloat() * 0.4F // pitch
 			);
+			
 			if (!source.isIn(TOKTags.FERROUS_ALLOWED)) {
-				ci.setReturnValue(0F);
+				float f = MathHelper.clamp(Math.min(amount * 0.1F, 2.0F), 0.0F, self.getHealth() - 1.0F);
+				ci.setReturnValue(f); // HP not hearts
 				return;
 			}
 			if (!source.isOf(DamageTypes.GENERIC_KILL)) {
-				ci.setReturnValue(MathHelper.clamp(amount * 0.75F, 0.0F, self.getHealth() - 1.0F));
+				ci.setReturnValue(amount * 0.35F);
 			}
 		}
 	}
@@ -190,15 +194,19 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 				self.addStatusEffect(new StatusEffectInstance(StatusEffects.HEALTH_BOOST, 700, 0));
 				self.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 240, 1));
 				self.addStatusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 2, 0));
+				self.getWorld().sendEntityStatus(self, EntityStatuses.USE_TOTEM_OF_UNDYING);
 			} else if (used.isOf(TOKItems.TOTEM_OF_PERSEVERANCE)) {
 				self.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 60, 0));
 				self.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 300, 1));
 				self.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 580, 0));
 				self.addStatusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 2, 0));
+				self.getWorld().sendEntityStatus(self, EntityStatuses.USE_TOTEM_OF_UNDYING);
 			} else if (used.isOf(TOKItems.TOTEM_OF_FERROUS)) {
 				self.addStatusEffect(new StatusEffectInstance(TOKEffects.FERROUS, 220, 0));
 				self.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 680, 0));
+				self.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 700, 0));
 				self.addStatusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 2, 0));
+				self.getWorld().sendEntityStatus(self, EntityStatuses.USE_TOTEM_OF_UNDYING);
 			}
 
 			self.getWorld().sendEntityStatus(self, (byte) 35);
