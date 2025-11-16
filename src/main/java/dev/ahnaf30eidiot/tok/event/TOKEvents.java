@@ -30,10 +30,12 @@ public class TOKEvents {
 
     private static final Identifier WOODLAND_MANSION_CHEST_ID = LootTables.WOODLAND_MANSION_CHEST.getValue();
     private static final Identifier SIMPLE_DUNGEON_CHEST_ID = LootTables.SIMPLE_DUNGEON_CHEST.getValue();
-    private static final Identifier ABANDONED_MINESHAFT_CHEST_ID = LootTables.ABANDONED_MINESHAFT_CHEST.getValue();
     private static final Identifier JUNGLE_TEMPLE_CHEST_ID = LootTables.JUNGLE_TEMPLE_CHEST.getValue();
     private static final Identifier DESERT_PYRAMID_CHEST_ID = LootTables.DESERT_PYRAMID_CHEST.getValue();
     private static final Identifier STRONGHOLD_CORRIDOR_CHEST_ID = LootTables.STRONGHOLD_CORRIDOR_CHEST.getValue();
+    private static final Identifier VILLAGE_TOOLSMITH_CHEST_ID = LootTables.VILLAGE_TOOLSMITH_CHEST.getValue();
+    private static final Identifier VILLAGE_WEAPONSMITH_CHEST_ID = LootTables.VILLAGE_WEAPONSMITH_CHEST.getValue();
+    private static final Identifier END_CITY_TREASURE_CHEST_ID = LootTables.END_CITY_TREASURE_CHEST.getValue();
     
 
     public static void registerLootTables() {
@@ -42,16 +44,33 @@ public class TOKEvents {
             Identifier k = key.getValue();
             if (WOODLAND_MANSION_CHEST_ID.equals(k) 
             || SIMPLE_DUNGEON_CHEST_ID.equals(k) 
-            || ABANDONED_MINESHAFT_CHEST_ID.equals(k)
             || JUNGLE_TEMPLE_CHEST_ID.equals(k)
             || DESERT_PYRAMID_CHEST_ID.equals(k)
-            || STRONGHOLD_CORRIDOR_CHEST_ID.equals(k)) { // && source.isBuiltin()
+            || STRONGHOLD_CORRIDOR_CHEST_ID.equals(k)
+            || VILLAGE_TOOLSMITH_CHEST_ID.equals(k)
+            || VILLAGE_WEAPONSMITH_CHEST_ID.equals(k)) { // && source.isBuiltin()
                 LootPool.Builder builder = LootPool.builder()
                         .with(ItemEntry.builder(TOKItems.TOTEM_OF_KEEPING)
                             .apply(SetDamageLootFunction.builder(UniformLootNumberProvider.create(0.2F, 0.4F)))
-                            .weight(2))
-                        .with(ItemEntry.builder(TOKItems.TOTEM_CORE).weight(15))
-                        .rolls(UniformLootNumberProvider.create(0, 0.4F));
+                            .weight(5))
+                        .with(ItemEntry.builder(TOKItems.TOTEM_OF_PERSEVERANCE).weight(4))
+                        .with(ItemEntry.builder(TOKItems.TOTEM_OF_TENACITY).weight(4))
+                        .with(ItemEntry.builder(TOKItems.TOTEM_OF_FERROUS).weight(2))
+                        .with(ItemEntry.builder(TOKItems.TOTEM_CORE).weight(12))
+                        .rolls(UniformLootNumberProvider.create(-0.1F, 1.0F));
+
+                tableBuilder.pool(builder);
+            }
+
+            if (END_CITY_TREASURE_CHEST_ID.equals(k)) {
+                LootPool.Builder builder = LootPool.builder()
+                        .with(ItemEntry.builder(TOKItems.TOTEM_OF_KEEPING)
+                            .apply(SetDamageLootFunction.builder(UniformLootNumberProvider.create(0.2F, 0.4F)))
+                            .weight(1))
+                        .with(ItemEntry.builder(TOKItems.TOTEM_OF_PERSEVERANCE).weight(4))
+                        .with(ItemEntry.builder(TOKItems.TOTEM_OF_TENACITY).weight(4))
+                        .with(ItemEntry.builder(TOKItems.TOTEM_OF_FERROUS).weight(1))
+                        .rolls(UniformLootNumberProvider.create(-0.4F, 1.0F));
 
                 tableBuilder.pool(builder);
             }
