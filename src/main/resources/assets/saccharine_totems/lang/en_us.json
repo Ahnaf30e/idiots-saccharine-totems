@@ -9,7 +9,7 @@
     "item.saccharine_totems.clamped_ferrous_link": "Clamped Ferrous Linkage",
 
     "effect.saccharine_totems.ferrous": "Ferrous",
-    "effect.saccharine_totems.ferrous.description": "Grants full invincibility to half a heart, invulnerability to most physical damage and wither, and 25% magical damage reduction. Decreases walking speed.",
+    "effect.saccharine_totems.ferrous.description": "Reduces most physical damage including wither by 90% to at most one heart of damage up until half a heart health; 65% reduction to magical damage, Decreases walking speed.",
 
     "item.tok.totem_of_keeping.empty": "Will store items on death",
     "item.tok.totem_of_keeping.stored": "Already stored. Use to get items.",
