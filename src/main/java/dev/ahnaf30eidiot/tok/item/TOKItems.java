@@ -39,7 +39,7 @@ public class TOKItems {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(entries -> {
             entries.add(FERROUS_METAL);
             entries.add(CLAMPED_FERROUS_LINK);
-            entries.add(IMBUED_CORE);
+            entries.add(TOTEM_CORE);
         });
     }
 }

@@ -26,6 +26,7 @@ import java.util.List;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -85,9 +86,17 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 		}
 	}
 
-	@Inject(method = "modifyAppliedDamage", at = @At("HEAD"), cancellable = true)
-	private void handleFerrous(DamageSource source, float amount, CallbackInfoReturnable<Float> ci) {
+	@ModifyVariable(
+		method = "applyDamage(Lnet/minecraft/entity/damage/DamageSource;F)V",
+		at = @At(
+			value = "LOAD"
+		),
+		ordinal = 0
+	)
+	private float handleFerrousDamage(float amnt, DamageSource source, float amount) {
 		LivingEntity self = (LivingEntity) (Object) this;
+
+		IdiotsSaccharineTotems.LOGGER.info("Shit being done: vam={} s={}, pam={}", amnt, source.getName(), amount);
 
 		if (((TOKTrackedEntity) (Object) this).isFerrous()) {
 			self.getWorld().playSound(
@@ -102,16 +111,25 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 			);
 			
 			if (!source.isIn(TOKTags.FERROUS_ALLOWED)) {
-				float f = MathHelper.clamp(Math.min(amount * 0.1F, 2.0F), 0.0F, self.getHealth() - 1.0F);
-				ci.setReturnValue(f); // HP not hearts
-				return;
+				float f = MathHelper.clamp(Math.min(amnt * 0.1F, 2.0F), 0.0F, self.getHealth() - 1.0F);
+				IdiotsSaccharineTotems.LOGGER.info("Modifying Damage: a={} m={}, is_ferrous={}, source={}", amnt, f, ((TOKTrackedEntity) (Object) this).isFerrous(), source.getName());
+				return f;
 			}
 			if (!source.isOf(DamageTypes.GENERIC_KILL)) {
-				ci.setReturnValue(amount * 0.35F);
+				IdiotsSaccharineTotems.LOGGER.info("Modifying Magic Damage: a={} m={}, is_ferrous={}, source={}", amnt, amnt * 0.35F, ((TOKTrackedEntity) (Object) this).isFerrous(), source.getName());
+				return amnt * 0.35F;
 			}
 		}
+
+		return amnt;
 	}
 
+	// @Inject(method = "setHealth", at = @At("HEAD"), cancellable = true)
+	// private void fuckingDebug(float health, CallbackInfo ci) {
+	// 	IdiotsSaccharineTotems.LOGGER.info("Resulting: a={} to b={}", ((LivingEntity) (Object) this).getHealth(), health);
+	// }
+
+	
 	// @Inject(method = "applyDamage", at = @At("HEAD"), cancellable = true)
 	// private void handleFerrous(DamageSource source, float amount, CallbackInfo ci) {
 	// 	LivingEntity self = (LivingEntity) (Object) this;
