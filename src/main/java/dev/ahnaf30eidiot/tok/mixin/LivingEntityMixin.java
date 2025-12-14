@@ -86,17 +86,13 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 		}
 	}
 
-	@ModifyVariable(
-		method = "applyDamage(Lnet/minecraft/entity/damage/DamageSource;F)V",
-		at = @At(
-			value = "LOAD"
-		),
-		ordinal = 0
+	@Inject(
+		method = "applyArmorToDamage(Lnet/minecraft/entity/damage/DamageSource;F)F", // modifyAppliedDamage doesn't seem to work with Sinytra???
+		at = @At("RETURN"),
+		cancellable = true
 	)
-	private float handleFerrousDamage(float amnt, DamageSource source, float amount) {
+	private void handleFerrousDamage(DamageSource source, float amount, CallbackInfoReturnable<Float> ci) {
 		LivingEntity self = (LivingEntity) (Object) this;
-
-		IdiotsSaccharineTotems.LOGGER.info("Shit being done: vam={} s={}, pam={}", amnt, source.getName(), amount);
 
 		if (((TOKTrackedEntity) (Object) this).isFerrous()) {
 			self.getWorld().playSound(
@@ -111,48 +107,15 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 			);
 			
 			if (!source.isIn(TOKTags.FERROUS_ALLOWED)) {
-				float f = MathHelper.clamp(Math.min(amnt * 0.1F, 2.0F), 0.0F, self.getHealth() - 1.0F);
-				IdiotsSaccharineTotems.LOGGER.info("Modifying Damage: a={} m={}, is_ferrous={}, source={}", amnt, f, ((TOKTrackedEntity) (Object) this).isFerrous(), source.getName());
-				return f;
+				float f = MathHelper.clamp(Math.min(amount * 0.1F, 2.0F), 0.0F, self.getHealth() - 1.0F);
+				ci.setReturnValue(f);
+				return;
 			}
 			if (!source.isOf(DamageTypes.GENERIC_KILL)) {
-				IdiotsSaccharineTotems.LOGGER.info("Modifying Magic Damage: a={} m={}, is_ferrous={}, source={}", amnt, amnt * 0.35F, ((TOKTrackedEntity) (Object) this).isFerrous(), source.getName());
-				return amnt * 0.35F;
+				ci.setReturnValue(amount * 0.35F);
 			}
 		}
-
-		return amnt;
 	}
-
-	// @Inject(method = "setHealth", at = @At("HEAD"), cancellable = true)
-	// private void fuckingDebug(float health, CallbackInfo ci) {
-	// 	IdiotsSaccharineTotems.LOGGER.info("Resulting: a={} to b={}", ((LivingEntity) (Object) this).getHealth(), health);
-	// }
-
-	
-	// @Inject(method = "applyDamage", at = @At("HEAD"), cancellable = true)
-	// private void handleFerrous(DamageSource source, float amount, CallbackInfo ci) {
-	// 	LivingEntity self = (LivingEntity) (Object) this;
-
-	// 	if (((TOKTrackedEntity) (Object) this).isFerrous()) {
-	// 		self.getWorld().playSound(
-	// 				null,
-	// 				self.getX(),
-	// 				self.getY(),
-	// 				self.getZ(),
-	// 				SoundEvents.ENTITY_IRON_GOLEM_HURT,
-	// 				self.getSoundCategory(),
-	// 				1.0F, // volume
-	// 				0.8F + self.getRandom().nextFloat() * 0.4F // pitch
-	// 		);
-	// 		if (!source.isIn(TOKTags.FERROUS_ALLOWED)) {
-	// 			ci.cancel();
-	// 		}
-	// 		if (!source.isOf(DamageTypes.GENERIC_KILL)) {
-	// 			float clampedDamage = MathHelper.clamp(amount * 0.75F, amount, amount)
-	// 		}
-	// 	}
-	// }
 
 	@Inject(method = "tryUseTotem", at = @At("HEAD"), cancellable = true)
 	private void handleTOKTotems(DamageSource source, CallbackInfoReturnable<Boolean> cir) {

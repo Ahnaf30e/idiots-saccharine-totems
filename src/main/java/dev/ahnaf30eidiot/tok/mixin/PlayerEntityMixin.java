@@ -1,29 +1,16 @@
 package dev.ahnaf30eidiot.tok.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import dev.ahnaf30eidiot.tok.IdiotsSaccharineTotems;
-import dev.ahnaf30eidiot.tok.api.TOKTrackedEntity;
-import dev.ahnaf30eidiot.tok.tag.TOKTags;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.math.MathHelper;
 
 @Mixin(PlayerEntity.class)
 public class PlayerEntityMixin {
 
 	
-	@Inject(method = "applyDamage", at = @At("RETURN"), cancellable = true)
-	private void fuckingDebug(DamageSource source, float amount, CallbackInfo ci) {
-		IdiotsSaccharineTotems.LOGGER.info("Applying Damage: a={}, source={}", amount, source.getName());
-	}
+	// @Inject(method = "applyDamage", at = @At("RETURN"), cancellable = true)
+	// private void fuckingDebug(DamageSource source, float amount, CallbackInfo ci) {
+	// 	IdiotsSaccharineTotems.LOGGER.info("Applying Damage: a={}, source={}", amount, source.getName());
+	// }
 
 
     // @Inject(method = "tick", at = @At("HEAD"), cancellable = true)
