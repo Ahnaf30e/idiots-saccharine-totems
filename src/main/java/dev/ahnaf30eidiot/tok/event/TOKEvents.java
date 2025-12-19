@@ -76,8 +76,8 @@ public class TOKEvents {
             }
         });
     }
-
-    public static void registerItemEvents() {
+    
+    public static void registerItemClientEvents() {
 
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
             if (tintIndex == 1) { // bottom layer in item model

@@ -32,7 +32,6 @@ public class IdiotsSaccharineTotems implements ModInitializer {
 		TOKBlocks.regsiterBlocks();
 		TOKPotions.registerPotions();
 		TOKItemGroups.registerItemGroups();
-		TOKEvents.registerItemEvents();
 		TOKRecipes.registerSpecialRecipes();
 		TOKEffects.registerEffects();
 		TOKEvents.registerEvents();
