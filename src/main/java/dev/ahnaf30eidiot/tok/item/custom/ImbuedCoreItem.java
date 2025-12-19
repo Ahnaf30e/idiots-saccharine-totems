@@ -102,6 +102,8 @@ public class ImbuedCoreItem extends Item {
         if (potion != null && !world.isClient) {
             for (StatusEffectInstance inst : potion.getEffects()) {
                 int scaled = getLickBalancedDuration(inst.getDuration(), baseN, baseP);
+
+                // Adding effect using Totem core duration 
                 user.addStatusEffect(new StatusEffectInstance(
                         inst.getEffectType(), scaled, inst.getAmplifier(), inst.isAmbient(), inst.shouldShowParticles(),
                         inst.shouldShowIcon()));

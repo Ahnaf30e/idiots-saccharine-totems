@@ -12,6 +12,7 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.tag.DamageTypeTags;
@@ -29,6 +30,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import dev.ahnaf30eidiot.tok.api.TOKClientFerrousCache;
 import dev.ahnaf30eidiot.tok.api.TOKPersistentValues;
 import dev.ahnaf30eidiot.tok.api.TOKTrackedEntity;
 import dev.ahnaf30eidiot.tok.block.TOKBlocks;
@@ -42,8 +44,9 @@ import dev.ahnaf30eidiot.tok.tag.TOKTags;
 @Mixin(LivingEntity.class)
 public class LivingEntityMixin implements TOKTrackedEntity {
 
-	private static final TrackedData<Boolean> FERROUS = DataTracker.registerData(LivingEntity.class,
-			TrackedDataHandlerRegistry.BOOLEAN);
+	// private static final TrackedData<Boolean> FERROUS = DataTracker.registerData(LivingEntity.class,
+	// 		TrackedDataHandlerRegistry.BOOLEAN);
+	
 
 	static {
 		ServerPlayerEvents.COPY_FROM.register((oldPlayer, newPlayer, source) -> {
@@ -65,24 +68,24 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 	}
 
 	public boolean isFerrous() { // For showing effect on non-player entities.
-		return ((LivingEntity) (Object) this).getDataTracker().get(FERROUS);
+		return ((LivingEntity)(Object)this).hasStatusEffect(TOKEffects.FERROUS) || TOKClientFerrousCache.hasFerrous(((LivingEntity)(Object)this).getId());
 	}
 
-	@Inject(method = "initDataTracker", at = @At("TAIL"))
-	private void addFerrousTrackedData(DataTracker.Builder builder, CallbackInfo ci) {
-		// Default to false when entity is created
-		builder.add(FERROUS, false);
-	}
+	// @Inject(method = "initDataTracker", at = @At("TAIL"))
+	// private void addFerrousTrackedData(DataTracker.Builder builder, CallbackInfo ci) {
+	// 	// Default to false when entity is created
+	// 	builder.add(FERROUS, false);
+	// }
 
-	@Inject(method = "tickStatusEffects", at = @At("TAIL"))
-	private void updateFerrousTrackedData(CallbackInfo ci) {
-		LivingEntity self = (LivingEntity) (Object) this;
+	// @Inject(method = "tickStatusEffects", at = @At("TAIL"))
+	// private void updateFerrousTrackedData(CallbackInfo ci) {
+	// 	LivingEntity self = (LivingEntity) (Object) this;
 
-		if (!self.getWorld().isClient()) {
-			boolean hasFerrous = self.hasStatusEffect(TOKEffects.FERROUS);
-			self.getDataTracker().set(FERROUS, hasFerrous, false);
-		}
-	}
+	// 	if (!self.getWorld().isClient()) {
+	// 		boolean hasFerrous = self.hasStatusEffect(TOKEffects.FERROUS);
+	// 		self.getDataTracker().set(FERROUS, hasFerrous, false);
+	// 	}
+	// }
 
 	@Inject(
 		method = "applyArmorToDamage(Lnet/minecraft/entity/damage/DamageSource;F)F", // modifyAppliedDamage doesn't seem to work with Sinytra???
