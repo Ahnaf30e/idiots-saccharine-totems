@@ -18,9 +18,7 @@ import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.enchantment.effect.AllOfEnchantmentEffects.EntityEffects;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.util.Identifier;
 
 public class FerrousFeatureRenderer<T extends LivingEntity, M extends EntityModel<T>> extends FeatureRenderer<T, M> {
@@ -45,7 +43,7 @@ public class FerrousFeatureRenderer<T extends LivingEntity, M extends EntityMode
             float headYaw,
             float headPitch) {
 
-        if (entity.hasStatusEffect(StatusEffects.SLOWNESS) || ((TOKTrackedEntity) entity).isFerrous()) {
+        if (entity.hasStatusEffect(TOKEffects.FERROUS) || ((TOKTrackedEntity) entity).isFerrous()) {
 
             boolean isIrisActive = TOKModChecker.isIrisShaderLoaded();
             // boolean isIrisActive = true;
