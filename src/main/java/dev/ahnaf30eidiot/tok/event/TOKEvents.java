@@ -3,26 +3,20 @@ package dev.ahnaf30eidiot.tok.event;
 import dev.ahnaf30eidiot.tok.command.TOKCommands;
 import dev.ahnaf30eidiot.tok.item.TOKItems;
 import dev.ahnaf30eidiot.tok.recipe.ingredient.TOKComponentIngredientSerializer;
-import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.fabricmc.fabric.api.recipe.v1.ingredient.CustomIngredientSerializer;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTables;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.function.SetDamageLootFunction;
 import net.minecraft.loot.provider.number.UniformLootNumberProvider;
-import net.minecraft.potion.Potion;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 
 public class TOKEvents {
 
     public static void registerEvents() {
-
+        // Command thing for the commands in the commands of moincraf
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
             TOKCommands.registerCommands(dispatcher);
         });
@@ -75,23 +69,6 @@ public class TOKEvents {
                 tableBuilder.pool(builder);
             }
         });
-    }
-    
-    public static void registerItemClientEvents() {
-
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-            if (tintIndex == 1) { // bottom layer in item model
-                PotionContentsComponent pot = stack.get(DataComponentTypes.POTION_CONTENTS);
-                if (pot != null && pot.potion().isPresent()) {
-                    RegistryEntry<Potion> potion = pot.potion().get();
-                    if (!potion.value().getEffects().isEmpty() || Registries.POTION.getId(potion.value()).getNamespace() != "minecraft") {
-                        return pot.getColor();
-                    }
-                }
-                return 0xFFFFC336; // Honey-ish
-            }
-            return 0xFFFFFFFF;
-        }, TOKItems.IMBUED_CORE);
     }
 
     public static void registerIngredientSerializers() {
