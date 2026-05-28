@@ -5,6 +5,7 @@ import java.util.List;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 
+import dev.ahnaf30eidiot.tok.api.TOKDevValues;
 import dev.ahnaf30eidiot.tok.api.TOKPersistentValues;
 import net.minecraft.command.CommandSource;
 import net.minecraft.item.ItemStack;
@@ -19,8 +20,8 @@ public class TOKCommands {
         dispatcher.register(
                 CommandManager.literal("tokdev")
                         .requires(srs -> srs.hasPermissionLevel(2))
-                        .then(CommandManager.literal("restoreOnDimension")
-                                .executes(ctx -> restoreOnDimension(ctx.getSource())))
+                        .then(CommandManager.literal("ignoreNext")
+                                .executes(ctx -> ignoreNext(ctx.getSource())))
                         .then(CommandManager.literal("entries")
                                 .executes(ctx -> getEntries(ctx.getSource())))
                         .then(CommandManager.literal("cleanup")
@@ -33,6 +34,11 @@ public class TOKCommands {
                                             return runCleanUp(ctx.getSource(),
                                                     StringArgumentType.getString(ctx, "mode"));
                                         }))));
+        dispatcher.register(
+                CommandManager.literal("isttok")
+                        .requires(srs -> srs.hasPermissionLevel(0))
+                        .then(CommandManager.literal("restoreFromDimensions")
+                                .executes(ctx -> restoreAcrossDimensions(ctx.getSource()))));
     }
 
     private static int runCleanUp(ServerCommandSource src, String mode) {
@@ -68,6 +74,15 @@ public class TOKCommands {
         return removed;
     }
 
+    
+    private static int ignoreNext (ServerCommandSource src) {
+        TOKDevValues.ignoreThisTime(src.getPlayer().getUuid());
+
+        src.sendFeedback(() -> Text.literal("§9TOK ignoring next TOK popped..."),
+                false);
+        return 1;
+    }
+
     private static int getEntries(ServerCommandSource src) {
         ServerWorld world = src.getWorld();
         TOKPersistentValues state = TOKPersistentValues.get(world);
@@ -78,25 +93,41 @@ public class TOKCommands {
         return held.size();
     }
     
-    private static int restoreOnDimension(ServerCommandSource src) {
+    private static int restoreAcrossDimensions(ServerCommandSource src) {
         ServerPlayerEntity player = src.getPlayer();
-        ServerWorld world = src.getWorld();
-        TOKPersistentValues state = TOKPersistentValues.get(world);
-        java.util.Map<?, ?> held = state.getHeldOn();
+        Iterable<ServerWorld> worlds = src.getServer().getWorlds();
+        int totalHeld = 0;
+        for (ServerWorld world : worlds) {
+                        
+                TOKPersistentValues state = TOKPersistentValues.get(world);
+                java.util.Map<?, ?> held = state.getHeldOn();
 
+                int heldSize = held.size();
+                ItemStack pending = state.getHeldOn().remove(player.getUuid());
+                state.markDirty();
+                if (pending != null && !pending.isEmpty() && !player.getWorld().isClient()) {
+                        player.getInventory().insertStack(pending);
+                        // newPlayer.playerScreenHandler.sendContentUpdates();
+                        src.sendFeedback(() -> Text.literal("§aTOK [ "+ world.getDimensionEntry().getIdAsString() + " ] persistant data [ " + heldSize + " entries ]: §3§o~Successfully restored " +  player.getUuid()),
+                        false);
 
-        ItemStack pending = state.getHeldOn().remove(player.getUuid());
-        state.markDirty();
-        if (pending != null && !pending.isEmpty() && !player.getWorld().isClient()) {
-                player.getInventory().insertStack(pending);
-                // newPlayer.playerScreenHandler.sendContentUpdates();
+                        totalHeld += heldSize;
+                } else {
+                        src.sendFeedback(() -> Text.literal("§aTOK [ "+ world.getDimensionEntry().getIdAsString() + " ] persistant data [ " + heldSize + " entries ]: §7§o~Nothing..."),
+                        false);
+                }
+        }
+
+        final int totalHeldFinal = totalHeld; // What
+
+        if (totalHeld > 0) {
+                src.sendFeedback(() -> Text.literal("§aTotal restored [ " + totalHeldFinal + " entries ]"),
+                false);
         } else {
-                src.sendFeedback(() -> Text.literal("§aTOK persistant data [ " + held.size() + " entries ]: \n§r§v§o~Are you sure you're on the right dimension? (be on overworld.)"),
+                src.sendFeedback(() -> Text.literal("§aTotal restored [ " + totalHeldFinal + " entries ]: §r\n§6§o~Nothing to restore here..."),
                 false);
         }
 
-        src.sendFeedback(() -> Text.literal("§aTOK persistant data [ " + held.size() + " entries ]: \n" + held.toString()),
-                false);
-        return held.size();
+        return totalHeld;
     }
 }

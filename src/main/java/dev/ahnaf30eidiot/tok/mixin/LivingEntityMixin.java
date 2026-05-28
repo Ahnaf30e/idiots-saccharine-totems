@@ -29,6 +29,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import dev.ahnaf30eidiot.tok.api.TOKDevValues;
 import dev.ahnaf30eidiot.tok.api.TOKPersistentValues;
 import dev.ahnaf30eidiot.tok.api.TOKTrackedEntity;
 import dev.ahnaf30eidiot.tok.block.TOKBlocks;
@@ -52,6 +53,8 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 			// } else {
 			// System.out.println("CLIENT: Totem triggered for " + newPlayer);
 			// }
+
+			if (TOKDevValues.shouldIgnoreThisTime(newPlayer.getUuid())) return; // Don't do the thing if it is to be ignored
 
 			TOKPersistentValues state = TOKPersistentValues.get(newPlayer.getServerWorld());
 
