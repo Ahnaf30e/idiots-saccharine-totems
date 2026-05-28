@@ -7,8 +7,10 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 
 import dev.ahnaf30eidiot.tok.api.TOKPersistentValues;
 import net.minecraft.command.CommandSource;
+import net.minecraft.item.ItemStack;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 
@@ -17,6 +19,8 @@ public class TOKCommands {
         dispatcher.register(
                 CommandManager.literal("tokdev")
                         .requires(srs -> srs.hasPermissionLevel(2))
+                        .then(CommandManager.literal("restoreOnDimension")
+                                .executes(ctx -> restoreOnDimension(ctx.getSource())))
                         .then(CommandManager.literal("entries")
                                 .executes(ctx -> getEntries(ctx.getSource())))
                         .then(CommandManager.literal("cleanup")
@@ -68,6 +72,28 @@ public class TOKCommands {
         ServerWorld world = src.getWorld();
         TOKPersistentValues state = TOKPersistentValues.get(world);
         java.util.Map<?, ?> held = state.getHeldOn();
+
+        src.sendFeedback(() -> Text.literal("§aTOK persistant data [ " + held.size() + " entries ]: \n" + held.toString()),
+                false);
+        return held.size();
+    }
+    
+    private static int restoreOnDimension(ServerCommandSource src) {
+        ServerPlayerEntity player = src.getPlayer();
+        ServerWorld world = src.getWorld();
+        TOKPersistentValues state = TOKPersistentValues.get(world);
+        java.util.Map<?, ?> held = state.getHeldOn();
+
+
+        ItemStack pending = state.getHeldOn().remove(player.getUuid());
+        state.markDirty();
+        if (pending != null && !pending.isEmpty() && !player.getWorld().isClient()) {
+                player.getInventory().insertStack(pending);
+                // newPlayer.playerScreenHandler.sendContentUpdates();
+        } else {
+                src.sendFeedback(() -> Text.literal("§aTOK persistant data [ " + held.size() + " entries ]: \n§r§v§o~Are you sure you're on the right dimension? (be on overworld.)"),
+                false);
+        }
 
         src.sendFeedback(() -> Text.literal("§aTOK persistant data [ " + held.size() + " entries ]: \n" + held.toString()),
                 false);

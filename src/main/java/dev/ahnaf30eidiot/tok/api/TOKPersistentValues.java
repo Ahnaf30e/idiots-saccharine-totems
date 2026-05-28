@@ -34,7 +34,7 @@ public class TOKPersistentValues extends PersistentState {
             state.heldOn.put(uuid, stack);
         }
         
-        IdiotsSaccharineTotems.LOGGER.info("Reading NBT: " + nbt);
+        IdiotsSaccharineTotems.LOGGER.info("[~Totem of Keeping~] Reading NBT: " + nbt);
 
         return state;
     }
@@ -71,6 +71,11 @@ public class TOKPersistentValues extends PersistentState {
 
     // Utility: get instance for a given world
     public static TOKPersistentValues get(ServerWorld world) {
+        PersistentStateManager manager = world.getServer().getOverworld().getPersistentStateManager();
+        return manager.getOrCreate(TYPE, "tok_values");
+    }
+
+    public static TOKPersistentValues getDim(ServerWorld world) {
         PersistentStateManager manager = world.getPersistentStateManager();
         return manager.getOrCreate(TYPE, "tok_values");
     }
