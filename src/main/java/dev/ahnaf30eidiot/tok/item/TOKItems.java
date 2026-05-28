@@ -17,6 +17,7 @@ public class TOKItems {
     public static final Item TOTEM_OF_FERROUS = registerItem("totem_of_ferrous", new Item(new Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON).fireproof()));
     public static final Item TOTEM_OF_TENACITY = registerItem("totem_of_tenacity", new Item(new Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON)));
     public static final Item TOTEM_OF_PERSEVERANCE = registerItem("totem_of_perseverance", new Item(new Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON)));
+    public static final Item TOTEM_OF_INSANITY = registerItem("totem_of_insanity", new Item(new Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON)));
 
     public static final Item TOTEM_CORE = registerItem("totem_core", new TotemCoreItem(new Item.Settings().maxCount(64).rarity(Rarity.COMMON).fireproof()));
     public static final Item IMBUED_CORE = registerItem("imbued_totem_core", new ImbuedCoreItem(new ImbuedCoreItem.Settings().maxCount(1).rarity(Rarity.UNCOMMON).fireproof()));
@@ -35,6 +36,7 @@ public class TOKItems {
             entries.add(TOTEM_OF_FERROUS);
             entries.add(TOTEM_OF_TENACITY);
             entries.add(TOTEM_OF_PERSEVERANCE);
+            entries.add(TOTEM_OF_INSANITY);
         });
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(entries -> {
             entries.add(FERROUS_METAL);

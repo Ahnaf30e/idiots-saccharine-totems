@@ -175,19 +175,35 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 				self.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 50, 0));
 				self.addStatusEffect(new StatusEffectInstance(StatusEffects.HEALTH_BOOST, 700, 0));
 				self.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 240, 1));
-				self.addStatusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 2, 0));
+				self.addStatusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 1, 3));
 				self.getWorld().sendEntityStatus(self, EntityStatuses.USE_TOTEM_OF_UNDYING);
 			} else if (used.isOf(TOKItems.TOTEM_OF_PERSEVERANCE)) {
 				self.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 60, 0));
 				self.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 300, 1));
 				self.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 580, 0));
-				self.addStatusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 2, 0));
+				self.addStatusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 1, 3));
+				self.getWorld().sendEntityStatus(self, EntityStatuses.USE_TOTEM_OF_UNDYING);
+			} else if (used.isOf(TOKItems.TOTEM_OF_INSANITY)) {
+				self.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 120, 4));
+				self.addStatusEffect(new StatusEffectInstance(StatusEffects.HEALTH_BOOST, 500, 9));
+				self.addStatusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 1200, 200));
+				self.addStatusEffect(new StatusEffectInstance(StatusEffects.WITHER, 700, 0));
+				self.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 300, 0));
+				self.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 100, 2));
+				self.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 340, 2));
+				self.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 600, 2));
+				self.addStatusEffect(new StatusEffectInstance(StatusEffects.HASTE, 600, 1));
+				self.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 480, 1));
+				self.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 600, 0));
+				self.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST, 200, 1));
+				self.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 100, 2));
+				self.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 20, 0));
 				self.getWorld().sendEntityStatus(self, EntityStatuses.USE_TOTEM_OF_UNDYING);
 			} else if (used.isOf(TOKItems.TOTEM_OF_FERROUS)) {
-				self.addStatusEffect(new StatusEffectInstance(TOKEffects.FERROUS, 220, 0));
-				self.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 680, 0));
+				self.addStatusEffect(new StatusEffectInstance(TOKEffects.FERROUS, 280, 0));
+				self.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 800, 1));
 				self.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 700, 0));
-				self.addStatusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 2, 0));
+				self.addStatusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 1, 4));
 				self.getWorld().sendEntityStatus(self, EntityStatuses.USE_TOTEM_OF_UNDYING);
 			}
 
@@ -225,6 +241,7 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 	private boolean isCustomOrVanillaTotem(ItemStack stack) {
 		return stack.isOf(TOKItems.TOTEM_OF_TENACITY)
 				|| stack.isOf(TOKItems.TOTEM_OF_PERSEVERANCE)
+				|| stack.isOf(TOKItems.TOTEM_OF_INSANITY)
 				|| stack.isOf(TOKItems.TOTEM_OF_FERROUS)
 				|| stack.isOf(Items.TOTEM_OF_UNDYING) // vanilla
 				|| stack.isOf(TOKItems.TOTEM_OF_KEEPING);

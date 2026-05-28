@@ -29,14 +29,23 @@ public class ClientPlayNetworkHandlerMixin {
             if (entity instanceof PlayerEntity player) {
                 ItemStack stack = getTOKTotem(player);
 
-                if (stack.isOf(TOKItems.TOTEM_OF_FERROUS)) {
-                    // player.getWorld().playSound(player.getX(), player.getY(), player.getZ(),
-                    // TOKSounds.TOTEM_FERROUS_USE, player.getSoundCategory(), 1.0F, 1.0F, false);
-                    // ci.cancel();
-                } else if (stack.isOf(TOKItems.TOTEM_OF_KEEPING)) {
+                if (isAlternateTotemSound(stack)) {
                     MinecraftClient client = MinecraftClient.getInstance();
-                    player.getWorld().playSound(player.getX(), player.getY(), player.getZ(),
+                    if (stack.isOf(TOKItems.TOTEM_OF_KEEPING)) {
+                        player.getWorld().playSound(player.getX(), player.getY(), player.getZ(),
                             SoundEvents.BLOCK_RESPAWN_ANCHOR_CHARGE, player.getSoundCategory(), 1.0F, 1.0F, false);
+                    } else if (stack.isOf(TOKItems.TOTEM_OF_INSANITY)) {
+                        // player.getWorld().playSound(player.getX(), player.getY(), player.getZ(),
+                        //     SoundEvents.ENTITY_WARDEN_HEARTBEAT, player.getSoundCategory(), 1.0F, 1.0F, false);
+                        player.getWorld().playSound(player.getX(), player.getY(), player.getZ(),
+                            SoundEvents.ENTITY_EVOKER_PREPARE_ATTACK, player.getSoundCategory(), 1.0F, 1.0F, false);
+                        player.getWorld().playSound(player.getX(), player.getY(), player.getZ(),
+                            SoundEvents.ENTITY_ELDER_GUARDIAN_CURSE, player.getSoundCategory(), 1.0F, 1.0F, false);
+                        player.getWorld().playSound(player.getX(), player.getY(), player.getZ(),
+                            SoundEvents.ENTITY_FIREWORK_ROCKET_TWINKLE_FAR, player.getSoundCategory(), 1.0F, 0.5F, false);
+                        player.getWorld().playSound(player.getX(), player.getY(), player.getZ(),
+                            SoundEvents.ITEM_TOTEM_USE, player.getSoundCategory(), 0.4F, 1.0F, false);
+                    }
 
                     if (entity == client.player) {
                         client.gameRenderer.showFloatingItem(getTOKTotem(client.player));
@@ -62,6 +71,7 @@ public class ClientPlayNetworkHandlerMixin {
             if (stack.isOf(Items.TOTEM_OF_UNDYING)
                     || stack.isOf(TOKItems.TOTEM_OF_TENACITY)
                     || stack.isOf(TOKItems.TOTEM_OF_PERSEVERANCE)
+                    || stack.isOf(TOKItems.TOTEM_OF_INSANITY)
                     || stack.isOf(TOKItems.TOTEM_OF_FERROUS)
                     || stack.isOf(TOKItems.TOTEM_OF_KEEPING)) {
                 return stack;
@@ -69,5 +79,9 @@ public class ClientPlayNetworkHandlerMixin {
         }
 
         return ItemStack.EMPTY;
+    }
+
+    private static boolean isAlternateTotemSound(ItemStack stack) {
+        return stack.isOf(TOKItems.TOTEM_OF_KEEPING) || stack.isOf(TOKItems.TOTEM_OF_INSANITY);
     }
 }

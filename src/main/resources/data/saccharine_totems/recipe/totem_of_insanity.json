@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "equipment",
+    "pattern": [
+        " G#",
+        "SPS",
+        "C#C"
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:diamond"
+        },
+        "G": {
+            "item": "minecraft:golden_apple"
+        },
+        "S": {
+            "item": "minecraft:soul_sand"
+        },
+        "P": {
+            "fabric:type": "saccharine_totems:components",
+            "item": "saccharine_totems:imbued_totem_core",
+            "potion": "minecraft:leaping"
+        },
+        "C": {
+            "item": "saccharine_totems:ferrous_metal_block"
+        }
+    },
+    "result": {
+        "id": "saccharine_totems:totem_of_insanity",
+        "count": 1
+    }
+}

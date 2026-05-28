@@ -47,9 +47,10 @@ public class TOKEvents {
                         .with(ItemEntry.builder(TOKItems.TOTEM_OF_KEEPING)
                             .apply(SetDamageLootFunction.builder(UniformLootNumberProvider.create(0.2F, 0.4F)))
                             .weight(5))
-                        .with(ItemEntry.builder(TOKItems.TOTEM_OF_PERSEVERANCE).weight(4))
-                        .with(ItemEntry.builder(TOKItems.TOTEM_OF_TENACITY).weight(4))
-                        .with(ItemEntry.builder(TOKItems.TOTEM_OF_FERROUS).weight(2))
+                        .with(ItemEntry.builder(TOKItems.TOTEM_OF_PERSEVERANCE).weight(5))
+                        .with(ItemEntry.builder(TOKItems.TOTEM_OF_TENACITY).weight(5))
+                        .with(ItemEntry.builder(TOKItems.TOTEM_OF_FERROUS).weight(1))
+                        .with(ItemEntry.builder(TOKItems.TOTEM_OF_INSANITY).weight(1))
                         .with(ItemEntry.builder(TOKItems.TOTEM_CORE).weight(12))
                         .rolls(UniformLootNumberProvider.create(0.0F, 1.0F));
 
@@ -63,6 +64,7 @@ public class TOKEvents {
                             .weight(1))
                         .with(ItemEntry.builder(TOKItems.TOTEM_OF_PERSEVERANCE).weight(3))
                         .with(ItemEntry.builder(TOKItems.TOTEM_OF_TENACITY).weight(3))
+                        .with(ItemEntry.builder(TOKItems.TOTEM_OF_INSANITY).weight(1))
                         .with(ItemEntry.builder(TOKItems.TOTEM_OF_FERROUS).weight(1))
                         .rolls(UniformLootNumberProvider.create(-0.4F, 1.0F));
 
