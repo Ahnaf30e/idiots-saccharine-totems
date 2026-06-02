@@ -178,13 +178,13 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 				self.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 50, 0));
 				self.addStatusEffect(new StatusEffectInstance(StatusEffects.HEALTH_BOOST, 700, 0));
 				self.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 240, 1));
-				self.addStatusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 1, 3));
+				self.addStatusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 1, 4));
 				self.getWorld().sendEntityStatus(self, EntityStatuses.USE_TOTEM_OF_UNDYING);
 			} else if (used.isOf(TOKItems.TOTEM_OF_PERSEVERANCE)) {
 				self.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 60, 0));
 				self.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 300, 1));
 				self.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 580, 0));
-				self.addStatusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 1, 3));
+				self.addStatusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 1, 4));
 				self.getWorld().sendEntityStatus(self, EntityStatuses.USE_TOTEM_OF_UNDYING);
 			} else if (used.isOf(TOKItems.TOTEM_OF_INSANITY)) {
 				self.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 120, 4));
@@ -203,10 +203,11 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 				self.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 20, 0));
 				self.getWorld().sendEntityStatus(self, EntityStatuses.USE_TOTEM_OF_UNDYING);
 			} else if (used.isOf(TOKItems.TOTEM_OF_FERROUS)) {
-				self.addStatusEffect(new StatusEffectInstance(TOKEffects.FERROUS, 280, 0));
+				self.addStatusEffect(new StatusEffectInstance(TOKEffects.FERROUS, 340, 0));
+				self.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 120, 2));
 				self.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 800, 1));
 				self.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 700, 0));
-				self.addStatusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 1, 4));
+				self.addStatusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 1, 8));
 				self.getWorld().sendEntityStatus(self, EntityStatuses.USE_TOTEM_OF_UNDYING);
 			}
 

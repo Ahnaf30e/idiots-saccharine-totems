@@ -4,7 +4,7 @@
     "pattern": [
         "#G#",
         "SPS",
-        "CWC"
+        " C "
     ],
     "key": {
         "#": {
@@ -23,9 +23,6 @@
         },
         "C": {
             "item": "minecraft:copper_block"
-        },
-        "W": {
-            "item": "minecraft:gold_block"
         }
     },
     "result": {
