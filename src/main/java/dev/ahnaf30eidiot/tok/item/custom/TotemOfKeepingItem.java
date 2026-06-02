@@ -2,6 +2,7 @@ package dev.ahnaf30eidiot.tok.item.custom;
 
 import java.util.List;
 
+import dev.ahnaf30eidiot.tok.IdiotsSaccharineTotems;
 import dev.ahnaf30eidiot.tok.component.TOKComponents;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
@@ -38,6 +39,7 @@ public class TotemOfKeepingItem extends Item {
                     }
                 }
             }
+            user.addExperience(stored.xp());
 
             stack.remove(TOKComponents.STORED_INVENTORY); // clear component
             stack.damage(1, user, hand == Hand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);

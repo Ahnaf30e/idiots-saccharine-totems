@@ -34,7 +34,7 @@ public class TOKPersistentValues extends PersistentState {
             state.heldOn.put(uuid, stack);
         }
         
-        IdiotsSaccharineTotems.LOGGER.info("[~Totem of Keeping~] Reading NBT: " + nbt);
+        IdiotsSaccharineTotems.LOGGER.info("[Totem of Keeping] Reading NBT: " + nbt);
 
         return state;
     }

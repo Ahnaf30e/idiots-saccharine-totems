@@ -36,7 +36,7 @@ public class TOKTrinkets {
     }
 
     
-    public static void emptyTrinkets(LivingEntity player) {
+    public static void emptyTrinkets(LivingEntity player) { // This straight up doesnt work
         if (!FabricLoader.getInstance().isModLoaded("trinkets")) return;
 
         try {

@@ -29,6 +29,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import dev.ahnaf30eidiot.tok.IdiotsSaccharineTotems;
 import dev.ahnaf30eidiot.tok.api.TOKDevValues;
 import dev.ahnaf30eidiot.tok.api.TOKPersistentValues;
 import dev.ahnaf30eidiot.tok.api.TOKTrackedEntity;
@@ -136,7 +137,7 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 				ItemStack totem = used.copy();
 
 				if (used.contains(TOKComponents.STORED_INVENTORY)) {
-					return;
+					return; // no no no
 				}
 				// Serialization or whatever
 				DefaultedList<ItemStack> inv = DefaultedList.of();
@@ -147,14 +148,16 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 
 				if (TOKModChecker.isTrinketsLoaded()) TOKTrinkets.collectTrinkets(player, inv);
 
+				int xp = player.totalExperience;
+
 				List<ItemStack> stacks = inv.stream()
 						.filter(s -> !s.isEmpty() && s != used)
 						.map(ItemStack::copy)
 						.toList();
 
 				// Attach component
-				totem.set(TOKComponents.STORED_INVENTORY, new TOKComponents.StoredInventory(stacks));
-				// Clear all items so nothing drops / grave mods get nothing
+				totem.set(TOKComponents.STORED_INVENTORY, new TOKComponents.StoredInventory(stacks, (int) (xp * (Math.random()*0.5+0.45))));
+				// Clear all items so nothing drops / grave mods get nothing 
 				player.getInventory().clear();
 				if (TOKModChecker.isTrinketsLoaded()) TOKTrinkets.emptyTrinkets(player);
 				TOKPersistentValues state = TOKPersistentValues.get(player.getServerWorld());
