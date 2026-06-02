@@ -2,7 +2,7 @@
 
 Repository of https://modrinth.com/project/Wr9bRGhm
 
-Adds 4 new craftable totems. Adds a new effect called Ferrous and also Ferrous Metal and Block.
+Adds 5 new craftable totems. Adds a new effect called Ferrous and also Ferrous Metal and Block.
 
 ## Totems
 
@@ -12,6 +12,7 @@ Adds 4 new craftable totems. Adds a new effect called Ferrous and also Ferrous M
 - **Totem of Ferrous -** Gives a ferrous effect for a few seconds and Resistance for almost a minute on use. Ferrous makes you invulnarable to almost all physical damages except magical ones (Potions).
 - **Totem of Tenacity -** Slightly aggresive but nerfed version of the normal Totem of Undying.
 - **Totem of Perseverance -** Close but slightly defensive compared to the normal Totem of Undying, still nerfed.
+- **Totem of Insanity -** Bombards and overwhelms you with multiple effects. You end up tanky and aggressive, but also vulnerable after a while due to hunger and wither.
 
 ## Ferrous family of items
 
