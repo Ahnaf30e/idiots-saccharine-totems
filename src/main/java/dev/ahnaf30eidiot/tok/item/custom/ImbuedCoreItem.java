@@ -82,7 +82,7 @@ public class ImbuedCoreItem extends Item {
         ItemStack stack = user.getStackInHand(hand);
         PotionContentsComponent potion = stack.get(DataComponentTypes.POTION_CONTENTS);
 
-        if (potion == null || !potion.potion().isPresent())
+        if (potion == null)
             return TypedActionResult.fail(stack);
 
         return ItemUsage.consumeHeldItem(world, user, hand);
@@ -191,7 +191,7 @@ public class ImbuedCoreItem extends Item {
     @Override
     public void appendTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type) {
         PotionContentsComponent potion = stack.get(DataComponentTypes.POTION_CONTENTS);
-        if (potion != null && potion.potion().isPresent()) {
+        if (potion != null) {
             Iterable<StatusEffectInstance> effects = potion.getEffects();
             buildTooltip(effects, tooltip::add, 1.0F, context.getUpdateTickRate());
         }
