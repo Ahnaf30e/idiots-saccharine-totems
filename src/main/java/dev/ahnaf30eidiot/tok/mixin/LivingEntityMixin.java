@@ -121,15 +121,19 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 
 	@Inject(method = "tryUseTotem", at = @At("HEAD"), cancellable = true)
 	private void handleTOKTotems(DamageSource source, CallbackInfoReturnable<Boolean> cir) {
-		if (source.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
-			return;
-		}
 		LivingEntity self = (LivingEntity) (Object) this;
 
-		ItemStack used = pickTotem(self);
+		ItemStack used = pickTotem(self, source);
 
 		if (used.isEmpty() || used.isOf(Items.TOTEM_OF_UNDYING))
 			return;
+
+
+		if (source.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
+			if (!(source.isOf(DamageTypes.OUT_OF_WORLD) && used.isOf(TOKItems.TOTEM_OF_KEEPING))) {
+				return;
+			}
+		}
 
 		if (!self.getWorld().isClient()) {
 
@@ -220,9 +224,14 @@ public class LivingEntityMixin implements TOKTrackedEntity {
 		}
 	}
 
-	private ItemStack pickTotem(LivingEntity self) {
+	private ItemStack pickTotem(LivingEntity self, DamageSource source) {
 		ItemStack main = self.getMainHandStack();
 		ItemStack off = self.getOffHandStack();
+		
+		if (source.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
+			if (main.isOf(TOKItems.TOTEM_OF_KEEPING)) return main;
+			if (off.isOf(TOKItems.TOTEM_OF_KEEPING)) return off;
+		}
 
 		// If main hand is Totem of Keeping, let the offhand win if it has *any* other
 		// valid totem

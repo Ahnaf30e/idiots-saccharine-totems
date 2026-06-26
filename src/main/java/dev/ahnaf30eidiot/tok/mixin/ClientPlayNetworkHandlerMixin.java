@@ -3,6 +3,7 @@ package dev.ahnaf30eidiot.tok.mixin;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -27,7 +28,7 @@ public class ClientPlayNetworkHandlerMixin {
             ClientPlayNetworkHandler self = (ClientPlayNetworkHandler) (Object) this;
             Entity entity = packet.getEntity(self.getWorld());
             if (entity instanceof PlayerEntity player) {
-                ItemStack stack = getTOKTotem(player);
+                ItemStack stack = pickTotem(player);
 
                 if (isAlternateTotemSound(stack)) {
                     MinecraftClient client = MinecraftClient.getInstance();
@@ -48,7 +49,7 @@ public class ClientPlayNetworkHandlerMixin {
                     }
 
                     if (entity == client.player) {
-                        client.gameRenderer.showFloatingItem(getTOKTotem(client.player));
+                        client.gameRenderer.showFloatingItem(pickTotem(client.player));
                     }
 
                     ci.cancel();
@@ -59,27 +60,43 @@ public class ClientPlayNetworkHandlerMixin {
 
     @Inject(method = "getActiveTotemOfUndying", at = @At("RETURN"), cancellable = true)
     private static void getActiveTOKTotem(PlayerEntity entity, CallbackInfoReturnable<ItemStack> ci) {
-        ItemStack stack = getTOKTotem(entity);
+        ItemStack stack = pickTotem(entity);
         if (stack.isEmpty())
             return;
         ci.setReturnValue(stack);
     }
 
-    private static ItemStack getTOKTotem(PlayerEntity entity) {
-        for (Hand hand : Hand.values()) {
-            ItemStack stack = entity.getStackInHand(hand);
-            if (stack.isOf(Items.TOTEM_OF_UNDYING)
-                    || stack.isOf(TOKItems.TOTEM_OF_TENACITY)
-                    || stack.isOf(TOKItems.TOTEM_OF_PERSEVERANCE)
-                    || stack.isOf(TOKItems.TOTEM_OF_INSANITY)
-                    || stack.isOf(TOKItems.TOTEM_OF_FERROUS)
-                    || stack.isOf(TOKItems.TOTEM_OF_KEEPING)) {
-                return stack;
-            }
-        }
+	private static ItemStack pickTotem(LivingEntity self) {
+		ItemStack main = self.getMainHandStack();
+		ItemStack off = self.getOffHandStack();
 
-        return ItemStack.EMPTY;
-    }
+		// If main hand is Totem of Keeping, let the offhand win if it has *any* other
+		// valid totem
+		if (main.isOf(TOKItems.TOTEM_OF_KEEPING)) {
+			if (isCustomOrVanillaTotem(off)) {
+				return off;
+			}
+			return main; // no better option, fallback
+		}
+
+		// Otherwise, normal rule: main hand wins if valid
+		if (isCustomOrVanillaTotem(main))
+			return main;
+		if (isCustomOrVanillaTotem(off))
+			return off;
+
+		return ItemStack.EMPTY;
+	}
+
+	private static boolean isCustomOrVanillaTotem(ItemStack stack) {
+		return stack.isOf(TOKItems.TOTEM_OF_TENACITY)
+				|| stack.isOf(TOKItems.TOTEM_OF_PERSEVERANCE)
+				|| stack.isOf(TOKItems.TOTEM_OF_INSANITY)
+				|| stack.isOf(TOKItems.TOTEM_OF_FERROUS)
+				|| stack.isOf(Items.TOTEM_OF_UNDYING) // vanilla
+				|| stack.isOf(TOKItems.TOTEM_OF_KEEPING);
+	}
+
 
     private static boolean isAlternateTotemSound(ItemStack stack) {
         return stack.isOf(TOKItems.TOTEM_OF_KEEPING) || stack.isOf(TOKItems.TOTEM_OF_INSANITY);
